@@ -7,6 +7,7 @@ import (
 
 	"dslab.sjtu/kubenet-config-generator/api/pkg/kubenet_config"
 	"dslab.sjtu/kubenet-config-generator/pkg/kubenet"
+	"dslab.sjtu/kubenet-config-generator/pkg/tle"
 	"dslab.sjtu/kubenet-config-generator/pkg/util"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
@@ -21,24 +22,28 @@ var kubenetCmd = &cobra.Command{
 		fmt.Println("Start generating Kubenet Config YAML")
 		num, _ := cmd.Flags().GetInt("num")
 		plane, _ := cmd.Flags().GetInt("plane")
+		nodeNamePre, _ := cmd.Flags().GetString("nodeNamePre")
+		template, _ := cmd.Flags().GetString("template")
 		inputPath, _ := cmd.Flags().GetString("input")
 		outputPath, _ := cmd.Flags().GetString("output")
-		bandwidth, _ := cmd.Flags().GetString("bandwidth")
-		singleHopLatency, _ := cmd.Flags().GetString("singleHopLatency")
 
 		satNumPerTrack := num / plane
 
-		constellation, err := kubenet.NewConstellation(inputPath)
+		yamlData, err := os.ReadFile(template)
+		if err != nil {
+			logrus.Fatalf("failed to read networkExperiment: %v", err)
+		}
+		networkExperiment, err := util.YAMLToStruct(yamlData)
+		if err != nil {
+			logrus.Fatalf("failed to unmarshal networkExperiment: %v", err)
+		}
+		networkNodes := []kubenet_config.NetworkNode{}
+		constellations := []kubenet_config.Constellation{}
+
+		phyConstellation, err := tle.NewConstellation(inputPath)
 		if err != nil {
 			logrus.Fatalf("failed to initialize constellation: %v", err)
 		}
-
-		linkModels := []kubenet_config.LinkModel{}
-		topologyModels := []kubenet_config.TopologyModel{}
-		networkNodes := []kubenet_config.NetworkNode{}
-		routingAreas := []kubenet_config.RoutingArea{}
-		constellations := []kubenet_config.Constellation{}
-		extra := kubenet_config.Extra{}
 
 		walkerInterSatTopoIntfParam := kubenet_config.WalkerInterSatTopoIntfParam{
 			Type: "WalkerInterSatTopoIntf",
@@ -60,51 +65,12 @@ var kubenetCmd = &cobra.Command{
 			ContainerParam: &containerParam,
 		}
 
-		// Initialize LinkModel
-		satelliteLaserLinkParam := kubenet_config.SatelliteLaserLinkParam{
-			Type:             "SatelliteLaserLink",
-			Bandwidth:        bandwidth,
-			SingleHopLatency: singleHopLatency,
-		}
-		linkModelParam := kubenet_config.LinkModelParam{
-			SatelliteLaserLinkParam: &satelliteLaserLinkParam,
-		}
-		linkModel := kubenet_config.LinkModel{
-			Name:  "linkmodel1",
-			Param: linkModelParam,
-		}
-		linkModels = append(linkModels, linkModel)
+		routingArea := networkExperiment.RoutingAreas[0]
 
-		// Initialize TopologyModel
-		walkerInterSatTopoParam := kubenet_config.WalkerInterSatTopoParam{
-			Type: "WalkerInterSatTopoParam",
+		visualOptions := kubenet_config.VisualOption{
+			ModelId:  1,
+			NodeType: 1,
 		}
-		topologyModelParam := kubenet_config.TopologyModelParam{
-			WalkerInterSatTopoParam: &walkerInterSatTopoParam,
-		}
-		topologyModel := kubenet_config.TopologyModel{
-			Name:  "topologymodel1",
-			Param: topologyModelParam,
-		}
-		topologyModels = append(topologyModels, topologyModel)
-
-		// Initialize RoutingArea
-		OSPFV3Param := kubenet_config.OSPFV3Param{
-			Protocol:     "OSPFV3",
-			Area:         "0.0.0.1",
-			Supernet:     "FD00:aaaa:aaaa::1",
-			SupernetMask: 96,
-			SubnetMask:   112,
-		}
-		routingAreaParam := kubenet_config.RoutingAreaParam{
-			OSPFV3Param: &OSPFV3Param,
-		}
-		routingArea := kubenet_config.RoutingArea{
-			Id:       int32(1),
-			Protocol: "OSPFV3",
-			Param:    routingAreaParam,
-		}
-		routingAreas = append(routingAreas, routingArea)
 
 		// Initialize Constellations and NetworkNodes
 		satellites := []kubenet_config.OrbitSatellite{}
@@ -112,11 +78,12 @@ var kubenetCmd = &cobra.Command{
 		planeIdx := 0
 		innerIdx := 0
 		for idx := range num {
+			nodeName := nodeNamePre + phyConstellation[idx].Name
 			satellites = append(
 				satellites,
 				kubenet_config.OrbitSatellite{
 					Idx:       int32(innerIdx),
-					Satellite: constellation[idx].Name,
+					Satellite: nodeName,
 				},
 			)
 			innerIdx += 1
@@ -134,37 +101,38 @@ var kubenetCmd = &cobra.Command{
 			}
 			satelliteMobilityModel := kubenet_config.SatelliteMobilityModel{
 				Type:     "Satellite",
-				TleLine1: constellation[idx].Satellite.Line1,
-				TleLine2: constellation[idx].Satellite.Line2,
+				TleLine1: phyConstellation[idx].Satellite.Line1,
+				TleLine2: phyConstellation[idx].Satellite.Line2,
 			}
-			intf := []kubenet_config.Intf{}
+			intfs := []kubenet_config.Intf{}
 			for i := 0; i < 4; i++ {
-				intf = append(
-					intf,
+				intfs = append(
+					intfs,
 					kubenet_config.Intf{
 						Name:          "intf" + strconv.Itoa(i),
-						TopologyModel: "topologymodel1",
-						LinkModel:     "linkmodel1",
+						TopologyModel: "walkerinter",
+						LinkModel:     "satlaser",
 						TopologyParam: topologyParam,
 						LinkParam:     linkParam,
 						RoutingArea:   &routingArea.Id,
 					},
 				)
 			}
+			intfs = append(
+				intfs,
+				kubenet.NewSatConeIntf(routingArea),
+			)
 			mobilityModel := kubenet_config.NetworkNodeMobilityModel{
 				SatelliteMobilityModel: &satelliteMobilityModel,
 			}
-			visualOptions := kubenet_config.VisualOption{
-				ModelId:  1,
-				NodeType: 1,
-			}
+
 			networkNodes = append(
 				networkNodes,
 				kubenet_config.NetworkNode{
-					Name:          constellation[idx].Name,
+					Name:          nodeName,
 					Type:          "Container",
 					VisualOptions: &visualOptions,
-					Intfs:         intf,
+					Intfs:         intfs,
 					MobilityModel: mobilityModel,
 					Param:         networkNodeParam,
 				},
@@ -189,18 +157,14 @@ var kubenetCmd = &cobra.Command{
 			},
 		)
 
+		networkNodes = append(networkNodes, kubenet.NewGroundConeNetworkNode(routingArea))
+
 		// Construct NetworkExperiment and convert it to yaml file
-		networkExperiment := kubenet_config.NetworkExperiment{
-			LinkModels:     linkModels,
-			TopologyModels: topologyModels,
-			NetworkNodes:   networkNodes,
-			RoutingAreas:   routingAreas,
-			Constellations: constellations,
-			Extra:          &extra,
-		}
+		networkExperiment.Constellations = append(networkExperiment.Constellations, constellations...)
+		networkExperiment.NetworkNodes = append(networkExperiment.NetworkNodes, networkNodes...)
 
 		// bytes, err := networkExperiment.MarshalJSON()
-		bytes, err := util.StructToYAML(&networkExperiment)
+		bytes, err := util.StructToYAML(networkExperiment)
 		if err != nil {
 			logrus.Fatalf("failed to marshal networkExperiment: %v", err)
 		}
@@ -219,10 +183,12 @@ func init() {
 	kubenetCmd.Flags().IntP("plane", "P", 10, "The num of orbital planes")
 
 	// params for network experiment
+	kubenetCmd.Flags().StringP("nodeNamePre", "n", "", "the prefix of network node name")
 	kubenetCmd.Flags().StringP("bandwidth", "b", "1Gibps", "linkmodel Bandwidth")
 	kubenetCmd.Flags().StringP("singleHopLatency", "s", "5ms", "linkmodel SingleHopLatency")
 
 	// params for input and output
+	kubenetCmd.Flags().StringP("template", "t", "./test.template.yaml", "Kubenet template YAML input path")
 	kubenetCmd.Flags().StringP("input", "i", "./test.tle", "TLE input path")
 	kubenetCmd.Flags().StringP("output", "o", "./test.yaml", "Kubenet YAML output path")
 }
