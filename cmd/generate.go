@@ -21,6 +21,7 @@ var kubenetCmd = &cobra.Command{
 		fmt.Println("Start generating Kubenet Config YAML")
 		num, _ := cmd.Flags().GetInt("num")
 		plane, _ := cmd.Flags().GetInt("plane")
+		neededPlane, _ := cmd.Flags().GetInt("needed-plane")
 		nodeNamePre, _ := cmd.Flags().GetString("nodeNamePre")
 		template, _ := cmd.Flags().GetString("template")
 		inputPath, _ := cmd.Flags().GetString("input")
@@ -39,6 +40,8 @@ var kubenetCmd = &cobra.Command{
 		}
 
 		satNumPerTrack := num / plane
+		actualNum := satNumPerTrack * neededPlane
+		isFull := plane == neededPlane
 
 		yamlData, err := os.ReadFile(template)
 		if err != nil {
@@ -108,7 +111,7 @@ var kubenetCmd = &cobra.Command{
 		planes := []kubenet_config.OrbitPlane{}
 		planeIdx := 0
 		innerIdx := 0
-		for idx := range num {
+		for idx := range actualNum {
 			nodeName := nodeNamePre + phyConstellation[idx].Name
 			satellites = append(
 				satellites,
@@ -202,6 +205,7 @@ var kubenetCmd = &cobra.Command{
 				Spheres: spheres,
 				Offset:  offset,
 				Phase:   phase,
+				IsFull:  isFull,
 			},
 		)
 
@@ -229,6 +233,7 @@ func init() {
 	// params for walker-delta constellation model
 	kubenetCmd.Flags().IntP("num", "N", 300, "Total number of satellites, which must be divisible by P")
 	kubenetCmd.Flags().IntP("plane", "P", 10, "The num of orbital planes")
+	kubenetCmd.Flags().IntP("needed-plane", "E", 0, "The num of plane used")
 	kubenetCmd.Flags().Float32P("phase", "F", 0, "Phasing between satellites in adjacent planes, range from 0 to plane-1")
 	kubenetCmd.Flags().Int32("offset", 0, "Offset")
 
