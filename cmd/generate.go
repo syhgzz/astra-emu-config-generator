@@ -20,6 +20,7 @@ var kubenetCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("Start generating Kubenet Config YAML")
 		num, _ := cmd.Flags().GetInt("num")
+		name, _ := cmd.Flags().GetString("name")
 		plane, _ := cmd.Flags().GetInt("plane")
 		neededPlane, _ := cmd.Flags().GetInt("needed-plane")
 		nodeNamePre, _ := cmd.Flags().GetString("nodeNamePre")
@@ -201,7 +202,7 @@ var kubenetCmd = &cobra.Command{
 		constellations = append(
 			constellations,
 			kubenet_config.Constellation{
-				Name:    "WalkerDelta",
+				Name:    name,
 				Spheres: spheres,
 				Offset:  offset,
 				Phase:   phase,
@@ -231,6 +232,7 @@ func init() {
 	rootCmd.AddCommand(kubenetCmd)
 
 	// params for walker-delta constellation model
+	kubenetCmd.Flags().StringP("name", "n", "", "the name of constellation")
 	kubenetCmd.Flags().IntP("num", "N", 300, "Total number of satellites, which must be divisible by P")
 	kubenetCmd.Flags().IntP("plane", "P", 10, "The num of orbital planes")
 	kubenetCmd.Flags().IntP("needed-plane", "E", 0, "The num of plane used")
@@ -238,7 +240,7 @@ func init() {
 	kubenetCmd.Flags().Int32("offset", 0, "Offset")
 
 	// params for network experiment
-	kubenetCmd.Flags().StringP("nodeNamePre", "n", "", "the prefix of network node name")
+	kubenetCmd.Flags().String("nodeNamePre", "", "the prefix of network node name")
 	kubenetCmd.Flags().StringP("bandwidth", "b", "1Gibps", "linkmodel Bandwidth")
 	kubenetCmd.Flags().StringP("singleHopLatency", "s", "5ms", "linkmodel SingleHopLatency")
 

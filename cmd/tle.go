@@ -14,6 +14,7 @@ var tleCmd = &cobra.Command{
 	Long:  `Generate TLE from params.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("Start generating TLE")
+		name, _ := cmd.Flags().GetString("name")
 		height, _ := cmd.Flags().GetFloat64("height")
 		num, _ := cmd.Flags().GetInt("num")
 		plane, _ := cmd.Flags().GetInt("plane")
@@ -42,6 +43,7 @@ var tleCmd = &cobra.Command{
 
 		tleParams := tle.TLEParams{
 			Height:      height,
+			Name:        name,
 			Num:         num,
 			Plane:       plane,
 			Phase:       phase,
@@ -62,6 +64,7 @@ var tleCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(tleCmd)
 
+	tleCmd.Flags().StringP("name", "n", "starlink", "Name of the constellation")
 	tleCmd.Flags().Float64P("height", "H", 500, "Orbit height(km), recommended 300km - 1500km")
 	tleCmd.Flags().IntP("num", "N", 300, "Total number of satellites, which must be divisible by P")
 	tleCmd.Flags().IntP("plane", "P", 10, "The num of orbital planes")

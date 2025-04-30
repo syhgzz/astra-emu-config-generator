@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"dslab.sjtu/kubenet-config-generator/api/pkg/kubenet_config"
 	"dslab.sjtu/kubenet-config-generator/pkg/kubenet"
@@ -30,6 +31,10 @@ var mergeCmd = &cobra.Command{
 
 		networkExperiment := &kubenet_config.NetworkExperiment{}
 		for _, entry := range entries {
+			if strings.HasSuffix(entry.Name(), ".yaml") == false {
+				continue
+			}
+
 			filename := filepath.Join(intputPath, entry.Name())
 			fmt.Println("merge file:", filename)
 			yamlData, err := os.ReadFile(filename)

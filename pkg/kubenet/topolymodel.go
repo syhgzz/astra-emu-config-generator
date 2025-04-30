@@ -62,3 +62,7 @@ func notInTms(name string, tms []kubenet_config.TopologyModel) bool {
 	}
 	return true
 }
+
+func MergeConstellations(cs1, cs2 *[]kubenet_config.Constellation) {
+	*cs1 = append(*cs1, *cs2...)
+}

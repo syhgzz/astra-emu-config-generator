@@ -5,6 +5,7 @@ import (
 	"math"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -140,6 +141,7 @@ func CalculateOrbitalPeriod(h float64) float64 {
 
 type TLEParams struct {
 	Height      float64
+	Name        string
 	Num         int
 	Plane       int
 	Phase       float64
@@ -166,11 +168,11 @@ func (t *TLEParams) NewTLEWithOverrides(overrideFunc TLEItemOverrideFunc) TLEIte
 		planeNum = t.Plane
 	}
 	for planeId := range planeNum {
-		raan := t.DeltaInit + delta*float64(planeId)
+		raan := math.Mod(t.DeltaInit+delta*float64(planeId)+360.0, 360.0)
 		for satId := range satNumPerTrack {
 			item := NewTLEItem()
 			item.SatId = 10000 + 100*planeId + satId
-			item.Name = "STARLINK-" + strconv.Itoa(item.SatId)
+			item.Name = strings.ToUpper(t.Name) + "-" + strconv.Itoa(item.SatId)
 			item.Raan = raan
 			item.Inclination = t.Inclination
 			// Reference: https://ww2.mathworks.cn/help/aerotbx/ug/satellitescenario.walkerdelta.html#mw_badf1acd-4f40-4ad6-987e-c7d35ae2368c
