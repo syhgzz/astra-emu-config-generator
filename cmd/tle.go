@@ -66,7 +66,7 @@ func init() {
 	tleCmd.Flags().IntP("num", "N", 300, "Total number of satellites, which must be divisible by P")
 	tleCmd.Flags().IntP("plane", "P", 10, "The num of orbital planes")
 	tleCmd.Flags().IntP("needed-plane", "E", 0, "The num of plane used")
-	tleCmd.Flags().IntP("delta-init", "D", 0, "The initial delta of the first plane")
+	tleCmd.Flags().Float64P("delta-init", "D", 0, "The initial delta of the first plane")
 	tleCmd.Flags().Float64P("phase", "F", 0, "Phasing between satellites in adjacent planes, range from 0 to plane-1")
 	tleCmd.Flags().Float64P("inclination", "I", 50, "Orbital inclination")
 
