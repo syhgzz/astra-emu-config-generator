@@ -1,0 +1,77 @@
+link_models:
+- name: access1
+  param:
+    bandwidth: 72e6
+    bit_rate: 10e6
+    frequency: 20e9
+    mode: "BPSK"
+    packet_size_in_bit: 1024
+    redundancy: 1
+    type: GeneralWirelessLink
+- name: satlaser
+  param:
+    type: SatelliteLaserLink
+    bandwidth: 1Gbps
+    single_hop_latency: 5ms
+network_nodes:
+- intfs:
+  - link_model: access1
+    link_param:
+      fading_model: fading_model1
+      gain: 2.0
+      hb: 0
+      phi: 0
+      power_in_dbm: 33
+      theta: 0
+      type: GeneralWirelessLinkIntf
+    name: acce1
+    routing_area: 1
+    topology_model: cone1
+    topology_param:
+      role: 0
+      type: SatelliteConeTopoIntf
+  mobility_model:
+    type: Static
+    longitude: 121.54709537
+    latitude: 25.08133728
+    altitude: 200
+  name: ground1
+  param:
+    type: Container
+  type: Container
+  visual_options:
+    model_id: 4
+    node_type: 3
+fading_models:
+- name: fading_model1
+  a_sigma: 1.01
+  b_sigma: 0.0039
+  k_factor: 1
+  "n": 4.2
+  num_of_m: 0
+  relative_delays: null
+  sigma: 30
+  tau: 1.2
+topology_models:
+- name: cone1
+  param:
+    type: SatelliteConeTopo
+    angle: 80
+    max_distance: 1000000
+- name: walkerinter
+  param:
+    type: WalkerInterSatTopo  
+routing_areas:
+- id: 1
+  protocol: OSPFV3
+  redistribute:
+    - 3
+  param:
+    protocol: OSPFV3
+    area: "0.0.0.1"
+    supernet: "FD00:aaaa:aaaa::1"
+    supernet_mask: 96
+    subnet_mask: 112
+constellations:
+extra:
+  start_timestamp: 2023-10-01T00:00:00Z
