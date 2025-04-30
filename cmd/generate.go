@@ -6,7 +6,6 @@ import (
 	"strconv"
 
 	"dslab.sjtu/kubenet-config-generator/api/pkg/kubenet_config"
-	"dslab.sjtu/kubenet-config-generator/pkg/kubenet"
 	"dslab.sjtu/kubenet-config-generator/pkg/tle"
 	"dslab.sjtu/kubenet-config-generator/pkg/util"
 	"github.com/sirupsen/logrus"
@@ -26,6 +25,18 @@ var kubenetCmd = &cobra.Command{
 		template, _ := cmd.Flags().GetString("template")
 		inputPath, _ := cmd.Flags().GetString("input")
 		outputPath, _ := cmd.Flags().GetString("output")
+		accessIntfNum, _ := cmd.Flags().GetInt("accessIntfNum")
+		accessFadingmodel, _ := cmd.Flags().GetString("accessFadingmodel")
+		accessLinkmodel, _ := cmd.Flags().GetString("accessLinkmodel")
+		accessTopologymodel, _ := cmd.Flags().GetString("accessTopologymodel")
+		phase, _ := cmd.Flags().GetFloat32("phase")
+		offset, _ := cmd.Flags().GetInt32("offset")
+
+		enableGroundAccess := false
+		if accessIntfNum != 0 && accessLinkmodel != "" &&
+			accessFadingmodel != "" && accessTopologymodel != "" {
+			enableGroundAccess = true
+		}
 
 		satNumPerTrack := num / plane
 
@@ -45,17 +56,37 @@ var kubenetCmd = &cobra.Command{
 			logrus.Fatalf("failed to initialize constellation: %v", err)
 		}
 
+		// 星间链路
 		walkerInterSatTopoIntfParam := kubenet_config.WalkerInterSatTopoIntfParam{
 			Type: "WalkerInterSatTopoIntf",
 		}
-		topologyParam := kubenet_config.IntfTopologyParam{
+		interSatTopologyParam := kubenet_config.IntfTopologyParam{
 			WalkerInterSatTopoIntfParam: &walkerInterSatTopoIntfParam,
 		}
+
 		satelliteLaserLinkIntfParam := kubenet_config.SatelliteLaserLinkIntfParam{
 			Type: "SatelliteLaserLinkIntf",
 		}
-		linkParam := kubenet_config.IntfLinkParam{
+		interSatlinkParam := kubenet_config.IntfLinkParam{
 			SatelliteLaserLinkIntfParam: &satelliteLaserLinkIntfParam,
+		}
+
+		// 地面接入链路
+		coneTopoIntfParam := kubenet_config.SatelliteConeTopoIntfParam{
+			Type: "SatelliteConeTopoIntf",
+			Role: 1,
+		}
+		coneTopologyParam := kubenet_config.IntfTopologyParam{
+			SatelliteConeTopoIntfParam: &coneTopoIntfParam,
+		}
+		generalWirelessLinkIntfParam := kubenet_config.GeneralWirelessLinkIntfParam{
+			Type:        "GeneralWirelessLinkIntf",
+			Gain:        20,
+			PowerInDbm:  55,
+			FadingModel: accessFadingmodel,
+		}
+		accessIntfLinkParam := kubenet_config.IntfLinkParam{
+			GeneralWirelessLinkIntfParam: &generalWirelessLinkIntfParam,
 		}
 
 		containerParam := kubenet_config.ContainerParam{
@@ -112,16 +143,31 @@ var kubenetCmd = &cobra.Command{
 						Name:          "intf" + strconv.Itoa(i),
 						TopologyModel: "walkerinter",
 						LinkModel:     "satlaser",
-						TopologyParam: topologyParam,
-						LinkParam:     linkParam,
+						TopologyParam: interSatTopologyParam,
+						LinkParam:     interSatlinkParam,
 						RoutingArea:   &routingArea.Id,
 					},
 				)
 			}
-			intfs = append(
-				intfs,
-				kubenet.NewSatConeIntf(routingArea),
-			)
+			if enableGroundAccess {
+				for i := 0; i < accessIntfNum; i++ {
+					intfs = append(
+						intfs,
+						kubenet_config.Intf{
+							Name:          "acce" + strconv.Itoa(i+4),
+							TopologyModel: accessTopologymodel,
+							LinkModel:     accessLinkmodel,
+							TopologyParam: coneTopologyParam,
+							LinkParam:     accessIntfLinkParam,
+							RoutingArea:   &routingArea.Id,
+						},
+					)
+				}
+			}
+			// intfs = append(
+			// 	intfs,
+			// 	kubenet.NewSatConeIntf(routingArea),
+			// )
 			mobilityModel := kubenet_config.NetworkNodeMobilityModel{
 				SatelliteMobilityModel: &satelliteMobilityModel,
 			}
@@ -154,10 +200,12 @@ var kubenetCmd = &cobra.Command{
 			kubenet_config.Constellation{
 				Name:    "WalkerDelta",
 				Spheres: spheres,
+				Offset:  offset,
+				Phase:   phase,
 			},
 		)
 
-		networkNodes = append(networkNodes, kubenet.NewGroundConeNetworkNode(routingArea))
+		// networkNodes = append(networkNodes, kubenet.NewGroundConeNetworkNode(routingArea))
 
 		// Construct NetworkExperiment and convert it to yaml file
 		networkExperiment.Constellations = append(networkExperiment.Constellations, constellations...)
@@ -181,11 +229,19 @@ func init() {
 	// params for walker-delta constellation model
 	kubenetCmd.Flags().IntP("num", "N", 300, "Total number of satellites, which must be divisible by P")
 	kubenetCmd.Flags().IntP("plane", "P", 10, "The num of orbital planes")
+	kubenetCmd.Flags().Float32P("phase", "F", 0, "Phasing between satellites in adjacent planes, range from 0 to plane-1")
+	kubenetCmd.Flags().Int32("offset", 0, "Offset")
 
 	// params for network experiment
 	kubenetCmd.Flags().StringP("nodeNamePre", "n", "", "the prefix of network node name")
 	kubenetCmd.Flags().StringP("bandwidth", "b", "1Gibps", "linkmodel Bandwidth")
 	kubenetCmd.Flags().StringP("singleHopLatency", "s", "5ms", "linkmodel SingleHopLatency")
+
+	// params for ground access intfs
+	kubenetCmd.Flags().Int("accessIntfNum", 0, "the number of access intfs")
+	kubenetCmd.Flags().String("accessFadingmodel", "", "the name of access intf fadingmodel")
+	kubenetCmd.Flags().String("accessLinkmodel", "", "the name of access intf linkmodel")
+	kubenetCmd.Flags().String("accessTopologymodel", "", "the name of access intf topologymodel")
 
 	// params for input and output
 	kubenetCmd.Flags().StringP("template", "t", "./test.template.yaml", "Kubenet template YAML input path")
