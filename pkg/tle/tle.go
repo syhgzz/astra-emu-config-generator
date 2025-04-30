@@ -147,6 +147,9 @@ type TLEParams struct {
 
 	// Plane Delta Start
 	DeltaInit float64
+
+	// Plane num needed, 0 means all planes
+	NeededPlane int
 }
 
 type TLEItemOverrideFunc func(item *TLEItem, planeId int, satId int)
@@ -156,7 +159,13 @@ func (t *TLEParams) NewTLEWithOverrides(overrideFunc TLEItemOverrideFunc) TLEIte
 	satNumPerTrack := t.Num / t.Plane
 	phaseGap := 360.0 / float64(satNumPerTrack)
 	items := make(TLEItems, 0)
-	for planeId := range t.Plane {
+	var planeNum int
+	if t.NeededPlane > 0 {
+		planeNum = t.NeededPlane
+	} else {
+		planeNum = t.Plane
+	}
+	for planeId := range planeNum {
 		raan := t.DeltaInit + delta*float64(planeId)
 		for satId := range satNumPerTrack {
 			item := NewTLEItem()
