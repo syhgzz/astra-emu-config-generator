@@ -8,12 +8,55 @@ link_models:
     packet_size_in_bit: 1024
     redundancy: 1
     type: GeneralWirelessLink
+- name: 5G
+  param:
+    bandwidth: 1e+08
+    bit_rate: 1e+09
+    frequency: 28e+09
+    mode: QPSK
+    packet_size_in_bit: 1024
+    redundancy: 1
+    type: GeneralWirelessLink
 - name: satlaser
   param:
     type: SatelliteLaserLink
     bandwidth: 1Gbps
     single_hop_latency: 5ms
 network_nodes:
+- intfs:
+  - link_model: 5G
+    link_param:
+      bandwidth: 1e+10
+      fading_model: fading_model1
+      gain: 2
+      hb: 0
+      phi: 0
+      power_in_dbm: 33
+      theta: 0
+      type: GeneralWirelessLinkIntf
+    name: manet1
+    routing_area: 1
+    topology_model: manet1
+    topology_param:
+      type: ManetTopoIntf
+  mobility_model:
+    sequence:
+    - altitude: 100
+      latitude: 15.08133728
+      longitude: 105.54709537
+      time: 0
+    - altitude: 100
+      latitude: 15.08133728
+      longitude: 125.54709537
+      time: 10000000000
+    type: Polyline
+  name: polyline1
+  param:
+    type: Container
+  type: Container
+  visual_options:
+    model_id: 4
+    node_type: 3
 - intfs:
   - link_model: Satellite
     link_param:
@@ -31,6 +74,21 @@ network_nodes:
     topology_param:
       role: 0
       type: SatelliteConeTopoIntf
+  - link_model: 5G
+    link_param:
+      bandwidth: 1e+10
+      fading_model: fading_model1
+      gain: 2
+      hb: 0
+      phi: 0
+      power_in_dbm: 33
+      theta: 0
+      type: GeneralWirelessLinkIntf
+    name: manet1
+    routing_area: 1
+    topology_model: manet1
+    topology_param:
+      type: ManetTopoIntf
   mobility_model:
     altitude: 100
     latitude: 15.08133728
@@ -60,6 +118,21 @@ network_nodes:
     topology_param:
       role: 0
       type: SatelliteConeTopoIntf
+  - link_model: 5G
+    link_param:
+      bandwidth: 1e+10
+      fading_model: fading_model1
+      gain: 2
+      hb: 0
+      phi: 0
+      power_in_dbm: 33
+      theta: 0
+      type: GeneralWirelessLinkIntf
+    name: manet1
+    routing_area: 1
+    topology_model: manet1
+    topology_param:
+      type: ManetTopoIntf
   mobility_model:
     altitude: 100
     latitude: 15.28133728
@@ -89,6 +162,21 @@ network_nodes:
     topology_param:
       role: 0
       type: SatelliteConeTopoIntf
+  - link_model: 5G
+    link_param:
+      bandwidth: 1e+10
+      fading_model: fading_model1
+      gain: 2
+      hb: 0
+      phi: 0
+      power_in_dbm: 33
+      theta: 0
+      type: GeneralWirelessLinkIntf
+    name: manet1
+    routing_area: 1
+    topology_model: manet1
+    topology_param:
+      type: ManetTopoIntf
   mobility_model:
     altitude: 100
     latitude: 15.68133728
@@ -118,6 +206,21 @@ network_nodes:
     topology_param:
       role: 0
       type: SatelliteConeTopoIntf
+  - link_model: 5G
+    link_param:
+      bandwidth: 1e+10
+      fading_model: fading_model1
+      gain: 2
+      hb: 0
+      phi: 0
+      power_in_dbm: 33
+      theta: 0
+      type: GeneralWirelessLinkIntf
+    name: manet1
+    routing_area: 1
+    topology_model: manet1
+    topology_param:
+      type: ManetTopoIntf
   mobility_model:
     altitude: 100
     latitude: 15.58133728
@@ -147,6 +250,21 @@ network_nodes:
     topology_param:
       role: 0
       type: SatelliteConeTopoIntf
+  - link_model: 5G
+    link_param:
+      bandwidth: 1e+10
+      fading_model: fading_model1
+      gain: 2
+      hb: 0
+      phi: 0
+      power_in_dbm: 33
+      theta: 0
+      type: GeneralWirelessLinkIntf
+    name: manet1
+    routing_area: 1
+    topology_model: manet1
+    topology_param:
+      type: ManetTopoIntf
   mobility_model:
     altitude: 100
     latitude: 15.08133728
@@ -175,6 +293,10 @@ topology_models:
     type: SatelliteConeTopo
     angle: 150
     max_distance: 3e+06
+- name: manet1
+  param:
+    max_distance: 1e+10
+    type: ManetTopo
 - name: walkerinter
   param:
     type: WalkerInterSatTopo  
