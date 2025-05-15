@@ -43,7 +43,7 @@ func NewGroundConeNetworkNode(routingArea kubenet_config.RoutingArea) kubenet_co
 		VisualOptions: &visualOptions,
 		Intfs:         intfs,
 		MobilityModel: mobilityModel,
-		Param:         networkNodeParam,
+		Param:         &networkNodeParam,
 	}
 
 	return networkNode

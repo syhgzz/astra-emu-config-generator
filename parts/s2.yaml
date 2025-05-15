@@ -239,12 +239,21 @@ fading_models:
   sigma: 30
   tau: 1.2
 link_models:
-- name: access1
+- name: Satellite
   param:
     bandwidth: 7.2e+07
     bit_rate: 1e+07
     frequency: 2e+10
     mode: BPSK
+    packet_size_in_bit: 1024
+    redundancy: 1
+    type: GeneralWirelessLink
+- name: 5G
+  param:
+    bandwidth: 1e+08
+    bit_rate: 1e+09
+    frequency: 2.8e+10
+    mode: QPSK
     packet_size_in_bit: 1024
     redundancy: 1
     type: GeneralWirelessLink
@@ -255,8 +264,43 @@ link_models:
     type: SatelliteLaserLink
 network_nodes:
 - intfs:
-  - link_model: access1
+  - link_model: 5G
     link_param:
+      bandwidth: 1e+10
+      fading_model: fading_model1
+      gain: 2
+      hb: 0
+      phi: 0
+      power_in_dbm: 33
+      theta: 0
+      type: GeneralWirelessLinkIntf
+    name: manet1
+    routing_area: 1
+    topology_model: manet1
+    topology_param:
+      type: ManetTopoIntf
+  mobility_model:
+    sequence:
+    - altitude: 100
+      latitude: 15.08133728
+      longitude: 105.54709537
+      time: 0
+    - altitude: 100
+      latitude: 15.08133728
+      longitude: 125.54709537
+      time: 1e+10
+    type: Polyline
+  name: polyline1
+  param:
+    type: Container
+  type: Container
+  visual_options:
+    model_id: 4
+    node_type: 3
+- intfs:
+  - link_model: Satellite
+    link_param:
+      bandwidth: 1e+10
       fading_model: fading_model1
       gain: 2
       hb: 0
@@ -270,12 +314,203 @@ network_nodes:
     topology_param:
       role: 0
       type: SatelliteConeTopoIntf
+  - link_model: 5G
+    link_param:
+      bandwidth: 1e+10
+      fading_model: fading_model1
+      gain: 2
+      hb: 0
+      phi: 0
+      power_in_dbm: 33
+      theta: 0
+      type: GeneralWirelessLinkIntf
+    name: manet1
+    routing_area: 1
+    topology_model: manet1
+    topology_param:
+      type: ManetTopoIntf
   mobility_model:
-    altitude: 200
-    latitude: 25.08133728
-    longitude: 121.54709537
+    altitude: 100
+    latitude: 15.08133728
+    longitude: 115.54709537
     type: Static
   name: ground1
+  param:
+    type: Container
+  type: Container
+  visual_options:
+    model_id: 4
+    node_type: 3
+- intfs:
+  - link_model: Satellite
+    link_param:
+      bandwidth: 1e+10
+      fading_model: fading_model1
+      gain: 2
+      hb: 0
+      phi: 0
+      power_in_dbm: 33
+      theta: 0
+      type: GeneralWirelessLinkIntf
+    name: acce1
+    routing_area: 1
+    topology_model: cone1
+    topology_param:
+      role: 0
+      type: SatelliteConeTopoIntf
+  - link_model: 5G
+    link_param:
+      bandwidth: 1e+10
+      fading_model: fading_model1
+      gain: 2
+      hb: 0
+      phi: 0
+      power_in_dbm: 33
+      theta: 0
+      type: GeneralWirelessLinkIntf
+    name: manet1
+    routing_area: 1
+    topology_model: manet1
+    topology_param:
+      type: ManetTopoIntf
+  mobility_model:
+    altitude: 100
+    latitude: 15.28133728
+    longitude: 115.04709537
+    type: Static
+  name: ground2
+  param:
+    type: Container
+  type: Container
+  visual_options:
+    model_id: 4
+    node_type: 3
+- intfs:
+  - link_model: Satellite
+    link_param:
+      bandwidth: 1e+10
+      fading_model: fading_model1
+      gain: 2
+      hb: 0
+      phi: 0
+      power_in_dbm: 33
+      theta: 0
+      type: GeneralWirelessLinkIntf
+    name: acce1
+    routing_area: 1
+    topology_model: cone1
+    topology_param:
+      role: 0
+      type: SatelliteConeTopoIntf
+  - link_model: 5G
+    link_param:
+      bandwidth: 1e+10
+      fading_model: fading_model1
+      gain: 2
+      hb: 0
+      phi: 0
+      power_in_dbm: 33
+      theta: 0
+      type: GeneralWirelessLinkIntf
+    name: manet1
+    routing_area: 1
+    topology_model: manet1
+    topology_param:
+      type: ManetTopoIntf
+  mobility_model:
+    altitude: 100
+    latitude: 15.68133728
+    longitude: 113.54709537
+    type: Static
+  name: ground3
+  param:
+    type: Container
+  type: Container
+  visual_options:
+    model_id: 4
+    node_type: 3
+- intfs:
+  - link_model: Satellite
+    link_param:
+      bandwidth: 1e+10
+      fading_model: fading_model1
+      gain: 2
+      hb: 0
+      phi: 0
+      power_in_dbm: 33
+      theta: 0
+      type: GeneralWirelessLinkIntf
+    name: acce1
+    routing_area: 1
+    topology_model: cone1
+    topology_param:
+      role: 0
+      type: SatelliteConeTopoIntf
+  - link_model: 5G
+    link_param:
+      bandwidth: 1e+10
+      fading_model: fading_model1
+      gain: 2
+      hb: 0
+      phi: 0
+      power_in_dbm: 33
+      theta: 0
+      type: GeneralWirelessLinkIntf
+    name: manet1
+    routing_area: 1
+    topology_model: manet1
+    topology_param:
+      type: ManetTopoIntf
+  mobility_model:
+    altitude: 100
+    latitude: 15.58133728
+    longitude: 115.54709537
+    type: Static
+  name: ground4
+  param:
+    type: Container
+  type: Container
+  visual_options:
+    model_id: 4
+    node_type: 3
+- intfs:
+  - link_model: Satellite
+    link_param:
+      bandwidth: 1e+10
+      fading_model: fading_model1
+      gain: 2
+      hb: 0
+      phi: 0
+      power_in_dbm: 33
+      theta: 0
+      type: GeneralWirelessLinkIntf
+    name: acce1
+    routing_area: 1
+    topology_model: cone1
+    topology_param:
+      role: 0
+      type: SatelliteConeTopoIntf
+  - link_model: 5G
+    link_param:
+      bandwidth: 1e+10
+      fading_model: fading_model1
+      gain: 2
+      hb: 0
+      phi: 0
+      power_in_dbm: 33
+      theta: 0
+      type: GeneralWirelessLinkIntf
+    name: manet1
+    routing_area: 1
+    topology_model: manet1
+    topology_param:
+      type: ManetTopoIntf
+  mobility_model:
+    altitude: 100
+    latitude: 15.08133728
+    longitude: 114.54709537
+    type: Static
+  name: ground5
   param:
     type: Container
   type: Container
@@ -315,8 +550,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -330,23 +566,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10000U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00019
+    tle_line1: 1 10000U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00011
     tle_line2: 2 10000 070.0000 100.0000 0001424 094.3232 000.0000 014.8936172000006
     type: Satellite
   name: s210000
@@ -389,8 +610,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -404,23 +626,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10001U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00010
+    tle_line1: 1 10001U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00012
     tle_line2: 2 10001 070.0000 100.0000 0001424 094.3232 006.6667 014.8936172000008
     type: Satellite
   name: s210001
@@ -463,8 +670,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -478,23 +686,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10002U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00011
+    tle_line1: 1 10002U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00013
     tle_line2: 2 10002 070.0000 100.0000 0001424 094.3232 013.3333 014.8936172000004
     type: Satellite
   name: s210002
@@ -537,8 +730,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -552,23 +746,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10003U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00012
+    tle_line1: 1 10003U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00014
     tle_line2: 2 10003 070.0000 100.0000 0001424 094.3232 020.0000 014.8936172000001
     type: Satellite
   name: s210003
@@ -611,8 +790,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -626,23 +806,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10004U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00013
+    tle_line1: 1 10004U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00015
     tle_line2: 2 10004 070.0000 100.0000 0001424 094.3232 026.6667 014.8936172000003
     type: Satellite
   name: s210004
@@ -685,8 +850,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -700,23 +866,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10005U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00014
+    tle_line1: 1 10005U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00016
     tle_line2: 2 10005 070.0000 100.0000 0001424 094.3232 033.3333 014.8936172000009
     type: Satellite
   name: s210005
@@ -759,8 +910,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -774,23 +926,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10006U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00015
+    tle_line1: 1 10006U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00017
     tle_line2: 2 10006 070.0000 100.0000 0001424 094.3232 040.0000 014.8936172000006
     type: Satellite
   name: s210006
@@ -833,8 +970,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -848,23 +986,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10007U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00016
+    tle_line1: 1 10007U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00018
     tle_line2: 2 10007 070.0000 100.0000 0001424 094.3232 046.6667 014.8936172000008
     type: Satellite
   name: s210007
@@ -907,8 +1030,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -922,23 +1046,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10008U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00017
+    tle_line1: 1 10008U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00019
     tle_line2: 2 10008 070.0000 100.0000 0001424 094.3232 053.3333 014.8936172000004
     type: Satellite
   name: s210008
@@ -981,8 +1090,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -996,23 +1106,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10009U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00018
+    tle_line1: 1 10009U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00010
     tle_line2: 2 10009 070.0000 100.0000 0001424 094.3232 060.0000 014.8936172000001
     type: Satellite
   name: s210009
@@ -1055,8 +1150,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -1070,23 +1166,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10010U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00010
+    tle_line1: 1 10010U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00012
     tle_line2: 2 10010 070.0000 100.0000 0001424 094.3232 066.6667 014.8936172000004
     type: Satellite
   name: s210010
@@ -1129,8 +1210,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -1144,23 +1226,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10011U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00011
+    tle_line1: 1 10011U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00013
     tle_line2: 2 10011 070.0000 100.0000 0001424 094.3232 073.3333 014.8936172000000
     type: Satellite
   name: s210011
@@ -1203,8 +1270,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -1218,23 +1286,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10012U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00012
+    tle_line1: 1 10012U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00014
     tle_line2: 2 10012 070.0000 100.0000 0001424 094.3232 080.0000 014.8936172000007
     type: Satellite
   name: s210012
@@ -1277,8 +1330,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -1292,23 +1346,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10013U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00013
+    tle_line1: 1 10013U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00015
     tle_line2: 2 10013 070.0000 100.0000 0001424 094.3232 086.6667 014.8936172000009
     type: Satellite
   name: s210013
@@ -1351,8 +1390,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -1366,23 +1406,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10014U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00014
+    tle_line1: 1 10014U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00016
     tle_line2: 2 10014 070.0000 100.0000 0001424 094.3232 093.3333 014.8936172000005
     type: Satellite
   name: s210014
@@ -1425,8 +1450,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -1440,23 +1466,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10015U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00015
+    tle_line1: 1 10015U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00017
     tle_line2: 2 10015 070.0000 100.0000 0001424 094.3232 100.0000 014.8936172000003
     type: Satellite
   name: s210015
@@ -1499,8 +1510,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -1514,23 +1526,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10016U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00016
+    tle_line1: 1 10016U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00018
     tle_line2: 2 10016 070.0000 100.0000 0001424 094.3232 106.6667 014.8936172000005
     type: Satellite
   name: s210016
@@ -1573,8 +1570,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -1588,23 +1586,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10017U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00017
+    tle_line1: 1 10017U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00019
     tle_line2: 2 10017 070.0000 100.0000 0001424 094.3232 113.3333 014.8936172000001
     type: Satellite
   name: s210017
@@ -1647,8 +1630,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -1662,23 +1646,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10018U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00018
+    tle_line1: 1 10018U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00010
     tle_line2: 2 10018 070.0000 100.0000 0001424 094.3232 120.0000 014.8936172000008
     type: Satellite
   name: s210018
@@ -1721,8 +1690,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -1736,23 +1706,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10019U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00019
+    tle_line1: 1 10019U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00011
     tle_line2: 2 10019 070.0000 100.0000 0001424 094.3232 126.6667 014.8936172000000
     type: Satellite
   name: s210019
@@ -1795,8 +1750,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -1810,23 +1766,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10020U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00011
+    tle_line1: 1 10020U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00013
     tle_line2: 2 10020 070.0000 100.0000 0001424 094.3232 133.3333 014.8936172000007
     type: Satellite
   name: s210020
@@ -1869,8 +1810,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -1884,23 +1826,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10021U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00012
+    tle_line1: 1 10021U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00014
     tle_line2: 2 10021 070.0000 100.0000 0001424 094.3232 140.0000 014.8936172000004
     type: Satellite
   name: s210021
@@ -1943,8 +1870,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -1958,23 +1886,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10022U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00013
+    tle_line1: 1 10022U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00015
     tle_line2: 2 10022 070.0000 100.0000 0001424 094.3232 146.6667 014.8936172000006
     type: Satellite
   name: s210022
@@ -2017,8 +1930,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -2032,23 +1946,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10023U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00014
+    tle_line1: 1 10023U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00016
     tle_line2: 2 10023 070.0000 100.0000 0001424 094.3232 153.3333 014.8936172000002
     type: Satellite
   name: s210023
@@ -2091,8 +1990,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -2106,23 +2006,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10024U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00015
+    tle_line1: 1 10024U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00017
     tle_line2: 2 10024 070.0000 100.0000 0001424 094.3232 160.0000 014.8936172000009
     type: Satellite
   name: s210024
@@ -2165,8 +2050,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -2180,23 +2066,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10025U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00016
+    tle_line1: 1 10025U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00018
     tle_line2: 2 10025 070.0000 100.0000 0001424 094.3232 166.6667 014.8936172000001
     type: Satellite
   name: s210025
@@ -2239,8 +2110,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -2254,23 +2126,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10026U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00017
+    tle_line1: 1 10026U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00019
     tle_line2: 2 10026 070.0000 100.0000 0001424 094.3232 173.3333 014.8936172000007
     type: Satellite
   name: s210026
@@ -2313,8 +2170,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -2328,23 +2186,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10027U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00018
+    tle_line1: 1 10027U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00010
     tle_line2: 2 10027 070.0000 100.0000 0001424 094.3232 180.0000 014.8936172000004
     type: Satellite
   name: s210027
@@ -2387,8 +2230,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -2402,23 +2246,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10028U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00019
+    tle_line1: 1 10028U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00011
     tle_line2: 2 10028 070.0000 100.0000 0001424 094.3232 186.6667 014.8936172000006
     type: Satellite
   name: s210028
@@ -2461,8 +2290,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -2476,23 +2306,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10029U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00010
+    tle_line1: 1 10029U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00012
     tle_line2: 2 10029 070.0000 100.0000 0001424 094.3232 193.3333 014.8936172000002
     type: Satellite
   name: s210029
@@ -2535,8 +2350,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -2550,23 +2366,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10030U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00012
+    tle_line1: 1 10030U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00014
     tle_line2: 2 10030 070.0000 100.0000 0001424 094.3232 200.0000 014.8936172000001
     type: Satellite
   name: s210030
@@ -2609,8 +2410,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -2624,23 +2426,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10031U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00013
+    tle_line1: 1 10031U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00015
     tle_line2: 2 10031 070.0000 100.0000 0001424 094.3232 206.6667 014.8936172000003
     type: Satellite
   name: s210031
@@ -2683,8 +2470,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -2698,23 +2486,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10032U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00014
+    tle_line1: 1 10032U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00016
     tle_line2: 2 10032 070.0000 100.0000 0001424 094.3232 213.3333 014.8936172000009
     type: Satellite
   name: s210032
@@ -2757,8 +2530,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -2772,23 +2546,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10033U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00015
+    tle_line1: 1 10033U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00017
     tle_line2: 2 10033 070.0000 100.0000 0001424 094.3232 220.0000 014.8936172000006
     type: Satellite
   name: s210033
@@ -2831,8 +2590,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -2846,23 +2606,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10034U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00016
+    tle_line1: 1 10034U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00018
     tle_line2: 2 10034 070.0000 100.0000 0001424 094.3232 226.6667 014.8936172000008
     type: Satellite
   name: s210034
@@ -2905,8 +2650,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -2920,23 +2666,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10035U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00017
+    tle_line1: 1 10035U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00019
     tle_line2: 2 10035 070.0000 100.0000 0001424 094.3232 233.3333 014.8936172000004
     type: Satellite
   name: s210035
@@ -2979,8 +2710,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -2994,23 +2726,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10036U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00018
+    tle_line1: 1 10036U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00010
     tle_line2: 2 10036 070.0000 100.0000 0001424 094.3232 240.0000 014.8936172000001
     type: Satellite
   name: s210036
@@ -3053,8 +2770,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -3068,23 +2786,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10037U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00019
+    tle_line1: 1 10037U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00011
     tle_line2: 2 10037 070.0000 100.0000 0001424 094.3232 246.6667 014.8936172000003
     type: Satellite
   name: s210037
@@ -3127,8 +2830,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -3142,23 +2846,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10038U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00010
+    tle_line1: 1 10038U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00012
     tle_line2: 2 10038 070.0000 100.0000 0001424 094.3232 253.3333 014.8936172000009
     type: Satellite
   name: s210038
@@ -3201,8 +2890,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -3216,23 +2906,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10039U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00011
+    tle_line1: 1 10039U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00013
     tle_line2: 2 10039 070.0000 100.0000 0001424 094.3232 260.0000 014.8936172000006
     type: Satellite
   name: s210039
@@ -3275,8 +2950,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -3290,23 +2966,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10040U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00013
+    tle_line1: 1 10040U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00015
     tle_line2: 2 10040 070.0000 100.0000 0001424 094.3232 266.6667 014.8936172000009
     type: Satellite
   name: s210040
@@ -3349,8 +3010,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -3364,23 +3026,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10041U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00014
+    tle_line1: 1 10041U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00016
     tle_line2: 2 10041 070.0000 100.0000 0001424 094.3232 273.3333 014.8936172000005
     type: Satellite
   name: s210041
@@ -3423,8 +3070,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -3438,23 +3086,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10042U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00015
+    tle_line1: 1 10042U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00017
     tle_line2: 2 10042 070.0000 100.0000 0001424 094.3232 280.0000 014.8936172000002
     type: Satellite
   name: s210042
@@ -3497,8 +3130,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -3512,23 +3146,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10043U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00016
+    tle_line1: 1 10043U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00018
     tle_line2: 2 10043 070.0000 100.0000 0001424 094.3232 286.6667 014.8936172000004
     type: Satellite
   name: s210043
@@ -3571,8 +3190,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -3586,23 +3206,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10044U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00017
+    tle_line1: 1 10044U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00019
     tle_line2: 2 10044 070.0000 100.0000 0001424 094.3232 293.3333 014.8936172000000
     type: Satellite
   name: s210044
@@ -3645,8 +3250,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -3660,23 +3266,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10045U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00018
+    tle_line1: 1 10045U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00010
     tle_line2: 2 10045 070.0000 100.0000 0001424 094.3232 300.0000 014.8936172000008
     type: Satellite
   name: s210045
@@ -3719,8 +3310,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -3734,23 +3326,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10046U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00019
+    tle_line1: 1 10046U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00011
     tle_line2: 2 10046 070.0000 100.0000 0001424 094.3232 306.6667 014.8936172000000
     type: Satellite
   name: s210046
@@ -3793,8 +3370,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -3808,23 +3386,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10047U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00010
+    tle_line1: 1 10047U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00012
     tle_line2: 2 10047 070.0000 100.0000 0001424 094.3232 313.3333 014.8936172000006
     type: Satellite
   name: s210047
@@ -3867,8 +3430,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -3882,23 +3446,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10048U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00011
+    tle_line1: 1 10048U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00013
     tle_line2: 2 10048 070.0000 100.0000 0001424 094.3232 320.0000 014.8936172000003
     type: Satellite
   name: s210048
@@ -3941,8 +3490,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -3956,23 +3506,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10049U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00012
+    tle_line1: 1 10049U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00014
     tle_line2: 2 10049 070.0000 100.0000 0001424 094.3232 326.6667 014.8936172000005
     type: Satellite
   name: s210049
@@ -4015,8 +3550,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -4030,23 +3566,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10050U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00014
+    tle_line1: 1 10050U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00016
     tle_line2: 2 10050 070.0000 100.0000 0001424 094.3232 333.3333 014.8936172000002
     type: Satellite
   name: s210050
@@ -4089,8 +3610,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -4104,23 +3626,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10051U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00015
+    tle_line1: 1 10051U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00017
     tle_line2: 2 10051 070.0000 100.0000 0001424 094.3232 340.0000 014.8936172000009
     type: Satellite
   name: s210051
@@ -4163,8 +3670,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -4178,23 +3686,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10052U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00016
+    tle_line1: 1 10052U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00018
     tle_line2: 2 10052 070.0000 100.0000 0001424 094.3232 346.6667 014.8936172000001
     type: Satellite
   name: s210052
@@ -4237,8 +3730,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -4252,23 +3746,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10053U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00017
+    tle_line1: 1 10053U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00019
     tle_line2: 2 10053 070.0000 100.0000 0001424 094.3232 353.3333 014.8936172000007
     type: Satellite
   name: s210053
@@ -4311,8 +3790,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -4326,23 +3806,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10100U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00010
+    tle_line1: 1 10100U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00012
     tle_line2: 2 10100 070.0000 103.6000 0001424 094.3232 001.0800 014.8936172000005
     type: Satellite
   name: s210100
@@ -4385,8 +3850,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -4400,23 +3866,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10101U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00011
+    tle_line1: 1 10101U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00013
     tle_line2: 2 10101 070.0000 103.6000 0001424 094.3232 007.7467 014.8936172000008
     type: Satellite
   name: s210101
@@ -4459,8 +3910,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -4474,23 +3926,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10102U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00012
+    tle_line1: 1 10102U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00014
     tle_line2: 2 10102 070.0000 103.6000 0001424 094.3232 014.4133 014.8936172000004
     type: Satellite
   name: s210102
@@ -4533,8 +3970,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -4548,23 +3986,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10103U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00013
+    tle_line1: 1 10103U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00015
     tle_line2: 2 10103 070.0000 103.6000 0001424 094.3232 021.0800 014.8936172000000
     type: Satellite
   name: s210103
@@ -4607,8 +4030,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -4622,23 +4046,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10104U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00014
+    tle_line1: 1 10104U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00016
     tle_line2: 2 10104 070.0000 103.6000 0001424 094.3232 027.7467 014.8936172000003
     type: Satellite
   name: s210104
@@ -4681,8 +4090,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -4696,23 +4106,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10105U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00015
+    tle_line1: 1 10105U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00017
     tle_line2: 2 10105 070.0000 103.6000 0001424 094.3232 034.4133 014.8936172000009
     type: Satellite
   name: s210105
@@ -4755,8 +4150,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -4770,23 +4166,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10106U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00016
+    tle_line1: 1 10106U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00018
     tle_line2: 2 10106 070.0000 103.6000 0001424 094.3232 041.0800 014.8936172000005
     type: Satellite
   name: s210106
@@ -4829,8 +4210,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -4844,23 +4226,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10107U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00017
+    tle_line1: 1 10107U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00019
     tle_line2: 2 10107 070.0000 103.6000 0001424 094.3232 047.7467 014.8936172000008
     type: Satellite
   name: s210107
@@ -4903,8 +4270,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -4918,23 +4286,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10108U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00018
+    tle_line1: 1 10108U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00010
     tle_line2: 2 10108 070.0000 103.6000 0001424 094.3232 054.4133 014.8936172000004
     type: Satellite
   name: s210108
@@ -4977,8 +4330,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -4992,23 +4346,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10109U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00019
+    tle_line1: 1 10109U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00011
     tle_line2: 2 10109 070.0000 103.6000 0001424 094.3232 061.0800 014.8936172000000
     type: Satellite
   name: s210109
@@ -5051,8 +4390,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -5066,23 +4406,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10110U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00011
+    tle_line1: 1 10110U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00013
     tle_line2: 2 10110 070.0000 103.6000 0001424 094.3232 067.7467 014.8936172000004
     type: Satellite
   name: s210110
@@ -5125,8 +4450,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -5140,23 +4466,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10111U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00012
+    tle_line1: 1 10111U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00014
     tle_line2: 2 10111 070.0000 103.6000 0001424 094.3232 074.4133 014.8936172000000
     type: Satellite
   name: s210111
@@ -5199,8 +4510,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -5214,23 +4526,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10112U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00013
+    tle_line1: 1 10112U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00015
     tle_line2: 2 10112 070.0000 103.6000 0001424 094.3232 081.0800 014.8936172000006
     type: Satellite
   name: s210112
@@ -5273,8 +4570,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -5288,23 +4586,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10113U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00014
+    tle_line1: 1 10113U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00016
     tle_line2: 2 10113 070.0000 103.6000 0001424 094.3232 087.7467 014.8936172000009
     type: Satellite
   name: s210113
@@ -5347,8 +4630,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -5362,23 +4646,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10114U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00015
+    tle_line1: 1 10114U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00017
     tle_line2: 2 10114 070.0000 103.6000 0001424 094.3232 094.4133 014.8936172000005
     type: Satellite
   name: s210114
@@ -5421,8 +4690,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -5436,23 +4706,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10115U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00016
+    tle_line1: 1 10115U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00018
     tle_line2: 2 10115 070.0000 103.6000 0001424 094.3232 101.0800 014.8936172000002
     type: Satellite
   name: s210115
@@ -5495,8 +4750,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -5510,23 +4766,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10116U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00017
+    tle_line1: 1 10116U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00019
     tle_line2: 2 10116 070.0000 103.6000 0001424 094.3232 107.7467 014.8936172000005
     type: Satellite
   name: s210116
@@ -5569,8 +4810,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -5584,23 +4826,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10117U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00018
+    tle_line1: 1 10117U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00010
     tle_line2: 2 10117 070.0000 103.6000 0001424 094.3232 114.4133 014.8936172000001
     type: Satellite
   name: s210117
@@ -5643,8 +4870,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -5658,23 +4886,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10118U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00019
+    tle_line1: 1 10118U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00011
     tle_line2: 2 10118 070.0000 103.6000 0001424 094.3232 121.0800 014.8936172000007
     type: Satellite
   name: s210118
@@ -5717,8 +4930,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -5732,23 +4946,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10119U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00010
+    tle_line1: 1 10119U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00012
     tle_line2: 2 10119 070.0000 103.6000 0001424 094.3232 127.7467 014.8936172000000
     type: Satellite
   name: s210119
@@ -5791,8 +4990,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -5806,23 +5006,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10120U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00012
+    tle_line1: 1 10120U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00014
     tle_line2: 2 10120 070.0000 103.6000 0001424 094.3232 134.4133 014.8936172000007
     type: Satellite
   name: s210120
@@ -5865,8 +5050,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -5880,23 +5066,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10121U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00013
+    tle_line1: 1 10121U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00015
     tle_line2: 2 10121 070.0000 103.6000 0001424 094.3232 141.0800 014.8936172000003
     type: Satellite
   name: s210121
@@ -5939,8 +5110,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -5954,23 +5126,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10122U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00014
+    tle_line1: 1 10122U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00016
     tle_line2: 2 10122 070.0000 103.6000 0001424 094.3232 147.7467 014.8936172000006
     type: Satellite
   name: s210122
@@ -6013,8 +5170,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -6028,23 +5186,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10123U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00015
+    tle_line1: 1 10123U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00017
     tle_line2: 2 10123 070.0000 103.6000 0001424 094.3232 154.4133 014.8936172000002
     type: Satellite
   name: s210123
@@ -6087,8 +5230,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -6102,23 +5246,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10124U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00016
+    tle_line1: 1 10124U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00018
     tle_line2: 2 10124 070.0000 103.6000 0001424 094.3232 161.0800 014.8936172000008
     type: Satellite
   name: s210124
@@ -6161,8 +5290,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -6176,23 +5306,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10125U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00017
+    tle_line1: 1 10125U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00019
     tle_line2: 2 10125 070.0000 103.6000 0001424 094.3232 167.7467 014.8936172000001
     type: Satellite
   name: s210125
@@ -6235,8 +5350,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -6250,23 +5366,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10126U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00018
+    tle_line1: 1 10126U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00010
     tle_line2: 2 10126 070.0000 103.6000 0001424 094.3232 174.4133 014.8936172000007
     type: Satellite
   name: s210126
@@ -6309,8 +5410,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -6324,23 +5426,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10127U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00019
+    tle_line1: 1 10127U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00011
     tle_line2: 2 10127 070.0000 103.6000 0001424 094.3232 181.0800 014.8936172000003
     type: Satellite
   name: s210127
@@ -6383,8 +5470,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -6398,23 +5486,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10128U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00010
+    tle_line1: 1 10128U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00012
     tle_line2: 2 10128 070.0000 103.6000 0001424 094.3232 187.7467 014.8936172000006
     type: Satellite
   name: s210128
@@ -6457,8 +5530,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -6472,23 +5546,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10129U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00011
+    tle_line1: 1 10129U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00013
     tle_line2: 2 10129 070.0000 103.6000 0001424 094.3232 194.4133 014.8936172000002
     type: Satellite
   name: s210129
@@ -6531,8 +5590,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -6546,23 +5606,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10130U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00013
+    tle_line1: 1 10130U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00015
     tle_line2: 2 10130 070.0000 103.6000 0001424 094.3232 201.0800 014.8936172000000
     type: Satellite
   name: s210130
@@ -6605,8 +5650,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -6620,23 +5666,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10131U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00014
+    tle_line1: 1 10131U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00016
     tle_line2: 2 10131 070.0000 103.6000 0001424 094.3232 207.7467 014.8936172000003
     type: Satellite
   name: s210131
@@ -6679,8 +5710,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -6694,23 +5726,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10132U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00015
+    tle_line1: 1 10132U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00017
     tle_line2: 2 10132 070.0000 103.6000 0001424 094.3232 214.4133 014.8936172000009
     type: Satellite
   name: s210132
@@ -6753,8 +5770,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -6768,23 +5786,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10133U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00016
+    tle_line1: 1 10133U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00018
     tle_line2: 2 10133 070.0000 103.6000 0001424 094.3232 221.0800 014.8936172000005
     type: Satellite
   name: s210133
@@ -6827,8 +5830,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -6842,23 +5846,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10134U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00017
+    tle_line1: 1 10134U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00019
     tle_line2: 2 10134 070.0000 103.6000 0001424 094.3232 227.7467 014.8936172000008
     type: Satellite
   name: s210134
@@ -6901,8 +5890,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -6916,23 +5906,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10135U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00018
+    tle_line1: 1 10135U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00010
     tle_line2: 2 10135 070.0000 103.6000 0001424 094.3232 234.4133 014.8936172000004
     type: Satellite
   name: s210135
@@ -6975,8 +5950,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -6990,23 +5966,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10136U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00019
+    tle_line1: 1 10136U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00011
     tle_line2: 2 10136 070.0000 103.6000 0001424 094.3232 241.0800 014.8936172000000
     type: Satellite
   name: s210136
@@ -7049,8 +6010,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -7064,23 +6026,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10137U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00010
+    tle_line1: 1 10137U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00012
     tle_line2: 2 10137 070.0000 103.6000 0001424 094.3232 247.7467 014.8936172000003
     type: Satellite
   name: s210137
@@ -7123,8 +6070,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -7138,23 +6086,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10138U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00011
+    tle_line1: 1 10138U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00013
     tle_line2: 2 10138 070.0000 103.6000 0001424 094.3232 254.4133 014.8936172000009
     type: Satellite
   name: s210138
@@ -7197,8 +6130,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -7212,23 +6146,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10139U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00012
+    tle_line1: 1 10139U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00014
     tle_line2: 2 10139 070.0000 103.6000 0001424 094.3232 261.0800 014.8936172000005
     type: Satellite
   name: s210139
@@ -7271,8 +6190,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -7286,23 +6206,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10140U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00014
+    tle_line1: 1 10140U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00016
     tle_line2: 2 10140 070.0000 103.6000 0001424 094.3232 267.7467 014.8936172000009
     type: Satellite
   name: s210140
@@ -7345,8 +6250,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -7360,23 +6266,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10141U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00015
+    tle_line1: 1 10141U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00017
     tle_line2: 2 10141 070.0000 103.6000 0001424 094.3232 274.4133 014.8936172000005
     type: Satellite
   name: s210141
@@ -7419,8 +6310,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -7434,23 +6326,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10142U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00016
+    tle_line1: 1 10142U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00018
     tle_line2: 2 10142 070.0000 103.6000 0001424 094.3232 281.0800 014.8936172000001
     type: Satellite
   name: s210142
@@ -7493,8 +6370,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -7508,23 +6386,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10143U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00017
+    tle_line1: 1 10143U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00019
     tle_line2: 2 10143 070.0000 103.6000 0001424 094.3232 287.7467 014.8936172000004
     type: Satellite
   name: s210143
@@ -7567,8 +6430,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -7582,23 +6446,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10144U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00018
+    tle_line1: 1 10144U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00010
     tle_line2: 2 10144 070.0000 103.6000 0001424 094.3232 294.4133 014.8936172000000
     type: Satellite
   name: s210144
@@ -7641,8 +6490,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -7656,23 +6506,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10145U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00019
+    tle_line1: 1 10145U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00011
     tle_line2: 2 10145 070.0000 103.6000 0001424 094.3232 301.0800 014.8936172000007
     type: Satellite
   name: s210145
@@ -7715,8 +6550,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -7730,23 +6566,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10146U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00010
+    tle_line1: 1 10146U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00012
     tle_line2: 2 10146 070.0000 103.6000 0001424 094.3232 307.7467 014.8936172000000
     type: Satellite
   name: s210146
@@ -7789,8 +6610,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -7804,23 +6626,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10147U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00011
+    tle_line1: 1 10147U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00013
     tle_line2: 2 10147 070.0000 103.6000 0001424 094.3232 314.4133 014.8936172000006
     type: Satellite
   name: s210147
@@ -7863,8 +6670,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -7878,23 +6686,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10148U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00012
+    tle_line1: 1 10148U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00014
     tle_line2: 2 10148 070.0000 103.6000 0001424 094.3232 321.0800 014.8936172000002
     type: Satellite
   name: s210148
@@ -7937,8 +6730,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -7952,23 +6746,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10149U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00013
+    tle_line1: 1 10149U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00015
     tle_line2: 2 10149 070.0000 103.6000 0001424 094.3232 327.7467 014.8936172000005
     type: Satellite
   name: s210149
@@ -8011,8 +6790,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -8026,23 +6806,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10150U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00015
+    tle_line1: 1 10150U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00017
     tle_line2: 2 10150 070.0000 103.6000 0001424 094.3232 334.4133 014.8936172000002
     type: Satellite
   name: s210150
@@ -8085,8 +6850,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -8100,23 +6866,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10151U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00016
+    tle_line1: 1 10151U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00018
     tle_line2: 2 10151 070.0000 103.6000 0001424 094.3232 341.0800 014.8936172000008
     type: Satellite
   name: s210151
@@ -8159,8 +6910,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -8174,23 +6926,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10152U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00017
+    tle_line1: 1 10152U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00019
     tle_line2: 2 10152 070.0000 103.6000 0001424 094.3232 347.7467 014.8936172000001
     type: Satellite
   name: s210152
@@ -8233,8 +6970,9 @@ network_nodes:
     topology_model: walkerinter
     topology_param:
       type: WalkerInterSatTopoIntf
-  - link_model: access1
+  - link_model: Satellite
     link_param:
+      bandwidth: 0
       fading_model: fading_model1
       gain: 20
       hb: 0
@@ -8248,23 +6986,8 @@ network_nodes:
     topology_param:
       role: 1
       type: SatelliteConeTopoIntf
-  - link_model: access1
-    link_param:
-      fading_model: fading_model1
-      gain: 20
-      hb: 0
-      phi: 0
-      power_in_dbm: 55
-      theta: 0
-      type: GeneralWirelessLinkIntf
-    name: acce5
-    routing_area: 1
-    topology_model: cone1
-    topology_param:
-      role: 1
-      type: SatelliteConeTopoIntf
   mobility_model:
-    tle_line1: 1 10153U 24001A   25119.35510417 .000014780 000000+0 118100-3 0 00018
+    tle_line1: 1 10153U 24001A   25134.32945602 .000014780 000000+0 118100-3 0 00010
     tle_line2: 2 10153 070.0000 103.6000 0001424 094.3232 354.4133 014.8936172000007
     type: Satellite
   name: s210153
@@ -8288,9 +7011,13 @@ routing_areas:
 topology_models:
 - name: cone1
   param:
-    angle: 80
-    max_distance: 1e+06
+    angle: 150
+    max_distance: 3e+06
     type: SatelliteConeTopo
+- name: manet1
+  param:
+    max_distance: 1e+10
+    type: ManetTopo
 - name: walkerinter
   param:
     type: WalkerInterSatTopo

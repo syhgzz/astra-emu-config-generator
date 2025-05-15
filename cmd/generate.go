@@ -184,7 +184,7 @@ var kubenetCmd = &cobra.Command{
 					VisualOptions: &visualOptions,
 					Intfs:         intfs,
 					MobilityModel: mobilityModel,
-					Param:         networkNodeParam,
+					Param:         &networkNodeParam,
 				},
 			)
 		}

@@ -29,7 +29,7 @@ var mergeCmd = &cobra.Command{
 			return
 		}
 
-		networkExperiment := &kubenet_config.NetworkExperiment{}
+		networkExperiments := []*kubenet_config.NetworkExperiment{}
 		for _, entry := range entries {
 			if strings.HasSuffix(entry.Name(), ".yaml") == false {
 				continue
@@ -45,8 +45,11 @@ var mergeCmd = &cobra.Command{
 			if err != nil {
 				logrus.Fatalf("failed to unmarshal networkExperiment: %v", err)
 			}
-			kubenet.MergeNetworkExperiment(networkExperiment, entryNetworkExperiment)
+			networkExperiments = append(networkExperiments, entryNetworkExperiment)
+
 		}
+
+		networkExperiment := kubenet.MergeNetworkExperiment(networkExperiments)
 
 		bytes, err := util.StructToYAML(networkExperiment)
 		if err != nil {
