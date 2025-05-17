@@ -6,9 +6,9 @@ import (
 	"path/filepath"
 	"strings"
 
-	"dslab.sjtu/kubenet-config-generator/api/pkg/kubenet_config"
 	"dslab.sjtu/kubenet-config-generator/pkg/kubenet"
 	"dslab.sjtu/kubenet-config-generator/pkg/util"
+	"dslab.sjtu/kubenet/api/pkg/kubenet_config"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )

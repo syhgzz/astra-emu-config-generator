@@ -1,6 +1,6 @@
 package kubenet
 
-import "dslab.sjtu/kubenet-config-generator/api/pkg/kubenet_config"
+import "dslab.sjtu/kubenet/api/pkg/kubenet_config"
 
 func MergeNetworkExperiment(nes []*kubenet_config.NetworkExperiment) *kubenet_config.NetworkExperiment {
 	linkModelsMap := make(map[string]kubenet_config.LinkModel)

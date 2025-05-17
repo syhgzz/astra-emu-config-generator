@@ -3,7 +3,7 @@ package kubenet
 import (
 	"strconv"
 
-	"dslab.sjtu/kubenet-config-generator/api/pkg/kubenet_config"
+	"dslab.sjtu/kubenet/api/pkg/kubenet_config"
 )
 
 func NewSatConeIntf(routingArea kubenet_config.RoutingArea) kubenet_config.Intf {

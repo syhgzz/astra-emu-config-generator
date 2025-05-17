@@ -1,6 +1,6 @@
 package kubenet
 
-import "dslab.sjtu/kubenet-config-generator/api/pkg/kubenet_config"
+import "dslab.sjtu/kubenet/api/pkg/kubenet_config"
 
 func NewFadingModels() ([]kubenet_config.FadingModel, error) {
 	fadindModels := []kubenet_config.FadingModel{}

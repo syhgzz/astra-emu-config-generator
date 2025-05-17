@@ -5,9 +5,9 @@ import (
 	"os"
 	"strconv"
 
-	"dslab.sjtu/kubenet-config-generator/api/pkg/kubenet_config"
 	"dslab.sjtu/kubenet-config-generator/pkg/tle"
 	"dslab.sjtu/kubenet-config-generator/pkg/util"
+	"dslab.sjtu/kubenet/api/pkg/kubenet_config"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )

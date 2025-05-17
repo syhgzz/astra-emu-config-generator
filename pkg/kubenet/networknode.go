@@ -1,8 +1,8 @@
 package kubenet
 
 import (
-	"dslab.sjtu/kubenet-config-generator/api/pkg/kubenet_config"
 	"dslab.sjtu/kubenet-config-generator/pkg/tle"
+	"dslab.sjtu/kubenet/api/pkg/kubenet_config"
 )
 
 func NewNetworkNodes(num, plane int, phyConstellation []tle.Satellite,

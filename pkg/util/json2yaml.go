@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"dslab.sjtu/kubenet-config-generator/api/pkg/kubenet_config"
+	"dslab.sjtu/kubenet/api/pkg/kubenet_config"
 	"gopkg.in/yaml.v2"
 )
 

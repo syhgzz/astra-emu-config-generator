@@ -1,6 +1,6 @@
 package kubenet
 
-import "dslab.sjtu/kubenet-config-generator/api/pkg/kubenet_config"
+import "dslab.sjtu/kubenet/api/pkg/kubenet_config"
 
 func NewRoutingAreas() ([]kubenet_config.RoutingArea, error) {
 	routingAreas := []kubenet_config.RoutingArea{}

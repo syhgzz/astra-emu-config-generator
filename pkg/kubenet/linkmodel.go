@@ -1,7 +1,7 @@
 package kubenet
 
 import (
-	"dslab.sjtu/kubenet-config-generator/api/pkg/kubenet_config"
+	"dslab.sjtu/kubenet/api/pkg/kubenet_config"
 )
 
 func NewLinkModels(bandwidth, singleHopLatency string) ([]kubenet_config.LinkModel, error) {
