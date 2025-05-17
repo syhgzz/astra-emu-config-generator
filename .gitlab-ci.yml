@@ -1,0 +1,48 @@
+stages:
+- build
+- release
+
+build:
+  stage: build
+  image: harbor.sail.se.sjtu.edu.cn/proxy/library/golang:1.24
+  tags:
+  - linux
+  rules:
+  - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  - if: $CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+$/
+  script:
+  - apt update && apt install -y make bash
+  - make all
+  artifacts:
+    paths:
+      - build/linux/amd64/kubenet-config-generator
+      - build/linux/arm64/kubenet-config-generator
+      - build/windows/amd64/kubenet-config-generator.exe
+
+release:
+  stage: release
+  image: harbor.sail.se.sjtu.edu.cn/gitlab/release-cli:latest
+  dependencies:
+  - build
+  release:
+    name: $CI_COMMIT_TAG
+    description: $CI_COMMIT_MESSAGE
+    tag_name: $CI_COMMIT_TAG
+    ref: $CI_COMMIT_TAG
+    assets:
+      links:
+      - name: linux/amd64
+        url: "$CI_PROJECT_URL/-/jobs/$CI_JOB_ID/artifacts/file/build/linux/amd64/kubenet-config-generator"
+      - name: linux/arm64
+        url: "$CI_PROJECT_URL/-/jobs/$CI_JOB_ID/artifacts/file/build/linux/arm64/kubenet-config-generator"
+      - name: windows/amd64
+        url: "$CI_PROJECT_URL/-/jobs/$CI_JOB_ID/artifacts/file/build/windows/amd64/kubenet-config-generator.exe"
+  rules:
+  - if: $CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+$/
+  script:
+  - echo "Release $CI_COMMIT_TAG"
+  artifacts:
+    paths:
+      - build/linux/amd64/kubenet-config-generator
+      - build/linux/arm64/kubenet-config-generator
+      - build/windows/amd64/kubenet-config-generator.exe
