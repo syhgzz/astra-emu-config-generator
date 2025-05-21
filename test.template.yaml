@@ -35,6 +35,7 @@ network_nodes:
       theta: 0
       type: GeneralWirelessLinkIntf
     name: manet1
+    max_links: 10
     routing_area: 1
     topology_model: manet1
     topology_param:
@@ -56,7 +57,7 @@ network_nodes:
   type: Container
   visual_options:
     model_id: 4
-    node_type: 3
+    node_type: 2
 - intfs:
   - link_model: Satellite
     link_param:
@@ -69,6 +70,7 @@ network_nodes:
       theta: 0
       type: GeneralWirelessLinkIntf
     name: acce1
+    max_links: 10
     routing_area: 1
     topology_model: cone1
     topology_param:
@@ -85,6 +87,7 @@ network_nodes:
       theta: 0
       type: GeneralWirelessLinkIntf
     name: manet1
+    max_links: 10
     routing_area: 1
     topology_model: manet1
     topology_param:
@@ -100,7 +103,7 @@ network_nodes:
   type: Container
   visual_options:
     model_id: 4
-    node_type: 3
+    node_type: 2
 - intfs:
   - link_model: Satellite
     link_param:
@@ -113,6 +116,7 @@ network_nodes:
       theta: 0
       type: GeneralWirelessLinkIntf
     name: acce1
+    max_links: 10
     routing_area: 1
     topology_model: cone1
     topology_param:
@@ -129,6 +133,7 @@ network_nodes:
       theta: 0
       type: GeneralWirelessLinkIntf
     name: manet1
+    max_links: 10
     routing_area: 1
     topology_model: manet1
     topology_param:
@@ -144,7 +149,7 @@ network_nodes:
   type: Container
   visual_options:
     model_id: 4
-    node_type: 3
+    node_type: 2
 - intfs:
   - link_model: Satellite
     link_param:
@@ -157,6 +162,7 @@ network_nodes:
       theta: 0
       type: GeneralWirelessLinkIntf
     name: acce1
+    max_links: 10
     routing_area: 1
     topology_model: cone1
     topology_param:
@@ -173,6 +179,7 @@ network_nodes:
       theta: 0
       type: GeneralWirelessLinkIntf
     name: manet1
+    max_links: 10
     routing_area: 1
     topology_model: manet1
     topology_param:
@@ -188,7 +195,7 @@ network_nodes:
   type: Container
   visual_options:
     model_id: 4
-    node_type: 3
+    node_type: 2
 - intfs:
   - link_model: Satellite
     link_param:
@@ -201,6 +208,7 @@ network_nodes:
       theta: 0
       type: GeneralWirelessLinkIntf
     name: acce1
+    max_links: 10
     routing_area: 1
     topology_model: cone1
     topology_param:
@@ -217,6 +225,7 @@ network_nodes:
       theta: 0
       type: GeneralWirelessLinkIntf
     name: manet1
+    max_links: 10
     routing_area: 1
     topology_model: manet1
     topology_param:
@@ -232,7 +241,7 @@ network_nodes:
   type: Container
   visual_options:
     model_id: 4
-    node_type: 3
+    node_type: 2
 - intfs:
   - link_model: Satellite
     link_param:
@@ -245,6 +254,7 @@ network_nodes:
       theta: 0
       type: GeneralWirelessLinkIntf
     name: acce1
+    max_links: 10
     routing_area: 1
     topology_model: cone1
     topology_param:
@@ -261,6 +271,7 @@ network_nodes:
       theta: 0
       type: GeneralWirelessLinkIntf
     name: manet1
+    max_links: 10
     routing_area: 1
     topology_model: manet1
     topology_param:
@@ -276,7 +287,7 @@ network_nodes:
   type: Container
   visual_options:
     model_id: 4
-    node_type: 3
+    node_type: 2
 fading_models:
 - name: fading_model1
   a_sigma: 1.01
@@ -295,7 +306,7 @@ topology_models:
     max_distance: 3e+06
 - name: manet1
   param:
-    max_distance: 1e+10
+    max_distance: 1e+06
     type: ManetTopo
 - name: walkerinter
   param:
@@ -313,4 +324,4 @@ routing_areas:
     subnet_mask: 112
 constellations:
 extra:
-  start_timestamp: 2023-10-01T00:00:00Z
+  start_timestamp: 2023-10-01T12:00:00Z

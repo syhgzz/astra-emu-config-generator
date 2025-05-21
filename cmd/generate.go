@@ -154,19 +154,19 @@ var kubenetCmd = &cobra.Command{
 				)
 			}
 			if enableGroundAccess {
-				for i := 0; i < accessIntfNum; i++ {
-					intfs = append(
-						intfs,
-						kubenet_config.Intf{
-							Name:          "acce" + strconv.Itoa(i+4),
-							TopologyModel: accessTopologymodel,
-							LinkModel:     accessLinkmodel,
-							TopologyParam: coneTopologyParam,
-							LinkParam:     accessIntfLinkParam,
-							RoutingArea:   &routingArea.Id,
-						},
-					)
-				}
+				maxLinks := int32(accessIntfNum)
+				intfs = append(
+					intfs,
+					kubenet_config.Intf{
+						Name:          "acce" + strconv.Itoa(4),
+						TopologyModel: accessTopologymodel,
+						LinkModel:     accessLinkmodel,
+						TopologyParam: coneTopologyParam,
+						LinkParam:     accessIntfLinkParam,
+						RoutingArea:   &routingArea.Id,
+						MaxLinks:      &maxLinks,
+					},
+				)
 			}
 			// intfs = append(
 			// 	intfs,
