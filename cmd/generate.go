@@ -33,6 +33,7 @@ var kubenetCmd = &cobra.Command{
 		accessTopologymodel, _ := cmd.Flags().GetString("accessTopologymodel")
 		phase, _ := cmd.Flags().GetFloat32("phase")
 		offset, _ := cmd.Flags().GetInt32("offset")
+		image, _ := cmd.Flags().GetString("image")
 
 		enableGroundAccess := false
 		if accessIntfNum != 0 && accessLinkmodel != "" &&
@@ -93,8 +94,13 @@ var kubenetCmd = &cobra.Command{
 			GeneralWirelessLinkIntfParam: &generalWirelessLinkIntfParam,
 		}
 
+		applications := []string{}
+		if image != "" {
+			applications = append(applications, image)
+		}
 		containerParam := kubenet_config.ContainerParam{
-			Type: "Container",
+			Type:         "Container",
+			Applications: applications,
 		}
 		networkNodeParam := kubenet_config.NetworkNodeParam{
 			ContainerParam: &containerParam,
@@ -243,6 +249,7 @@ func init() {
 	kubenetCmd.Flags().String("nodeNamePre", "", "the prefix of network node name")
 	kubenetCmd.Flags().StringP("bandwidth", "b", "1Gibps", "linkmodel Bandwidth")
 	kubenetCmd.Flags().StringP("singleHopLatency", "s", "5ms", "linkmodel SingleHopLatency")
+	kubenetCmd.Flags().String("image", "", "application image")
 
 	// params for ground access intfs
 	kubenetCmd.Flags().Int("accessIntfNum", 0, "the number of access intfs")
