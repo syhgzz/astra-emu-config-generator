@@ -8,6 +8,8 @@ link_models:
     packet_size_in_bit: 1024
     redundancy: 1
     type: GeneralWirelessLink
+    model: Satellite
+    calc_penetration: true
 - name: 5G
   param:
     bandwidth: 1e+08
@@ -17,6 +19,8 @@ link_models:
     packet_size_in_bit: 1024
     redundancy: 1
     type: GeneralWirelessLink
+    model: 5G
+    calc_penetration: true
 - name: satlaser
   param:
     type: SatelliteLaserLink
@@ -56,7 +60,7 @@ network_nodes:
     type: Container
   type: Container
   visual_options:
-    model_id: 4
+    model_id: "4"
     node_type: 2
 - intfs:
   - link_model: Satellite
@@ -102,7 +106,7 @@ network_nodes:
     type: Container
   type: Container
   visual_options:
-    model_id: 4
+    model_id: "4"
     node_type: 2
 - intfs:
   - link_model: Satellite
@@ -148,7 +152,7 @@ network_nodes:
     type: Container
   type: Container
   visual_options:
-    model_id: 4
+    model_id: "4"
     node_type: 2
 - intfs:
   - link_model: Satellite
@@ -194,7 +198,7 @@ network_nodes:
     type: Container
   type: Container
   visual_options:
-    model_id: 4
+    model_id: "4"
     node_type: 2
 - intfs:
   - link_model: Satellite
@@ -240,7 +244,7 @@ network_nodes:
     type: Container
   type: Container
   visual_options:
-    model_id: 4
+    model_id: "4"
     node_type: 2
 - intfs:
   - link_model: Satellite
@@ -286,7 +290,7 @@ network_nodes:
     type: Container
   type: Container
   visual_options:
-    model_id: 4
+    model_id: "4"
     node_type: 2
 fading_models:
 - name: fading_model1

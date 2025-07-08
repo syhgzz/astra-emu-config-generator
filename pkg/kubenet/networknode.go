@@ -22,8 +22,8 @@ func NewGroundConeNetworkNode(routingArea kubenet_config.RoutingArea) kubenet_co
 	}
 
 	visualOptions := kubenet_config.VisualOption{
-		ModelId:  5,
-		NodeType: 3,
+		ModelId:  "4",
+		NodeType: 2,
 	}
 
 	intf := NewGroundConeIntf(routingArea)

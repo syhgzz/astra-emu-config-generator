@@ -1,5 +1,5 @@
-git.sjtu.edu.cn/dslab/kubenet-api v1.0.8 h1:jn15Q4CZTCXG2bGtdY/QlI8j4ZPBGHKqWZRAxnkuqkg=
-git.sjtu.edu.cn/dslab/kubenet-api v1.0.8/go.mod h1:bbvQwqtHTAdqTjv4Gj1wlCR3FtA6OEWl8GTiakcUYv0=
+git.sjtu.edu.cn/dslab/kubenet-api v1.0.9 h1:jSHqLkui9v2ULGVqQQdXfyBEOBNc27u1COR1ACfodS0=
+git.sjtu.edu.cn/dslab/kubenet-api v1.0.9/go.mod h1:bbvQwqtHTAdqTjv4Gj1wlCR3FtA6OEWl8GTiakcUYv0=
 github.com/cockroachdb/errors v1.11.3 h1:5bA+k2Y6r+oz/6Z/RFlNeVCesGARKuC6YymtcDrbC/I=
 github.com/cockroachdb/errors v1.11.3/go.mod h1:m4UIW4CDjx+R5cybPsNrRbreomiFqt8o1h1wUVazSd8=
 github.com/cockroachdb/logtags v0.0.0-20230118201751-21c54148d20b h1:r6VH0faHjZeQy818SGhaone5OnYfxFR/+AzdY3sf5aE=

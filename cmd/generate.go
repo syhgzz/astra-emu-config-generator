@@ -34,6 +34,7 @@ var kubenetCmd = &cobra.Command{
 		phase, _ := cmd.Flags().GetFloat32("phase")
 		offset, _ := cmd.Flags().GetInt32("offset")
 		image, _ := cmd.Flags().GetString("image")
+		routingAreaId, _ := cmd.Flags().GetInt32("routingArea")
 
 		enableGroundAccess := false
 		if accessIntfNum != 0 && accessLinkmodel != "" &&
@@ -86,6 +87,7 @@ var kubenetCmd = &cobra.Command{
 		}
 		generalWirelessLinkIntfParam := kubenet_config.GeneralWirelessLinkIntfParam{
 			Type:        "GeneralWirelessLinkIntf",
+			Bandwidth:   1e10,
 			Gain:        20,
 			PowerInDbm:  55,
 			FadingModel: accessFadingmodel,
@@ -94,9 +96,22 @@ var kubenetCmd = &cobra.Command{
 			GeneralWirelessLinkIntfParam: &generalWirelessLinkIntfParam,
 		}
 
-		applications := []string{}
+		ports := []int32{5000, 5001, 5002}
+		applications := []kubenet_config.Application{}
+		applications = append(
+			applications,
+			kubenet_config.Application{
+				Image: "harbor.sail.se.sjtu.edu.cn/utils/test-suite:v0.2",
+				Ports: ports,
+			},
+		)
 		if image != "" {
-			applications = append(applications, image)
+			applications = append(
+				applications,
+				kubenet_config.Application{
+					Image: image,
+				},
+			)
 		}
 		containerParam := kubenet_config.ContainerParam{
 			Type:         "Container",
@@ -106,10 +121,8 @@ var kubenetCmd = &cobra.Command{
 			ContainerParam: &containerParam,
 		}
 
-		routingArea := networkExperiment.RoutingAreas[0]
-
 		visualOptions := kubenet_config.VisualOption{
-			ModelId:  1,
+			ModelId:  "1",
 			NodeType: 1,
 		}
 
@@ -155,7 +168,7 @@ var kubenetCmd = &cobra.Command{
 						LinkModel:     "satlaser",
 						TopologyParam: interSatTopologyParam,
 						LinkParam:     interSatlinkParam,
-						RoutingArea:   &routingArea.Id,
+						RoutingArea:   &routingAreaId,
 					},
 				)
 			}
@@ -169,7 +182,7 @@ var kubenetCmd = &cobra.Command{
 						LinkModel:     accessLinkmodel,
 						TopologyParam: coneTopologyParam,
 						LinkParam:     accessIntfLinkParam,
-						RoutingArea:   &routingArea.Id,
+						RoutingArea:   &routingAreaId,
 						MaxLinks:      &maxLinks,
 					},
 				)
@@ -250,6 +263,7 @@ func init() {
 	kubenetCmd.Flags().StringP("bandwidth", "b", "1Gibps", "linkmodel Bandwidth")
 	kubenetCmd.Flags().StringP("singleHopLatency", "s", "5ms", "linkmodel SingleHopLatency")
 	kubenetCmd.Flags().String("image", "", "application image")
+	kubenetCmd.Flags().Int32P("routingArea", "r", 1, "routing area Id")
 
 	// params for ground access intfs
 	kubenetCmd.Flags().Int("accessIntfNum", 0, "the number of access intfs")

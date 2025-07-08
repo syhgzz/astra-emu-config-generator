@@ -1,8 +1,3 @@
-NN ?= kubenet/example
-DATA ?= ./test.yaml
-SERVER ?= http://localhost:9090
-# SERVER ?= http://10.0.0.31:31002
-
 TARGETS = \
     windows/amd64 \
     linux/amd64 \
@@ -23,27 +18,60 @@ $(TARGETS):
 clean:
 	rm -rf $(OUTPUT_DIR)
 
-.PHONY: exp-apply exp-delete exp-start exp-stop make-config
+TESTS ?= tests/two_shell_bgp_tests
+TEMPLATE ?= template/bgp_template.yaml
+# TESTS ?= tests/two_shell_ospf_tests
+# TEMPLATE ?= template/ospf_template.yaml
 
-exp-apply:
-	curl -X POST -H "Content-Type: application/x-yaml" \
-		--data-binary @${DATA} \
-		"$(SERVER)/control/network_experiment/apply?nn=${NN}"
+.PHONY: s1-tle s2-tle s3-tle s1 s2 s3 ground1 ground2 ground3 two-shell multi-shell
 
-exp-delete:
-	curl -X POST "$(SERVER)/control/network_experiment/delete?nn=${NN}"
+s1-tle:
+	go run ./main.go tle -N 60 -P 10 -E 10 -I 85 -H 1175 -F 0 -D 100 -o ${TESTS}/s1.tle -n S1
 
-exp-start:
-	curl -X POST "$(SERVER)/control/scene/start?nn=${NN}"
+s2-tle:
+	go run ./main.go tle -N 108 -P 9 -E 9 -I 55 -H 1150 -F 0 -D 100 -o ${TESTS}/s2.tle -n S2
 
-exp-stop:
-	curl -X POST "$(SERVER)/control/scene/stop?nn=${NN}"
+s3-tle:
+	go run ./main.go tle -N 648 -P 36 -E 36 -I 89 -H 1100 -F 0 -D 100 -o ${TESTS}/s3.tle -n S3
 
-make-config:
-	go run ./main.go tle -N 6000 -P 100 -I 86 -H 500 -F 0 -E 1 -D 100 -o parts/s1.tle -n S1
-	go run ./main.go generate -N 6000 -P 100 -E 1 --accessIntfNum 1 --accessFadingmodel fading_model1 --accessLinkmodel Satellite --accessTopologymodel cone1 --offset 0 -F 0 -i parts/s1.tle -o parts/s1.yaml -n S1
-	go run ./main.go tle -N 5400 -P 100 -I 70 -H 600 -F 0.3 -E 2 -D 100 -o parts/s2.tle -n S2
-	go run ./main.go generate -N 5400 -P 100 -E 2 --accessIntfNum 1 --accessFadingmodel fading_model1 --accessLinkmodel Satellite --accessTopologymodel cone1 --offset -1 -F 0.3 -i parts/s2.tle -o parts/s2.yaml -n S2
-	go run ./main.go tle -N 14400 -P 200 -I 88 -H 1000 -F 0 -E 9 -D 100 -o parts/s3.tle -n S3
-	go run ./main.go generate -N 14400 -P 200 -E 9 --accessIntfNum 1 --accessFadingmodel fading_model1 --accessLinkmodel Satellite --accessTopologymodel cone1 --offset 0 -F 0 -i parts/s3.tle -o parts/s3.yaml -n S3
-	go run ./main.go merge -i ./parts -o test.yaml
+s1: s1-tle
+	go run ./main.go generate -N 60 -P 10 -E 10 \
+	--accessIntfNum 16 --accessFadingmodel fading_model1 --accessLinkmodel Satellite --accessTopologymodel cone1 \
+	--offset 0 -F 0 -i ${TESTS}/s1.tle -o ${TESTS}/s1.yaml -t ${TEMPLATE} -r 1 -n S1
+
+s2: s2-tle
+	go run ./main.go generate -N 108 -P 9 -E 9 \
+	--accessIntfNum 16 --accessFadingmodel fading_model1 --accessLinkmodel Satellite --accessTopologymodel cone2 \
+	--offset 0 -F 0 -i ${TESTS}/s2.tle -o ${TESTS}/s2.yaml -t ${TEMPLATE} -r 2 -n S2
+
+s3: s3-tle
+	go run ./main.go generate -N 648 -P 36 -E 36 \
+	--accessIntfNum 16 --accessFadingmodel fading_model1 --accessLinkmodel Satellite --accessTopologymodel cone3 \
+	--offset 0 -F 0 -i ${TESTS}/s3.tle -o ${TESTS}/s3.yaml -t ${TEMPLATE} -r 3 -n S3
+
+ground1:
+	go run ./main.go ground -N 20 --longitude 113.2 --latitude 19.7 \
+	--accessFadingmodel fading_model1 --accessLinkmodel Satellite --accessTopologymodel cone1 \
+	-o ${TESTS}/ground1.yaml -t ${TEMPLATE} -r 1 -n Ground1
+
+ground2:
+	go run ./main.go ground -N 40 --longitude 113.2 --latitude 15.7 \
+	--accessFadingmodel fading_model1 --accessLinkmodel Satellite --accessTopologymodel cone2 \
+	-o ${TESTS}/ground2.yaml -t ${TEMPLATE} -r 2 -n Ground2
+	
+ground3:
+	go run ./main.go ground -N 140 --longitude 113.2 --latitude 11.7 \
+	--accessFadingmodel fading_model1 --accessLinkmodel Satellite --accessTopologymodel cone3 \
+	-o ${TESTS}/ground3.yaml -t ${TEMPLATE} -r 3 -n Ground3
+
+two-shell: s1 s2 ground1 ground2
+	go run ./main.go merge -i ./${TESTS} -o test.yaml
+
+two-shell-ng: s1 s2
+	go run ./main.go merge -i ./${TESTS} -o test.yaml
+
+multi-shell: s1 s2 s3 ground1 ground2 ground3
+	go run ./main.go merge -i ./${TESTS} -o test.yaml
+
+multi-shell-ng: s1 s2 s3
+	go run ./main.go merge -i ./${TESTS} -o test.yaml
