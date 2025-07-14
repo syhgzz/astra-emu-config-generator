@@ -20,7 +20,20 @@ clean:
 
 TESTS ?= tests/two_shell_bgp_tests
 TEMPLATE ?= template/bgp_template.yaml
+
 # TESTS ?= tests/two_shell_ospf_tests
+# TEMPLATE ?= template/ospf_template.yaml
+
+# TESTS ?= tests/two_shell_ng_bgp_tests
+# TEMPLATE ?= template/bgp_template.yaml
+
+# TESTS ?= tests/two_shell_ng_ospf_tests
+# TEMPLATE ?= template/ospf_template.yaml
+
+# TESTS ?= tests/multi_shell_bgp_tests
+# TEMPLATE ?= template/bgp_template.yaml
+
+# TESTS ?= tests/multi_shell_ospf_tests
 # TEMPLATE ?= template/ospf_template.yaml
 
 .PHONY: s1-tle s2-tle s3-tle s1 s2 s3 ground1 ground2 ground3 two-shell multi-shell
