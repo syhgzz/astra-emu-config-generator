@@ -1,0 +1,312 @@
+link_models:
+- name: Satellite
+  param:
+    bandwidth: 72e6
+    bit_rate: 10e6
+    frequency: 20e9
+    mode: "BPSK"
+    packet_size_in_bit: 1024
+    redundancy: 1
+    type: GeneralWirelessLink
+    model: Satellite
+    calc_penetration: true
+- name: 5G
+  param:
+    bandwidth: 1e+08
+    bit_rate: 1e+09
+    frequency: 28e+09
+    mode: QPSK
+    packet_size_in_bit: 1024
+    redundancy: 1
+    type: GeneralWirelessLink
+    model: 5G
+    calc_penetration: true
+- name: satlaser
+  param:
+    type: SatelliteLaserLink
+    bandwidth: 1Gbps
+    single_hop_latency: 5ms
+network_nodes:
+- intfs:
+  - link_model: Satellite
+    link_param:
+      bandwidth: 1e+10
+      fading_model: fading_model1
+      gain: 2
+      hb: 0
+      phi: 0
+      power_in_dbm: 33
+      theta: 0
+      type: GeneralWirelessLinkIntf
+    name: acce1
+    routing_area: 1
+    topology_model: cone1
+    topology_param:
+      role: 0
+      type: SatelliteConeTopoIntf
+      max_links: 1
+  - link_model: 5G
+    link_param:
+      bandwidth: 1e+10
+      fading_model: fading_model1
+      gain: 2
+      hb: 0
+      phi: 0
+      power_in_dbm: 33
+      theta: 0
+      type: GeneralWirelessLinkIntf
+    name: intf2
+    routing_area: 4
+    topology_model: fixed1
+    topology_param:
+      type: FixedTopoIntf
+      peer_intf: station2/intf1
+  - link_model: 5G
+    link_param:
+      bandwidth: 1e+10
+      fading_model: fading_model1
+      gain: 2
+      hb: 0
+      phi: 0
+      power_in_dbm: 33
+      theta: 0
+      type: GeneralWirelessLinkIntf
+    name: intf3
+    routing_area: 5
+    topology_model: fixed1
+    topology_param:
+      type: FixedTopoIntf
+      peer_intf: station3/intf1
+  mobility_model:
+    altitude: 100
+    latitude: 39.89624971
+    longitude: 116.36574769
+    type: Static
+  name: station1
+  param:
+    type: Container
+  type: Container
+  visual_options:
+    model_id: "4"
+    node_type: 2
+- intfs:
+  - link_model: Satellite
+    link_param:
+      bandwidth: 1e+10
+      fading_model: fading_model1
+      gain: 2
+      hb: 0
+      phi: 0
+      power_in_dbm: 33
+      theta: 0
+      type: GeneralWirelessLinkIntf
+    name: acce1
+    routing_area: 2
+    topology_model: cone2
+    topology_param:
+      role: 0
+      type: SatelliteConeTopoIntf
+      max_links: 1
+  - link_model: 5G
+    link_param:
+      bandwidth: 1e+10
+      fading_model: fading_model1
+      gain: 2
+      hb: 0
+      phi: 0
+      power_in_dbm: 33
+      theta: 0
+      type: GeneralWirelessLinkIntf
+    name: intf1
+    routing_area: 4
+    topology_model: fixed1
+    topology_param:
+      type: FixedTopoIntf
+      peer_intf: station1/intf2
+  - link_model: 5G
+    link_param:
+      bandwidth: 1e+10
+      fading_model: fading_model1
+      gain: 2
+      hb: 0
+      phi: 0
+      power_in_dbm: 33
+      theta: 0
+      type: GeneralWirelessLinkIntf
+    name: intf3
+    routing_area: 6
+    topology_model: fixed1
+    topology_param:
+      type: FixedTopoIntf
+      peer_intf: station3/intf2  
+  mobility_model:
+    altitude: 100
+    latitude: 39.89624971
+    longitude: 116.1359442
+    type: Static
+  name: station2
+  param:
+    type: Container
+  type: Container
+  visual_options:
+    model_id: "4"
+    node_type: 2
+- intfs:
+  - link_model: Satellite
+    link_param:
+      bandwidth: 1e+10
+      fading_model: fading_model1
+      gain: 2
+      hb: 0
+      phi: 0
+      power_in_dbm: 33
+      theta: 0
+      type: GeneralWirelessLinkIntf
+    name: acce1
+    routing_area: 3
+    topology_model: cone3
+    topology_param:
+      role: 0
+      type: SatelliteConeTopoIntf
+      max_links: 1
+  - link_model: 5G
+    link_param:
+      bandwidth: 1e+10
+      fading_model: fading_model1
+      gain: 2
+      hb: 0
+      phi: 0
+      power_in_dbm: 33
+      theta: 0
+      type: GeneralWirelessLinkIntf
+    name: intf1
+    routing_area: 5
+    topology_model: fixed1
+    topology_param:
+      type: FixedTopoIntf
+      peer_intf: station1/intf3
+  - link_model: 5G
+    link_param:
+      bandwidth: 1e+10
+      fading_model: fading_model1
+      gain: 2
+      hb: 0
+      phi: 0
+      power_in_dbm: 33
+      theta: 0
+      type: GeneralWirelessLinkIntf
+    name: intf2
+    routing_area: 6
+    topology_model: fixed1
+    topology_param:
+      type: FixedTopoIntf
+      peer_intf: station2/intf3
+  mobility_model:
+    altitude: 100
+    latitude: 39.71971651
+    longitude: 116.48064988
+    type: Static
+  name: station3
+  param:
+    type: Container
+  type: Container
+  visual_options:
+    model_id: "4"
+    node_type: 2
+fading_models:
+- name: fading_model1
+  a_sigma: 1.01
+  b_sigma: 0.0039
+  k_factor: 1
+  "n": 4.2
+  num_of_m: 0
+  relative_delays: null
+  sigma: 30
+  tau: 1.2
+topology_models:
+- name: cone1
+  param:
+    type: SatelliteConeTopo
+    angle: 150
+    max_distance: 3e+06
+- name: cone2
+  param:
+    type: SatelliteConeTopo
+    angle: 150
+    max_distance: 3e+06
+- name: cone3
+  param:
+    type: SatelliteConeTopo
+    angle: 150
+    max_distance: 3e+06
+- name: fixed1
+  param:
+    type: FixedTopo
+- name: walkerinter
+  param:
+    type: WalkerInterSatTopo  
+    default_angle: 10
+routing_areas:
+- id: 1
+  param:
+    area: 0.0.0.1
+    protocol: OSPFV3
+    subnet_mask: 112
+    supernet: FD00:aaaa:aaaa::1
+    supernet_mask: 96
+  protocol: OSPFV3
+  redistribute:
+  - 4
+  - 5
+- id: 2
+  param:
+    area: 0.0.0.2
+    protocol: OSPFV3
+    subnet_mask: 112
+    supernet: FD00:aaaa:bbbb::2
+    supernet_mask: 96
+  protocol: OSPFV3
+  redistribute:
+  - 4
+  - 6
+- id: 3
+  param:
+    area: 0.0.0.3
+    protocol: OSPFV3
+    subnet_mask: 112
+    supernet: FD00:aaaa:cccc::3
+    supernet_mask: 96
+  protocol: OSPFV3
+  redistribute:
+  - 5
+  - 6
+- id: 4
+  param:
+    protocol: BGP
+    mask: 112
+    subnet: FD00:bbbb:aaaa::4
+  protocol: BGP
+  redistribute:
+  - 1
+  - 2
+- id: 5
+  param:
+    protocol: BGP
+    mask: 112
+    subnet: FD00:bbbb:bbbb::5
+  protocol: BGP
+  redistribute:
+  - 1
+  - 3
+- id: 6
+  param:
+    protocol: BGP
+    mask: 112
+    subnet: FD00:bbbb:cccc::6
+  protocol: BGP
+  redistribute:
+  - 2
+  - 3
+constellations:
+extra:
+  start_timestamp: 2023-10-01T12:00:00Z
