@@ -79,8 +79,9 @@ var kubenetCmd = &cobra.Command{
 
 		// 地面接入链路
 		coneTopoIntfParam := kubenet_config.SatelliteConeTopoIntfParam{
-			Type: "SatelliteConeTopoIntf",
-			Role: 1,
+			Type:     "SatelliteConeTopoIntf",
+			Role:     1,
+			MaxLinks: int32(accessIntfNum),
 		}
 		coneTopologyParam := kubenet_config.IntfTopologyParam{
 			SatelliteConeTopoIntfParam: &coneTopoIntfParam,
@@ -97,25 +98,25 @@ var kubenetCmd = &cobra.Command{
 		}
 
 		ports := []int32{5000, 5001, 5002}
-		applications := []kubenet_config.Application{}
-		applications = append(
-			applications,
-			kubenet_config.Application{
+		computationUnits := []kubenet_config.ComputationUnit{}
+		computationUnits = append(
+			computationUnits,
+			kubenet_config.ComputationUnit{
 				Image: "harbor.sail.se.sjtu.edu.cn/utils/test-suite:v0.2",
 				Ports: ports,
 			},
 		)
 		if image != "" {
-			applications = append(
-				applications,
-				kubenet_config.Application{
+			computationUnits = append(
+				computationUnits,
+				kubenet_config.ComputationUnit{
 					Image: image,
 				},
 			)
 		}
 		containerParam := kubenet_config.ContainerParam{
-			Type:         "Container",
-			Applications: applications,
+			Type:             "Container",
+			ComputationUnits: computationUnits,
 		}
 		networkNodeParam := kubenet_config.NetworkNodeParam{
 			ContainerParam: &containerParam,
@@ -173,7 +174,7 @@ var kubenetCmd = &cobra.Command{
 				)
 			}
 			if enableGroundAccess {
-				maxLinks := int32(accessIntfNum)
+
 				intfs = append(
 					intfs,
 					kubenet_config.Intf{
@@ -183,7 +184,6 @@ var kubenetCmd = &cobra.Command{
 						TopologyParam: coneTopologyParam,
 						LinkParam:     accessIntfLinkParam,
 						RoutingArea:   &routingAreaId,
-						MaxLinks:      &maxLinks,
 					},
 				)
 			}
@@ -207,15 +207,18 @@ var kubenetCmd = &cobra.Command{
 				},
 			)
 		}
-		walkerDeltaParam := kubenet_config.WalkerDeltaParam{
+		walkerDeltaSphere := kubenet_config.WalkerDeltaSphere{
 			Type:   "WalkerDelta",
 			Planes: planes,
+			Offset: offset,
+			Phase:  phase,
+			IsFull: isFull,
 		}
 		spheres := []kubenet_config.ConstellationSpheresInner{}
 		spheres = append(
 			spheres,
 			kubenet_config.ConstellationSpheresInner{
-				WalkerDeltaParam: &walkerDeltaParam,
+				WalkerDeltaSphere: &walkerDeltaSphere,
 			},
 		)
 		constellations = append(
@@ -223,9 +226,6 @@ var kubenetCmd = &cobra.Command{
 			kubenet_config.Constellation{
 				Name:    name,
 				Spheres: spheres,
-				Offset:  offset,
-				Phase:   phase,
-				IsFull:  isFull,
 			},
 		)
 
