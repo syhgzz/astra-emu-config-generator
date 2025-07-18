@@ -72,7 +72,7 @@ network_nodes:
       theta: 0
       type: GeneralWirelessLinkIntf
     name: intf3
-    routing_area: 5
+    routing_area: 4
     topology_model: fixed1
     topology_param:
       type: FixedTopoIntf
@@ -134,7 +134,7 @@ network_nodes:
       theta: 0
       type: GeneralWirelessLinkIntf
     name: intf3
-    routing_area: 6
+    routing_area: 4
     topology_model: fixed1
     topology_param:
       type: FixedTopoIntf
@@ -180,7 +180,7 @@ network_nodes:
       theta: 0
       type: GeneralWirelessLinkIntf
     name: intf1
-    routing_area: 5
+    routing_area: 4
     topology_model: fixed1
     topology_param:
       type: FixedTopoIntf
@@ -196,7 +196,7 @@ network_nodes:
       theta: 0
       type: GeneralWirelessLinkIntf
     name: intf2
-    routing_area: 6
+    routing_area: 4
     topology_model: fixed1
     topology_param:
       type: FixedTopoIntf
@@ -257,54 +257,34 @@ routing_areas:
   protocol: OSPFV3
   redistribute:
   - 4
-  - 5
 - id: 2
   param:
     area: 0.0.0.2
     protocol: OSPFV3
     subnet_mask: 112
-    supernet: FD00:aaaa:bbbb::2
+    supernet: FD00:aaaa:bbbb::1
     supernet_mask: 96
   protocol: OSPFV3
   redistribute:
   - 4
-  - 6
 - id: 3
   param:
     area: 0.0.0.3
     protocol: OSPFV3
     subnet_mask: 112
-    supernet: FD00:aaaa:cccc::3
+    supernet: FD00:aaaa:cccc::1
     supernet_mask: 96
   protocol: OSPFV3
   redistribute:
-  - 5
-  - 6
+  - 4
 - id: 4
   param:
+    mask: 96
     protocol: BGP
-    mask: 112
-    subnet: FD00:bbbb:aaaa::4
+    subnet: FD00:bbbb:aaaa::1
   protocol: BGP
   redistribute:
   - 1
-  - 2
-- id: 5
-  param:
-    protocol: BGP
-    mask: 112
-    subnet: FD00:bbbb:bbbb::5
-  protocol: BGP
-  redistribute:
-  - 1
-  - 3
-- id: 6
-  param:
-    protocol: BGP
-    mask: 112
-    subnet: FD00:bbbb:cccc::6
-  protocol: BGP
-  redistribute:
   - 2
   - 3
 constellations:
