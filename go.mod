@@ -6,7 +6,7 @@ require github.com/spf13/cobra v1.9.1
 
 require dslab.sjtu/kubenet/api v0.0.0
 
-replace dslab.sjtu/kubenet/api v0.0.0 => git.sail.se.sjtu.edu.cn/dslab/kubenet-api v1.0.13
+replace dslab.sjtu/kubenet/api v0.0.0 => git.sail.se.sjtu.edu.cn/dslab/kubenet-api v1.0.15
 
 require (
 	github.com/cockroachdb/logtags v0.0.0-20230118201751-21c54148d20b // indirect
@@ -18,8 +18,8 @@ require (
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/rogpeppe/go-internal v1.9.0 // indirect
 	github.com/stretchr/testify v1.9.0 // indirect
-	golang.org/x/sys v0.20.0 // indirect
-	golang.org/x/text v0.15.0 // indirect
+	golang.org/x/sys v0.33.0 // indirect
+	golang.org/x/text v0.25.0 // indirect
 )
 
 require (

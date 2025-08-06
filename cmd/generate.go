@@ -63,11 +63,36 @@ var kubenetCmd = &cobra.Command{
 		}
 
 		// 星间链路
-		walkerInterSatTopoIntfParam := kubenet_config.WalkerInterSatTopoIntfParam{
+		walkerInterSatTopoIntfParam0 := kubenet_config.WalkerInterSatTopoIntfParam{
 			Type: "WalkerInterSatTopoIntf",
+			Axis: "X",
 		}
-		interSatTopologyParam := kubenet_config.IntfTopologyParam{
-			WalkerInterSatTopoIntfParam: &walkerInterSatTopoIntfParam,
+		interSatTopologyParam0 := kubenet_config.IntfTopologyParam{
+			WalkerInterSatTopoIntfParam: &walkerInterSatTopoIntfParam0,
+		}
+
+		walkerInterSatTopoIntfParam1 := kubenet_config.WalkerInterSatTopoIntfParam{
+			Type: "WalkerInterSatTopoIntf",
+			Axis: "XX",
+		}
+		interSatTopologyParam1 := kubenet_config.IntfTopologyParam{
+			WalkerInterSatTopoIntfParam: &walkerInterSatTopoIntfParam1,
+		}
+
+		walkerInterSatTopoIntfParam2 := kubenet_config.WalkerInterSatTopoIntfParam{
+			Type: "WalkerInterSatTopoIntf",
+			Axis: "Y",
+		}
+		interSatTopologyParam2 := kubenet_config.IntfTopologyParam{
+			WalkerInterSatTopoIntfParam: &walkerInterSatTopoIntfParam2,
+		}
+
+		walkerInterSatTopoIntfParam3 := kubenet_config.WalkerInterSatTopoIntfParam{
+			Type: "WalkerInterSatTopoIntf",
+			Axis: "YY",
+		}
+		interSatTopologyParam3 := kubenet_config.IntfTopologyParam{
+			WalkerInterSatTopoIntfParam: &walkerInterSatTopoIntfParam3,
 		}
 
 		satelliteLaserLinkIntfParam := kubenet_config.SatelliteLaserLinkIntfParam{
@@ -160,19 +185,58 @@ var kubenetCmd = &cobra.Command{
 				TleLine2: phyConstellation[idx].Satellite.Line2,
 			}
 			intfs := []kubenet_config.Intf{}
-			for i := 0; i < 4; i++ {
-				intfs = append(
-					intfs,
-					kubenet_config.Intf{
-						Name:          "intf" + strconv.Itoa(i),
-						TopologyModel: "walkerinter",
-						LinkModel:     "satlaser",
-						TopologyParam: interSatTopologyParam,
-						LinkParam:     interSatlinkParam,
-						RoutingArea:   &routingAreaId,
-					},
-				)
+			intf0 := kubenet_config.Intf{
+				Name:          "intf0",
+				TopologyModel: "walkerinter",
+				LinkModel:     "satlaser",
+				TopologyParam: interSatTopologyParam0,
+				LinkParam:     interSatlinkParam,
+				RoutingArea:   &routingAreaId,
 			}
+			intfs = append(
+				intfs,
+				intf0,
+			)
+
+			intf1 := kubenet_config.Intf{
+				Name:          "intf1",
+				TopologyModel: "walkerinter",
+				LinkModel:     "satlaser",
+				TopologyParam: interSatTopologyParam1,
+				LinkParam:     interSatlinkParam,
+				RoutingArea:   &routingAreaId,
+			}
+			intfs = append(
+				intfs,
+				intf1,
+			)
+
+			intf2 := kubenet_config.Intf{
+				Name:          "intf2",
+				TopologyModel: "walkerinter",
+				LinkModel:     "satlaser",
+				TopologyParam: interSatTopologyParam2,
+				LinkParam:     interSatlinkParam,
+				RoutingArea:   &routingAreaId,
+			}
+			intfs = append(
+				intfs,
+				intf2,
+			)
+
+			intf3 := kubenet_config.Intf{
+				Name:          "intf3",
+				TopologyModel: "walkerinter",
+				LinkModel:     "satlaser",
+				TopologyParam: interSatTopologyParam3,
+				LinkParam:     interSatlinkParam,
+				RoutingArea:   &routingAreaId,
+			}
+			intfs = append(
+				intfs,
+				intf3,
+			)
+
 			if enableGroundAccess {
 
 				intfs = append(
