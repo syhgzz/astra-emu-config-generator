@@ -1,0 +1,1030 @@
+extra:
+  start_timestamp: "2023-10-01T12:00:00Z"
+fading_models:
+- a_sigma: 1.01
+  b_sigma: 0.0039
+  k_factor: 1
+  "n": 4.2
+  name: fading_model1
+  num_of_m: 0
+  relative_delays: null
+  sigma: 30
+  tau: 1.2
+link_models:
+- name: Satellite
+  param:
+    bandwidth: 7.2e+07
+    bit_rate: 1e+07
+    calc_penetration: true
+    frequency: 2e+10
+    mode: BPSK
+    model: Satellite
+    packet_size_in_bit: 1024
+    redundancy: 1
+    type: GeneralWirelessLink
+- name: 5G
+  param:
+    bandwidth: 1e+08
+    bit_rate: 1e+09
+    calc_penetration: true
+    frequency: 2.8e+10
+    mode: QPSK
+    model: 5G
+    packet_size_in_bit: 1024
+    redundancy: 1
+    type: GeneralWirelessLink
+- name: satlaser
+  param:
+    bandwidth: 1Gbps
+    single_hop_latency: 5ms
+    type: SatelliteLaserLink
+network_nodes:
+- intfs:
+  - link_model: Satellite
+    link_param:
+      bandwidth: 1e+10
+      fading_model: fading_model1
+      gain: 2
+      hb: 0
+      phi: 0
+      power_in_dbm: 33
+      theta: 0
+      type: GeneralWirelessLinkIntf
+    name: acce1
+    routing_area: 1
+    topology_model: cone1
+    topology_param:
+      max_links: 1
+      role: 0
+      type: SatelliteConeTopoIntf
+  - link_model: 5G
+    link_param:
+      bandwidth: 1e+10
+      fading_model: fading_model1
+      gain: 2
+      hb: 0
+      phi: 0
+      power_in_dbm: 33
+      theta: 0
+      type: GeneralWirelessLinkIntf
+    name: intf2
+    routing_area: 4
+    topology_model: fixed1
+    topology_param:
+      peer_intf: station2/intf1
+      type: FixedTopoIntf
+  - link_model: 5G
+    link_param:
+      bandwidth: 1e+10
+      fading_model: fading_model1
+      gain: 2
+      hb: 0
+      phi: 0
+      power_in_dbm: 33
+      theta: 0
+      type: GeneralWirelessLinkIntf
+    name: intf3
+    routing_area: 5
+    topology_model: fixed1
+    topology_param:
+      peer_intf: station3/intf1
+      type: FixedTopoIntf
+  mobility_model:
+    altitude: 100
+    latitude: 39.89624971
+    longitude: 116.36574769
+    type: Static
+  name: station1
+  param:
+    type: Container
+  type: Container
+  visual_options:
+    model_id: "4"
+    node_type: 2
+- intfs:
+  - link_model: Satellite
+    link_param:
+      bandwidth: 1e+10
+      fading_model: fading_model1
+      gain: 2
+      hb: 0
+      phi: 0
+      power_in_dbm: 33
+      theta: 0
+      type: GeneralWirelessLinkIntf
+    name: acce1
+    routing_area: 2
+    topology_model: cone2
+    topology_param:
+      max_links: 1
+      role: 0
+      type: SatelliteConeTopoIntf
+  - link_model: 5G
+    link_param:
+      bandwidth: 1e+10
+      fading_model: fading_model1
+      gain: 2
+      hb: 0
+      phi: 0
+      power_in_dbm: 33
+      theta: 0
+      type: GeneralWirelessLinkIntf
+    name: intf1
+    routing_area: 4
+    topology_model: fixed1
+    topology_param:
+      peer_intf: station1/intf2
+      type: FixedTopoIntf
+  - link_model: 5G
+    link_param:
+      bandwidth: 1e+10
+      fading_model: fading_model1
+      gain: 2
+      hb: 0
+      phi: 0
+      power_in_dbm: 33
+      theta: 0
+      type: GeneralWirelessLinkIntf
+    name: intf3
+    routing_area: 6
+    topology_model: fixed1
+    topology_param:
+      peer_intf: station3/intf2
+      type: FixedTopoIntf
+  mobility_model:
+    altitude: 100
+    latitude: 39.89624971
+    longitude: 116.1359442
+    type: Static
+  name: station2
+  param:
+    type: Container
+  type: Container
+  visual_options:
+    model_id: "4"
+    node_type: 2
+- intfs:
+  - link_model: Satellite
+    link_param:
+      bandwidth: 1e+10
+      fading_model: fading_model1
+      gain: 2
+      hb: 0
+      phi: 0
+      power_in_dbm: 33
+      theta: 0
+      type: GeneralWirelessLinkIntf
+    name: acce1
+    routing_area: 3
+    topology_model: cone3
+    topology_param:
+      max_links: 1
+      role: 0
+      type: SatelliteConeTopoIntf
+  - link_model: 5G
+    link_param:
+      bandwidth: 1e+10
+      fading_model: fading_model1
+      gain: 2
+      hb: 0
+      phi: 0
+      power_in_dbm: 33
+      theta: 0
+      type: GeneralWirelessLinkIntf
+    name: intf1
+    routing_area: 5
+    topology_model: fixed1
+    topology_param:
+      peer_intf: station1/intf3
+      type: FixedTopoIntf
+  - link_model: 5G
+    link_param:
+      bandwidth: 1e+10
+      fading_model: fading_model1
+      gain: 2
+      hb: 0
+      phi: 0
+      power_in_dbm: 33
+      theta: 0
+      type: GeneralWirelessLinkIntf
+    name: intf2
+    routing_area: 6
+    topology_model: fixed1
+    topology_param:
+      peer_intf: station2/intf3
+      type: FixedTopoIntf
+  mobility_model:
+    altitude: 100
+    latitude: 39.71971651
+    longitude: 116.48064988
+    type: Static
+  name: station3
+  param:
+    type: Container
+  type: Container
+  visual_options:
+    model_id: "4"
+    node_type: 2
+- intfs:
+  - link_model: Satellite
+    link_param:
+      bandwidth: 1e+10
+      fading_model: fading_model1
+      gain: 20
+      hb: 0
+      phi: 0
+      power_in_dbm: 55
+      theta: 0
+      type: GeneralWirelessLinkIntf
+    name: acce1
+    routing_area: 1
+    topology_model: cone1
+    topology_param:
+      max_links: 0
+      role: 0
+      type: SatelliteConeTopoIntf
+  mobility_model:
+    altitude: 50
+    latitude: 20.26179446495165
+    longitude: 101.8377113112035
+    type: Static
+  name: ground10
+  param:
+    computation_units:
+    - image: harbor.sail.se.sjtu.edu.cn/utils/test-suite:v0.2
+      ports:
+      - 5000
+      - 5001
+      - 5002
+    type: Container
+  type: Container
+  visual_options:
+    model_id: "4"
+    node_type: 2
+- intfs:
+  - link_model: Satellite
+    link_param:
+      bandwidth: 1e+10
+      fading_model: fading_model1
+      gain: 20
+      hb: 0
+      phi: 0
+      power_in_dbm: 55
+      theta: 0
+      type: GeneralWirelessLinkIntf
+    name: acce1
+    routing_area: 1
+    topology_model: cone1
+    topology_param:
+      max_links: 0
+      role: 0
+      type: SatelliteConeTopoIntf
+  mobility_model:
+    altitude: 50
+    latitude: 21.045883728302904
+    longitude: 100.33344510103427
+    type: Static
+  name: ground11
+  param:
+    computation_units:
+    - image: harbor.sail.se.sjtu.edu.cn/utils/test-suite:v0.2
+      ports:
+      - 5000
+      - 5001
+      - 5002
+    type: Container
+  type: Container
+  visual_options:
+    model_id: "4"
+    node_type: 2
+- intfs:
+  - link_model: Satellite
+    link_param:
+      bandwidth: 1e+10
+      fading_model: fading_model1
+      gain: 20
+      hb: 0
+      phi: 0
+      power_in_dbm: 55
+      theta: 0
+      type: GeneralWirelessLinkIntf
+    name: acce1
+    routing_area: 1
+    topology_model: cone1
+    topology_param:
+      max_links: 0
+      role: 0
+      type: SatelliteConeTopoIntf
+  mobility_model:
+    altitude: 50
+    latitude: 21.31512488829735
+    longitude: 100.34192682981974
+    type: Static
+  name: ground12
+  param:
+    computation_units:
+    - image: harbor.sail.se.sjtu.edu.cn/utils/test-suite:v0.2
+      ports:
+      - 5000
+      - 5001
+      - 5002
+    type: Container
+  type: Container
+  visual_options:
+    model_id: "4"
+    node_type: 2
+- intfs:
+  - link_model: Satellite
+    link_param:
+      bandwidth: 1e+10
+      fading_model: fading_model1
+      gain: 20
+      hb: 0
+      phi: 0
+      power_in_dbm: 55
+      theta: 0
+      type: GeneralWirelessLinkIntf
+    name: acce1
+    routing_area: 1
+    topology_model: cone1
+    topology_param:
+      max_links: 0
+      role: 0
+      type: SatelliteConeTopoIntf
+  mobility_model:
+    altitude: 50
+    latitude: 21.1021364393172
+    longitude: 101.83697931182012
+    type: Static
+  name: ground13
+  param:
+    computation_units:
+    - image: harbor.sail.se.sjtu.edu.cn/utils/test-suite:v0.2
+      ports:
+      - 5000
+      - 5001
+      - 5002
+    type: Container
+  type: Container
+  visual_options:
+    model_id: "4"
+    node_type: 2
+- intfs:
+  - link_model: Satellite
+    link_param:
+      bandwidth: 1e+10
+      fading_model: fading_model1
+      gain: 20
+      hb: 0
+      phi: 0
+      power_in_dbm: 55
+      theta: 0
+      type: GeneralWirelessLinkIntf
+    name: acce1
+    routing_area: 1
+    topology_model: cone1
+    topology_param:
+      max_links: 0
+      role: 0
+      type: SatelliteConeTopoIntf
+  mobility_model:
+    altitude: 50
+    latitude: 21.44971557543674
+    longitude: 101.7612232593793
+    type: Static
+  name: ground14
+  param:
+    computation_units:
+    - image: harbor.sail.se.sjtu.edu.cn/utils/test-suite:v0.2
+      ports:
+      - 5000
+      - 5001
+      - 5002
+    type: Container
+  type: Container
+  visual_options:
+    model_id: "4"
+    node_type: 2
+- intfs:
+  - link_model: Satellite
+    link_param:
+      bandwidth: 1e+10
+      fading_model: fading_model1
+      gain: 20
+      hb: 0
+      phi: 0
+      power_in_dbm: 55
+      theta: 0
+      type: GeneralWirelessLinkIntf
+    name: acce1
+    routing_area: 1
+    topology_model: cone1
+    topology_param:
+      max_links: 0
+      role: 0
+      type: SatelliteConeTopoIntf
+  mobility_model:
+    altitude: 50
+    latitude: 21.425728762500313
+    longitude: 101.73618351689498
+    type: Static
+  name: ground15
+  param:
+    computation_units:
+    - image: harbor.sail.se.sjtu.edu.cn/utils/test-suite:v0.2
+      ports:
+      - 5000
+      - 5001
+      - 5002
+    type: Container
+  type: Container
+  visual_options:
+    model_id: "4"
+    node_type: 2
+- intfs:
+  - link_model: Satellite
+    link_param:
+      bandwidth: 1e+10
+      fading_model: fading_model1
+      gain: 20
+      hb: 0
+      phi: 0
+      power_in_dbm: 55
+      theta: 0
+      type: GeneralWirelessLinkIntf
+    name: acce1
+    routing_area: 1
+    topology_model: cone1
+    topology_param:
+      max_links: 0
+      role: 0
+      type: SatelliteConeTopoIntf
+  mobility_model:
+    altitude: 50
+    latitude: 20.660852236290225
+    longitude: 100.4247630213511
+    type: Static
+  name: ground16
+  param:
+    computation_units:
+    - image: harbor.sail.se.sjtu.edu.cn/utils/test-suite:v0.2
+      ports:
+      - 5000
+      - 5001
+      - 5002
+    type: Container
+  type: Container
+  visual_options:
+    model_id: "4"
+    node_type: 2
+- intfs:
+  - link_model: Satellite
+    link_param:
+      bandwidth: 1e+10
+      fading_model: fading_model1
+      gain: 20
+      hb: 0
+      phi: 0
+      power_in_dbm: 55
+      theta: 0
+      type: GeneralWirelessLinkIntf
+    name: acce1
+    routing_area: 1
+    topology_model: cone1
+    topology_param:
+      max_links: 0
+      role: 0
+      type: SatelliteConeTopoIntf
+  mobility_model:
+    altitude: 50
+    latitude: 21.376734493611195
+    longitude: 101.0053510300921
+    type: Static
+  name: ground17
+  param:
+    computation_units:
+    - image: harbor.sail.se.sjtu.edu.cn/utils/test-suite:v0.2
+      ports:
+      - 5000
+      - 5001
+      - 5002
+    type: Container
+  type: Container
+  visual_options:
+    model_id: "4"
+    node_type: 2
+- intfs:
+  - link_model: Satellite
+    link_param:
+      bandwidth: 1e+10
+      fading_model: fading_model1
+      gain: 20
+      hb: 0
+      phi: 0
+      power_in_dbm: 55
+      theta: 0
+      type: GeneralWirelessLinkIntf
+    name: acce1
+    routing_area: 1
+    topology_model: cone1
+    topology_param:
+      max_links: 0
+      role: 0
+      type: SatelliteConeTopoIntf
+  mobility_model:
+    altitude: 50
+    latitude: 21.59043175155543
+    longitude: 101.56408559232347
+    type: Static
+  name: ground18
+  param:
+    computation_units:
+    - image: harbor.sail.se.sjtu.edu.cn/utils/test-suite:v0.2
+      ports:
+      - 5000
+      - 5001
+      - 5002
+    type: Container
+  type: Container
+  visual_options:
+    model_id: "4"
+    node_type: 2
+- intfs:
+  - link_model: Satellite
+    link_param:
+      bandwidth: 1e+10
+      fading_model: fading_model1
+      gain: 20
+      hb: 0
+      phi: 0
+      power_in_dbm: 55
+      theta: 0
+      type: GeneralWirelessLinkIntf
+    name: acce1
+    routing_area: 1
+    topology_model: cone1
+    topology_param:
+      max_links: 0
+      role: 0
+      type: SatelliteConeTopoIntf
+  mobility_model:
+    altitude: 50
+    latitude: 20.433302524513792
+    longitude: 102.09667676969556
+    type: Static
+  name: ground19
+  param:
+    computation_units:
+    - image: harbor.sail.se.sjtu.edu.cn/utils/test-suite:v0.2
+      ports:
+      - 5000
+      - 5001
+      - 5002
+    type: Container
+  type: Container
+  visual_options:
+    model_id: "4"
+    node_type: 2
+- intfs:
+  - link_model: Satellite
+    link_param:
+      bandwidth: 1e+10
+      fading_model: fading_model1
+      gain: 20
+      hb: 0
+      phi: 0
+      power_in_dbm: 55
+      theta: 0
+      type: GeneralWirelessLinkIntf
+    name: acce1
+    routing_area: 1
+    topology_model: cone1
+    topology_param:
+      max_links: 0
+      role: 0
+      type: SatelliteConeTopoIntf
+  mobility_model:
+    altitude: 50
+    latitude: 20.148170246602472
+    longitude: 101.71860928445864
+    type: Static
+  name: ground110
+  param:
+    computation_units:
+    - image: harbor.sail.se.sjtu.edu.cn/utils/test-suite:v0.2
+      ports:
+      - 5000
+      - 5001
+      - 5002
+    type: Container
+  type: Container
+  visual_options:
+    model_id: "4"
+    node_type: 2
+- intfs:
+  - link_model: Satellite
+    link_param:
+      bandwidth: 1e+10
+      fading_model: fading_model1
+      gain: 20
+      hb: 0
+      phi: 0
+      power_in_dbm: 55
+      theta: 0
+      type: GeneralWirelessLinkIntf
+    name: acce1
+    routing_area: 1
+    topology_model: cone1
+    topology_param:
+      max_links: 0
+      role: 0
+      type: SatelliteConeTopoIntf
+  mobility_model:
+    altitude: 50
+    latitude: 21.56383422968511
+    longitude: 100.77896902744051
+    type: Static
+  name: ground111
+  param:
+    computation_units:
+    - image: harbor.sail.se.sjtu.edu.cn/utils/test-suite:v0.2
+      ports:
+      - 5000
+      - 5001
+      - 5002
+    type: Container
+  type: Container
+  visual_options:
+    model_id: "4"
+    node_type: 2
+- intfs:
+  - link_model: Satellite
+    link_param:
+      bandwidth: 1e+10
+      fading_model: fading_model1
+      gain: 20
+      hb: 0
+      phi: 0
+      power_in_dbm: 55
+      theta: 0
+      type: GeneralWirelessLinkIntf
+    name: acce1
+    routing_area: 1
+    topology_model: cone1
+    topology_param:
+      max_links: 0
+      role: 0
+      type: SatelliteConeTopoIntf
+  mobility_model:
+    altitude: 50
+    latitude: 20.074757459580667
+    longitude: 101.66160961697886
+    type: Static
+  name: ground112
+  param:
+    computation_units:
+    - image: harbor.sail.se.sjtu.edu.cn/utils/test-suite:v0.2
+      ports:
+      - 5000
+      - 5001
+      - 5002
+    type: Container
+  type: Container
+  visual_options:
+    model_id: "4"
+    node_type: 2
+- intfs:
+  - link_model: Satellite
+    link_param:
+      bandwidth: 1e+10
+      fading_model: fading_model1
+      gain: 20
+      hb: 0
+      phi: 0
+      power_in_dbm: 55
+      theta: 0
+      type: GeneralWirelessLinkIntf
+    name: acce1
+    routing_area: 1
+    topology_model: cone1
+    topology_param:
+      max_links: 0
+      role: 0
+      type: SatelliteConeTopoIntf
+  mobility_model:
+    altitude: 50
+    latitude: 20.49434830317969
+    longitude: 101.16480705331658
+    type: Static
+  name: ground113
+  param:
+    computation_units:
+    - image: harbor.sail.se.sjtu.edu.cn/utils/test-suite:v0.2
+      ports:
+      - 5000
+      - 5001
+      - 5002
+    type: Container
+  type: Container
+  visual_options:
+    model_id: "4"
+    node_type: 2
+- intfs:
+  - link_model: Satellite
+    link_param:
+      bandwidth: 1e+10
+      fading_model: fading_model1
+      gain: 20
+      hb: 0
+      phi: 0
+      power_in_dbm: 55
+      theta: 0
+      type: GeneralWirelessLinkIntf
+    name: acce1
+    routing_area: 1
+    topology_model: cone1
+    topology_param:
+      max_links: 0
+      role: 0
+      type: SatelliteConeTopoIntf
+  mobility_model:
+    altitude: 50
+    latitude: 20.6959225082242
+    longitude: 101.87828373541919
+    type: Static
+  name: ground114
+  param:
+    computation_units:
+    - image: harbor.sail.se.sjtu.edu.cn/utils/test-suite:v0.2
+      ports:
+      - 5000
+      - 5001
+      - 5002
+    type: Container
+  type: Container
+  visual_options:
+    model_id: "4"
+    node_type: 2
+- intfs:
+  - link_model: Satellite
+    link_param:
+      bandwidth: 1e+10
+      fading_model: fading_model1
+      gain: 20
+      hb: 0
+      phi: 0
+      power_in_dbm: 55
+      theta: 0
+      type: GeneralWirelessLinkIntf
+    name: acce1
+    routing_area: 1
+    topology_model: cone1
+    topology_param:
+      max_links: 0
+      role: 0
+      type: SatelliteConeTopoIntf
+  mobility_model:
+    altitude: 50
+    latitude: 21.12407810681527
+    longitude: 100.77103253930703
+    type: Static
+  name: ground115
+  param:
+    computation_units:
+    - image: harbor.sail.se.sjtu.edu.cn/utils/test-suite:v0.2
+      ports:
+      - 5000
+      - 5001
+      - 5002
+    type: Container
+  type: Container
+  visual_options:
+    model_id: "4"
+    node_type: 2
+- intfs:
+  - link_model: Satellite
+    link_param:
+      bandwidth: 1e+10
+      fading_model: fading_model1
+      gain: 20
+      hb: 0
+      phi: 0
+      power_in_dbm: 55
+      theta: 0
+      type: GeneralWirelessLinkIntf
+    name: acce1
+    routing_area: 1
+    topology_model: cone1
+    topology_param:
+      max_links: 0
+      role: 0
+      type: SatelliteConeTopoIntf
+  mobility_model:
+    altitude: 50
+    latitude: 21.23547549451985
+    longitude: 101.54283298059364
+    type: Static
+  name: ground116
+  param:
+    computation_units:
+    - image: harbor.sail.se.sjtu.edu.cn/utils/test-suite:v0.2
+      ports:
+      - 5000
+      - 5001
+      - 5002
+    type: Container
+  type: Container
+  visual_options:
+    model_id: "4"
+    node_type: 2
+- intfs:
+  - link_model: Satellite
+    link_param:
+      bandwidth: 1e+10
+      fading_model: fading_model1
+      gain: 20
+      hb: 0
+      phi: 0
+      power_in_dbm: 55
+      theta: 0
+      type: GeneralWirelessLinkIntf
+    name: acce1
+    routing_area: 1
+    topology_model: cone1
+    topology_param:
+      max_links: 0
+      role: 0
+      type: SatelliteConeTopoIntf
+  mobility_model:
+    altitude: 50
+    latitude: 21.556179187717746
+    longitude: 100.35272982728944
+    type: Static
+  name: ground117
+  param:
+    computation_units:
+    - image: harbor.sail.se.sjtu.edu.cn/utils/test-suite:v0.2
+      ports:
+      - 5000
+      - 5001
+      - 5002
+    type: Container
+  type: Container
+  visual_options:
+    model_id: "4"
+    node_type: 2
+- intfs:
+  - link_model: Satellite
+    link_param:
+      bandwidth: 1e+10
+      fading_model: fading_model1
+      gain: 20
+      hb: 0
+      phi: 0
+      power_in_dbm: 55
+      theta: 0
+      type: GeneralWirelessLinkIntf
+    name: acce1
+    routing_area: 1
+    topology_model: cone1
+    topology_param:
+      max_links: 0
+      role: 0
+      type: SatelliteConeTopoIntf
+  mobility_model:
+    altitude: 50
+    latitude: 20.292204167894198
+    longitude: 101.32815555614718
+    type: Static
+  name: ground118
+  param:
+    computation_units:
+    - image: harbor.sail.se.sjtu.edu.cn/utils/test-suite:v0.2
+      ports:
+      - 5000
+      - 5001
+      - 5002
+    type: Container
+  type: Container
+  visual_options:
+    model_id: "4"
+    node_type: 2
+- intfs:
+  - link_model: Satellite
+    link_param:
+      bandwidth: 1e+10
+      fading_model: fading_model1
+      gain: 20
+      hb: 0
+      phi: 0
+      power_in_dbm: 55
+      theta: 0
+      type: GeneralWirelessLinkIntf
+    name: acce1
+    routing_area: 1
+    topology_model: cone1
+    topology_param:
+      max_links: 0
+      role: 0
+      type: SatelliteConeTopoIntf
+  mobility_model:
+    altitude: 50
+    latitude: 21.268072583019933
+    longitude: 101.14264202503547
+    type: Static
+  name: ground119
+  param:
+    computation_units:
+    - image: harbor.sail.se.sjtu.edu.cn/utils/test-suite:v0.2
+      ports:
+      - 5000
+      - 5001
+      - 5002
+    type: Container
+  type: Container
+  visual_options:
+    model_id: "4"
+    node_type: 2
+routing_areas:
+- id: 1
+  param:
+    area: 0.0.0.1
+    protocol: OSPFV3
+    subnet_mask: 112
+    supernet: FD00:aaaa:aaaa::1
+    supernet_mask: 96
+  protocol: OSPFV3
+  redistribute:
+  - 4
+  - 5
+- id: 2
+  param:
+    area: 0.0.0.2
+    protocol: OSPFV3
+    subnet_mask: 112
+    supernet: FD00:aaaa:bbbb::2
+    supernet_mask: 96
+  protocol: OSPFV3
+  redistribute:
+  - 4
+  - 6
+- id: 3
+  param:
+    area: 0.0.0.3
+    protocol: OSPFV3
+    subnet_mask: 112
+    supernet: FD00:aaaa:cccc::3
+    supernet_mask: 96
+  protocol: OSPFV3
+  redistribute:
+  - 5
+  - 6
+- id: 4
+  param:
+    mask: 112
+    protocol: BGP
+    subnet: FD00:bbbb:aaaa::4
+  protocol: BGP
+  redistribute:
+  - 1
+  - 2
+- id: 5
+  param:
+    mask: 112
+    protocol: BGP
+    subnet: FD00:bbbb:bbbb::5
+  protocol: BGP
+  redistribute:
+  - 1
+  - 3
+- id: 6
+  param:
+    mask: 112
+    protocol: BGP
+    subnet: FD00:bbbb:cccc::6
+  protocol: BGP
+  redistribute:
+  - 2
+  - 3
+topology_models:
+- name: cone1
+  param:
+    angle: 150
+    max_distance: 3e+06
+    type: SatelliteConeTopo
+- name: cone2
+  param:
+    angle: 150
+    max_distance: 3e+06
+    type: SatelliteConeTopo
+- name: cone3
+  param:
+    angle: 150
+    max_distance: 3e+06
+    type: SatelliteConeTopo
+- name: fixed1
+  param:
+    type: FixedTopo
+- name: walkerinter
+  param:
+    type: WalkerInterSatTopo
