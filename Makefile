@@ -127,3 +127,14 @@ multi-shell: s1 s2 s3 ground1 ground2 ground3
 
 multi-shell-ng: s1 s2 s3
 	go run ./main.go merge -i ./${TESTS} -o test.yaml
+
+
+PHYSIC_TESTS ?= tests/physic_tests
+
+physic-one-tle:
+	go run ./main.go tle -N 100 -P 10 -E 10 -I 85 -H 500 -F 0 -D 100 -o ${PHYSIC_TESTS}/phy1.tle -n S1
+
+physic-one-shell: physic-one-tle
+	go run ./main.go generate -N 100 -P 10 -E 10 \
+	--accessIntfNum 16 --accessFadingmodel fading_model1 --accessLinkmodel Satellite --accessTopologymodel cone1 \
+	--offset 0 -F 0 -i ${PHYSIC_TESTS}/phy1.tle -o ${PHYSIC_TESTS}/phy1.yaml -t template/physic_template.yaml -r 1 -n S1

@@ -1,0 +1,358 @@
+link_models:
+- name: Satellite
+  param:
+    bandwidth: 7.2e+7
+    bit_rate: 1e+7
+    frequency: 2e+10
+    mode: "BPSK"
+    packet_size_in_bit: 1024
+    redundancy: 1
+    type: GeneralWirelessLink
+    model: Satellite
+    calc_penetration: true
+- name: 5G
+  param:
+    bandwidth: 1e+8
+    bit_rate: 1e+9
+    frequency: 2.8e+10
+    mode: QPSK
+    packet_size_in_bit: 1024
+    redundancy: 1
+    type: GeneralWirelessLink
+    model: 5G
+    calc_penetration: true
+- name: satlaser
+  param:
+    type: SatelliteLaserLink
+    bandwidth: 1Gbps
+    single_hop_latency: 5ms
+network_nodes:
+- intfs:
+  - link_model: Satellite
+    link_param:
+      bandwidth: 1e+10
+      fading_model: fading_model1
+      gain: 2
+      hb: 0
+      phi: 0
+      power_in_dbm: 33
+      theta: 0
+      type: GeneralWirelessLinkIntf
+    name: acce1
+    routing_area: 1
+    topology_model: cone1
+    topology_param:
+      role: 0
+      type: SatelliteConeTopoIntf
+      max_links: 1
+  - link_model: 5G
+    link_param:
+      bandwidth: 1e+10
+      fading_model: fading_model1
+      gain: 2
+      hb: 0
+      phi: 0
+      power_in_dbm: 33
+      theta: 0
+      type: GeneralWirelessLinkIntf
+    name: intf2
+    routing_area: 4
+    topology_model: fixed1
+    topology_param:
+      type: FixedTopoIntf
+      peer_intf: station2/intf1
+  - link_model: 5G
+    link_param:
+      bandwidth: 1e+10
+      fading_model: fading_model1
+      gain: 2
+      hb: 0
+      phi: 0
+      power_in_dbm: 33
+      theta: 0
+      type: GeneralWirelessLinkIntf
+    name: intf3
+    routing_area: 4
+    topology_model: fixed1
+    topology_param:
+      type: FixedTopoIntf
+      peer_intf: station3/intf1
+  mobility_model:
+    altitude: 100
+    latitude: 39.89624971
+    longitude: 116.36574769
+    type: Static
+  name: station1
+  param:
+    type: Container
+  type: Container
+  visual_options:
+    model_id: "4"
+    node_type: 2
+- intfs:
+  - link_model: Satellite
+    link_param:
+      bandwidth: 1e+10
+      fading_model: fading_model1
+      gain: 2
+      hb: 0
+      phi: 0
+      power_in_dbm: 33
+      theta: 0
+      type: GeneralWirelessLinkIntf
+    name: acce1
+    routing_area: 2
+    topology_model: cone2
+    topology_param:
+      role: 0
+      type: SatelliteConeTopoIntf
+      max_links: 1
+  - link_model: 5G
+    link_param:
+      bandwidth: 1e+10
+      fading_model: fading_model1
+      gain: 2
+      hb: 0
+      phi: 0
+      power_in_dbm: 33
+      theta: 0
+      type: GeneralWirelessLinkIntf
+    name: intf1
+    routing_area: 4
+    topology_model: fixed1
+    topology_param:
+      type: FixedTopoIntf
+      peer_intf: station1/intf2
+  - link_model: 5G
+    link_param:
+      bandwidth: 1e+10
+      fading_model: fading_model1
+      gain: 2
+      hb: 0
+      phi: 0
+      power_in_dbm: 33
+      theta: 0
+      type: GeneralWirelessLinkIntf
+    name: intf3
+    routing_area: 4
+    topology_model: fixed1
+    topology_param:
+      type: FixedTopoIntf
+      peer_intf: station3/intf2
+  mobility_model:
+    altitude: 100
+    latitude: 39.89624971
+    longitude: 116.1359442
+    type: Static
+  name: station2
+  param:
+    type: Container
+  type: Container
+  visual_options:
+    model_id: "4"
+    node_type: 2
+- intfs:
+  - link_model: Satellite
+    link_param:
+      bandwidth: 1e+10
+      fading_model: fading_model1
+      gain: 2
+      hb: 0
+      phi: 0
+      power_in_dbm: 33
+      theta: 0
+      type: GeneralWirelessLinkIntf
+    name: acce1
+    routing_area: 3
+    topology_model: cone3
+    topology_param:
+      role: 0
+      type: SatelliteConeTopoIntf
+      max_links: 1
+  - link_model: 5G
+    link_param:
+      bandwidth: 1e+10
+      fading_model: fading_model1
+      gain: 2
+      hb: 0
+      phi: 0
+      power_in_dbm: 33
+      theta: 0
+      type: GeneralWirelessLinkIntf
+    name: intf1
+    routing_area: 4
+    topology_model: fixed1
+    topology_param:
+      type: FixedTopoIntf
+      peer_intf: station1/intf3
+  - link_model: 5G
+    link_param:
+      bandwidth: 1e+10
+      fading_model: fading_model1
+      gain: 2
+      hb: 0
+      phi: 0
+      power_in_dbm: 33
+      theta: 0
+      type: GeneralWirelessLinkIntf
+    name: intf2
+    routing_area: 4
+    topology_model: fixed1
+    topology_param:
+      type: FixedTopoIntf
+      peer_intf: station2/intf3
+  mobility_model:
+    altitude: 100
+    latitude: 39.71971651
+    longitude: 116.48064988
+    type: Static
+  name: station3
+  param:
+    type: Container
+  type: Container
+  visual_options:
+    model_id: "4"
+    node_type: 2
+fading_models:
+- name: fading_model1
+  a_sigma: 1.01
+  b_sigma: 0.0039
+  k_factor: 1
+  "n": 4.2
+  num_of_m: 0
+  relative_delays: null
+  sigma: 30
+  tau: 1.2
+topology_models:
+- name: cone1
+  param:
+    type: SatelliteConeTopo
+    angle: 150
+    max_distance: 3e+6
+- name: cone2
+  param:
+    type: SatelliteConeTopo
+    angle: 150
+    max_distance: 3e+6
+- name: cone3
+  param:
+    type: SatelliteConeTopo
+    angle: 150
+    max_distance: 3e+6
+- name: fixed1
+  param:
+    type: FixedTopo
+- name: walkerinter
+  param:
+    type: WalkerInterSatTopo
+    default_angle: 120
+routing_areas:
+- id: 1
+  param:
+    area: 0.0.0.1
+    protocol: OSPFV3
+    subnet_mask: 112
+    supernet: FD00:aaaa:aaaa::1
+    supernet_mask: 96
+    hello_interval: 10
+    dead_interval: 40
+    retransmit_interval: 5
+    transmit_delay: 1
+    throttle_spf: "5000 10000 50000"
+    lsa_min_arrival: 2000
+  protocol: OSPFV3
+  redistribute:
+  - 4
+- id: 2
+  param:
+    area: 0.0.0.2
+    protocol: OSPFV3
+    subnet_mask: 112
+    supernet: FD00:aaaa:bbbb::1
+    supernet_mask: 96
+    hello_interval: 10
+    dead_interval: 40
+    retransmit_interval: 5
+    transmit_delay: 1
+    throttle_spf: "5000 10000 50000"
+    lsa_min_arrival: 2000
+  protocol: OSPFV3
+  redistribute:
+  - 4
+- id: 3
+  param:
+    area: 0.0.0.3
+    protocol: OSPFV3
+    subnet_mask: 112
+    supernet: FD00:aaaa:cccc::1
+    supernet_mask: 96
+    hello_interval: 10
+    dead_interval: 40
+    retransmit_interval: 5
+    transmit_delay: 1
+    throttle_spf: "5000 10000 50000"
+    lsa_min_arrival: 2000
+  protocol: OSPFV3
+  redistribute:
+  - 4
+- id: 4
+  param:
+    mask: 96
+    protocol: BGP
+    subnet: FD00:bbbb:aaaa::1
+  protocol: BGP
+  redistribute:
+  - 1
+  - 2
+  - 3
+constellations:
+physical_node_resources:
+- name: phy0
+  intfs:
+  - intf_name: intf0
+    peer_mac: 4e:fe:b2:6f:c7:06
+    node_name: k8s-192-168-31-31
+    device_name: phy0intf0
+    param:
+      type: Vxlan
+      vni: 100
+      vtep_ip: 192.168.1.55
+      dst_port: 4790
+      parent_device: enp58s0
+      local_ip: 192.168.1.100
+  - intf_name: intf1
+    peer_mac: 4e:fe:b2:6f:c7:06
+    node_name: k8s-192-168-31-31
+    device_name: phy0intf1
+    param:
+      type: Vxlan
+      vni: 101
+      vtep_ip: 192.168.1.55
+      dst_port: 4790
+      parent_device: enp58s0
+      local_ip: 192.168.1.100
+  - intf_name: intf2
+    peer_mac: 4e:fe:b2:6f:c7:06
+    node_name: k8s-192-168-31-31
+    device_name: phy0intf2
+    param:
+      type: Vxlan
+      vni: 102
+      vtep_ip: 192.168.1.55
+      dst_port: 4790
+      parent_device: enp58s0
+      local_ip: 192.168.1.100
+  - intf_name: intf3
+    peer_mac: 4e:fe:b2:6f:c7:06
+    node_name: k8s-192-168-31-31
+    device_name: phy0intf3
+    param:
+      type: Vxlan
+      vni: 103
+      vtep_ip: 192.168.1.55
+      dst_port: 4790
+      parent_device: enp58s0
+      local_ip: 192.168.1.100
+  initial_binding: s110000
+extra:
+  start_timestamp: 2023-10-01T12:00:00Z
