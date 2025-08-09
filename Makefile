@@ -1,3 +1,5 @@
+include .mk/test.mk
+
 TARGETS = \
     windows/amd64 \
     linux/amd64 \
@@ -18,123 +20,23 @@ $(TARGETS):
 clean:
 	rm -rf $(OUTPUT_DIR)
 
-# TESTS ?= tests/two_shell_bgp_tests
-# TEMPLATE ?= template/bgp_template.yaml
+TLE_FILE_DIR = tests/tle
+KUBENET_FILE_DIR = tests/kubenet
+OUTPUT_TEST_DIR = tests/output
+TEMPLATE_DIR = template
 
-# TESTS ?= tests/two_shell_ospf_tests
-# TEMPLATE ?= template/ospf_template.yaml
+.PHONY: tle-file-dir
+tle-file-dir:
+	mkdir -p ${TLE_FILE_DIR}
 
-# TESTS ?= tests/two_shell_ng_bgp_tests
-# TEMPLATE ?= template/bgp_template.yaml
-
-# TESTS ?= tests/two_shell_ng_ospf_tests
-# TEMPLATE ?= template/ospf_template.yaml
-
-TESTS ?= tests/multi_shell_bgp_tests
-TEMPLATE ?= template/bgp_template.yaml
-
-# TESTS ?= tests/multi_shell_ospf_tests
-# TEMPLATE ?= template/ospf_template.yaml
+.PHONY: output-test-dir
+output-test-dir:
+	mkdir -p ${OUTPUT_TEST_DIR}
 
 .PHONY: s1-tle s2-tle s3-tle s1 s2 s3 ground1 ground2 ground3 two-shell multi-shell
 
-# s1-tle:
-# 	go run ./main.go tle -N 60 -P 10 -E 10 -I 85 -H 1175 -F 0 -D 100 -o ${TESTS}/s1.tle -n S1
+# include on demand for your tests
+include .mk/multi_shell_bgp_tests.mk
+# include .mk/multi_shell_ospf_tests.mk
+include .mk/physic_tests.mk
 
-# s2-tle:
-# 	go run ./main.go tle -N 108 -P 9 -E 9 -I 55 -H 1150 -F 0 -D 100 -o ${TESTS}/s2.tle -n S2
-
-# s3-tle:
-# 	go run ./main.go tle -N 648 -P 36 -E 36 -I 89 -H 1100 -F 0 -D 100 -o ${TESTS}/s3.tle -n S3
-
-# s1: s1-tle
-# 	go run ./main.go generate -N 60 -P 10 -E 10 \
-# 	--accessIntfNum 16 --accessFadingmodel fading_model1 --accessLinkmodel Satellite --accessTopologymodel cone1 \
-# 	--offset 0 -F 0 -i ${TESTS}/s1.tle -o ${TESTS}/s1.yaml -t ${TEMPLATE} -r 1 -n S1
-
-# s2: s2-tle
-# 	go run ./main.go generate -N 108 -P 9 -E 9 \
-# 	--accessIntfNum 16 --accessFadingmodel fading_model1 --accessLinkmodel Satellite --accessTopologymodel cone2 \
-# 	--offset 0 -F 0 -i ${TESTS}/s2.tle -o ${TESTS}/s2.yaml -t ${TEMPLATE} -r 2 -n S2
-
-# s3: s3-tle
-# 	go run ./main.go generate -N 648 -P 36 -E 36 \
-# 	--accessIntfNum 16 --accessFadingmodel fading_model1 --accessLinkmodel Satellite --accessTopologymodel cone3 \
-# 	--offset 0 -F 0 -i ${TESTS}/s3.tle -o ${TESTS}/s3.yaml -t ${TEMPLATE} -r 3 -n S3
-
-# ground1:
-# 	go run ./main.go ground -N 20 --longitude 113.2 --latitude 19.7 \
-# 	--accessFadingmodel fading_model1 --accessLinkmodel Satellite --accessTopologymodel cone1 \
-# 	-o ${TESTS}/ground1.yaml -t ${TEMPLATE} -r 1 -n Ground1
-
-# ground2:
-# 	go run ./main.go ground -N 40 --longitude 113.2 --latitude 15.7 \
-# 	--accessFadingmodel fading_model1 --accessLinkmodel Satellite --accessTopologymodel cone2 \
-# 	-o ${TESTS}/ground2.yaml -t ${TEMPLATE} -r 2 -n Ground2
-	
-# ground3:
-# 	go run ./main.go ground -N 140 --longitude 113.2 --latitude 11.7 \
-# 	--accessFadingmodel fading_model1 --accessLinkmodel Satellite --accessTopologymodel cone3 \
-# 	-o ${TESTS}/ground3.yaml -t ${TEMPLATE} -r 3 -n Ground3
-
-s1-tle:
-	go run ./main.go tle -N 100 -P 10 -E 10 -I 85 -H 500 -F 0 -D 100 -o ${TESTS}/s1.tle -n S1
-
-s2-tle:
-	go run ./main.go tle -N 560 -P 35 -E 35 -I 55 -H 100 -F 0 -D 100 -o ${TESTS}/s2.tle -n S2
-
-s3-tle:
-	go run ./main.go tle -N 648 -P 36 -E 36 -I 89 -H 1500 -F 0 -D 100 -o ${TESTS}/s3.tle -n S3
-
-s1: s1-tle
-	go run ./main.go generate -N 100 -P 10 -E 10 \
-	--accessIntfNum 16 --accessFadingmodel fading_model1 --accessLinkmodel Satellite --accessTopologymodel cone1 \
-	--offset 0 -F 0 -i ${TESTS}/s1.tle -o ${TESTS}/s1.yaml -t ${TEMPLATE} -r 1 -n S1
-
-s2: s2-tle
-	go run ./main.go generate -N 560 -P 35 -E 35 \
-	--accessIntfNum 16 --accessFadingmodel fading_model1 --accessLinkmodel Satellite --accessTopologymodel cone2 \
-	--offset 0 -F 0 -i ${TESTS}/s2.tle -o ${TESTS}/s2.yaml -t ${TEMPLATE} -r 2 -n S2
-
-s3: s3-tle
-	go run ./main.go generate -N 648 -P 36 -E 36 \
-	--accessIntfNum 16 --accessFadingmodel fading_model1 --accessLinkmodel Satellite --accessTopologymodel cone3 \
-	--offset 0 -F 0 -i ${TESTS}/s3.tle -o ${TESTS}/s3.yaml -t ${TEMPLATE} -r 3 -n S3
-
-ground1:
-	go run ./main.go ground -N 20 --longitude 100.2 --latitude 19.7 \
-	--accessFadingmodel fading_model1 --accessLinkmodel Satellite --accessTopologymodel cone1 \
-	-o ${TESTS}/ground1.yaml -t ${TEMPLATE} -r 1 -n Ground1
-
-ground2:
-	go run ./main.go ground -N 40 --longitude 130.2 --latitude 15.7 \
-	--accessFadingmodel fading_model1 --accessLinkmodel Satellite --accessTopologymodel cone2 \
-	-o ${TESTS}/ground2.yaml -t ${TEMPLATE} -r 2 -n Ground2
-	
-ground3:
-	go run ./main.go ground -N 140 --longitude 160.2 --latitude 11.7 \
-	--accessFadingmodel fading_model1 --accessLinkmodel Satellite --accessTopologymodel cone3 \
-	-o ${TESTS}/ground3.yaml -t ${TEMPLATE} -r 3 -n Ground3
-
-two-shell: s1 s2 ground1 ground2
-	go run ./main.go merge -i ./${TESTS} -o two_shell_bgp_test.yaml
-
-two-shell-ng: s1 s2
-	go run ./main.go merge -i ./${TESTS} -o test.yaml
-
-multi-shell: s1 s2 s3 ground1 ground2 ground3
-	go run ./main.go merge -i ./${TESTS} -o multi_shell_bgp_test.yaml
-
-multi-shell-ng: s1 s2 s3
-	go run ./main.go merge -i ./${TESTS} -o test.yaml
-
-
-PHYSIC_TESTS ?= tests/physic_tests
-
-physic-one-tle:
-	go run ./main.go tle -N 100 -P 10 -E 10 -I 85 -H 500 -F 0 -D 100 -o ${PHYSIC_TESTS}/phy1.tle -n S1
-
-physic-one-shell: physic-one-tle
-	go run ./main.go generate -N 100 -P 10 -E 10 \
-	--accessIntfNum 16 --accessFadingmodel fading_model1 --accessLinkmodel Satellite --accessTopologymodel cone1 \
-	--offset 0 -F 0 -i ${PHYSIC_TESTS}/phy1.tle -o ${PHYSIC_TESTS}/phy1.yaml -t template/physic_template.yaml -r 1 -n S1
