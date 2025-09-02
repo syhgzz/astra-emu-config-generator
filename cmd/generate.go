@@ -259,15 +259,24 @@ var kubenetCmd = &cobra.Command{
 				SatelliteMobilityModel: &satelliteMobilityModel,
 			}
 
+			walkerSatelliteOrientationModel := kubenet_config.WalkerSatelliteOrientationModel{
+				Type: "WalkerSatellite",
+			}
+
+			orientationModel := kubenet_config.NetworkNodeOrientationModel{
+				WalkerSatelliteOrientationModel: &walkerSatelliteOrientationModel,
+			}
+
 			networkNodes = append(
 				networkNodes,
 				kubenet_config.NetworkNode{
-					Name:          nodeName,
-					Type:          "Container",
-					VisualOptions: &visualOptions,
-					Intfs:         intfs,
-					MobilityModel: mobilityModel,
-					Param:         &networkNodeParam,
+					Name:             nodeName,
+					Type:             "Container",
+					VisualOptions:    &visualOptions,
+					Intfs:            intfs,
+					MobilityModel:    mobilityModel,
+					OrientationModel: orientationModel,
+					Param:            &networkNodeParam,
 				},
 			)
 		}
