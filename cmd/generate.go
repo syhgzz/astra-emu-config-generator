@@ -35,6 +35,7 @@ var kubenetCmd = &cobra.Command{
 		offset, _ := cmd.Flags().GetInt32("offset")
 		image, _ := cmd.Flags().GetString("image")
 		routingAreaId, _ := cmd.Flags().GetInt32("routingArea")
+		fake, _ := cmd.Flags().GetBool("fake")
 
 		enableGroundAccess := false
 		if accessIntfNum != 0 && accessLinkmodel != "" &&
@@ -277,6 +278,7 @@ var kubenetCmd = &cobra.Command{
 					MobilityModel:    mobilityModel,
 					OrientationModel: orientationModel,
 					Param:            &networkNodeParam,
+					IsFake:           &fake,
 				},
 			)
 		}
@@ -330,6 +332,7 @@ func init() {
 	kubenetCmd.Flags().IntP("needed-plane", "E", 0, "The num of plane used")
 	kubenetCmd.Flags().Float32P("phase", "F", 0, "Phasing between satellites in adjacent planes, range from 0 to plane-1")
 	kubenetCmd.Flags().Int32("offset", 0, "Offset")
+	kubenetCmd.Flags().Bool("fake", false, "Fake")
 
 	// params for network experiment
 	kubenetCmd.Flags().String("nodeNamePre", "", "the prefix of network node name")

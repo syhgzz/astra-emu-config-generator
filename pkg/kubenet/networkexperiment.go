@@ -1,6 +1,8 @@
 package kubenet
 
-import "dslab.sjtu/kubenet/api/pkg/kubenet_config"
+import (
+	"dslab.sjtu/kubenet/api/pkg/kubenet_config"
+)
 
 func MergeNetworkExperiment(nes []*kubenet_config.NetworkExperiment) *kubenet_config.NetworkExperiment {
 	linkModelsMap := make(map[string]kubenet_config.LinkModel)
@@ -21,13 +23,24 @@ func MergeNetworkExperiment(nes []*kubenet_config.NetworkExperiment) *kubenet_co
 			networkNodesMap[networkNode.Name] = networkNode
 		}
 		for _, constellation := range ne.Constellations {
-			constellationsMap[constellation.Name] = constellation
+			if existConstellation, exists := constellationsMap[constellation.Name]; !exists {
+				constellationsMap[constellation.Name] = constellation
+			} else {
+				existConstellation.Spheres = append(existConstellation.Spheres, constellation.Spheres...)
+				constellationsMap[constellation.Name] = existConstellation // 写回去！
+			}
 		}
 		for _, topologyModel := range ne.TopologyModels {
 			topologyModelsMap[topologyModel.Name] = topologyModel
 		}
 		for _, fadingModel := range ne.FadingModels {
 			fadingModelsMap[fadingModel.Name] = fadingModel
+		}
+	}
+
+	for _, constellation := range constellationsMap {
+		for idx, sphere := range constellation.Spheres {
+			sphere.WalkerDeltaSphere.Idx = int32(idx)
 		}
 	}
 
