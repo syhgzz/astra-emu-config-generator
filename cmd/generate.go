@@ -36,6 +36,7 @@ var kubenetCmd = &cobra.Command{
 		image, _ := cmd.Flags().GetString("image")
 		routingAreaId, _ := cmd.Flags().GetInt32("routingArea")
 		fake, _ := cmd.Flags().GetBool("fake")
+		crossSphere, _ := cmd.Flags().GetBool("cross-sphere")
 
 		enableGroundAccess := false
 		if accessIntfNum != 0 && accessLinkmodel != "" &&
@@ -94,6 +95,22 @@ var kubenetCmd = &cobra.Command{
 		}
 		interSatTopologyParam3 := kubenet_config.IntfTopologyParam{
 			WalkerInterSatTopoIntfParam: &walkerInterSatTopoIntfParam3,
+		}
+
+		walkerInterSatTopoIntfParam4 := kubenet_config.WalkerInterSatTopoIntfParam{
+			Type: "WalkerInterSatTopoIntf",
+			Axis: "Z",
+		}
+		interSatTopologyParam4 := kubenet_config.IntfTopologyParam{
+			WalkerInterSatTopoIntfParam: &walkerInterSatTopoIntfParam4,
+		}
+
+		walkerInterSatTopoIntfParam5 := kubenet_config.WalkerInterSatTopoIntfParam{
+			Type: "WalkerInterSatTopoIntf",
+			Axis: "ZZ",
+		}
+		interSatTopologyParam5 := kubenet_config.IntfTopologyParam{
+			WalkerInterSatTopoIntfParam: &walkerInterSatTopoIntfParam5,
 		}
 
 		satelliteLaserLinkIntfParam := kubenet_config.SatelliteLaserLinkIntfParam{
@@ -238,6 +255,34 @@ var kubenetCmd = &cobra.Command{
 				intf3,
 			)
 
+			if crossSphere {
+				intf4 := kubenet_config.Intf{
+					Name:          "intf4",
+					TopologyModel: "walkerinter",
+					LinkModel:     "satlaser",
+					TopologyParam: interSatTopologyParam4,
+					LinkParam:     interSatlinkParam,
+					RoutingArea:   &routingAreaId,
+				}
+				intfs = append(
+					intfs,
+					intf4,
+				)
+
+				intf5 := kubenet_config.Intf{
+					Name:          "intf5",
+					TopologyModel: "walkerinter",
+					LinkModel:     "satlaser",
+					TopologyParam: interSatTopologyParam5,
+					LinkParam:     interSatlinkParam,
+					RoutingArea:   &routingAreaId,
+				}
+				intfs = append(
+					intfs,
+					intf5,
+				)
+			}
+
 			if enableGroundAccess {
 
 				intfs = append(
@@ -333,6 +378,7 @@ func init() {
 	kubenetCmd.Flags().Float32P("phase", "F", 0, "Phasing between satellites in adjacent planes, range from 0 to plane-1")
 	kubenetCmd.Flags().Int32("offset", 0, "Offset")
 	kubenetCmd.Flags().Bool("fake", false, "Fake")
+	kubenetCmd.Flags().Bool("cross-sphere", false, "cross-sphere")
 
 	// params for network experiment
 	kubenetCmd.Flags().String("nodeNamePre", "", "the prefix of network node name")

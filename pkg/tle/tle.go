@@ -9,6 +9,35 @@ import (
 	"time"
 )
 
+// 根据高度给经验密度
+func rhoAt(h float64) float64 {
+	switch {
+	case h < 250:
+		return 1e-9
+	case h < 350:
+		return 1e-11
+	case h < 450:
+		return 3e-12
+	case h < 550:
+		return 1e-12
+	case h < 650:
+		return 3e-13
+	default:
+		return 1e-13
+	}
+}
+
+// 计算 DragTerm (BSTAR)，返回值和 TLE 里的 DragTerm 一致
+func BStarFromAlt(h_km, cd, area, mass float64) float64 {
+	rho := rhoAt(h_km) // kg/m^3
+	res := 0.5 * cd * area / mass * rho
+	if res <= 1e-10 {
+		res = 1e-10
+	}
+
+	return res
+}
+
 // TLEItem represents a satellite in TLE file
 type TLEItem struct {
 	Name string
@@ -52,16 +81,16 @@ func NewTLEItem() *TLEItem {
 		LaunchNum:     "A",
 		EpochYear:     epochYear,
 		Epoch:         epoch,
-		MeanMotion1:   0.00001478,
+		MeanMotion1:   0,
 		MeanMotion2:   0,
-		DragTerm:      0.00011810,
+		DragTerm:      0,
 		EphemerisType: 0,
 		ElementSetNum: 1,
 		// line 2
-		Eccentricity:  0.0001424,
-		ArgOfPerigee:  94.3232,
-		MeanAnomaly:   265.7920,
-		MeanMotion:    15.06405745,
+		Eccentricity:  0.0,
+		ArgOfPerigee:  0.0,
+		MeanAnomaly:   0.0,
+		MeanMotion:    0.0,
 		RevNumAtEpoch: 0,
 	}
 }
@@ -156,6 +185,19 @@ type TLEParams struct {
 
 type TLEItemOverrideFunc func(item *TLEItem, planeId int, satId int)
 
+const (
+	ReWGS72_km = 6378.135
+	MuWGS72    = 398600.8
+	SecPerDay  = 86400.0
+	TwoPi      = 2 * math.Pi
+)
+
+func MeanMotionFromAlt(h_km float64) float64 {
+	a := ReWGS72_km + h_km
+	n_rad_s := math.Sqrt(MuWGS72 / (a * a * a))
+	return (n_rad_s * SecPerDay) / TwoPi // rev/day
+}
+
 func (t *TLEParams) NewTLEWithOverrides(overrideFunc TLEItemOverrideFunc) TLEItems {
 	delta := 360.0 / float64(t.Plane)
 	satNumPerTrack := t.Num / t.Plane
@@ -178,7 +220,10 @@ func (t *TLEParams) NewTLEWithOverrides(overrideFunc TLEItemOverrideFunc) TLEIte
 			// Reference: https://ww2.mathworks.cn/help/aerotbx/ug/satellitescenario.walkerdelta.html#mw_badf1acd-4f40-4ad6-987e-c7d35ae2368c
 			// item.MeanAnomaly = phaseGap*float64(satId) + t.Phase*360.0/float64(t.Num)*float64(satId)
 			item.MeanAnomaly = phaseGap*float64(satId) + 360.0/float64(t.Plane)*t.Phase*float64((planeId)%t.Plane)
-			item.MeanMotion = 24 * 3600 / CalculateOrbitalPeriod(t.Height*1000)
+			item.MeanMotion = MeanMotionFromAlt(t.Height)
+			area := 10.0
+			mass := 260.0
+			item.DragTerm = BStarFromAlt(t.Height, 2.2, area, mass)
 			if overrideFunc != nil {
 				overrideFunc(item, planeId, satId)
 			}

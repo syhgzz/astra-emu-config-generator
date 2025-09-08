@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/cockroachdb/errors"
+	"github.com/joshuaferrara/go-satellite"
 	gosate "github.com/joshuaferrara/go-satellite"
 )
 
@@ -26,7 +27,7 @@ func NewStatellite(name, line1, line2 string) (*Satellite, error) {
 	}
 	return &Satellite{
 		Name:      name,
-		Satellite: gosate.TLEToSat(line1, line2, "wgs84"),
+		Satellite: gosate.TLEToSat(line1, line2, satellite.GravityWGS72),
 	}, nil
 }
 
