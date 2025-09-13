@@ -5,7 +5,7 @@ import "dslab.sjtu/kubenet/api/pkg/kubenet_config"
 func NewRoutingAreas() ([]kubenet_config.RoutingArea, error) {
 	routingAreas := []kubenet_config.RoutingArea{}
 	OSPFV3Param := kubenet_config.OSPFV3Param{
-		Protocol:     "OSPFV3",
+		Type:         "OSPFV3",
 		Area:         "0.0.0.1",
 		Supernet:     "FD00:aaaa:aaaa::1",
 		SupernetMask: 96,

@@ -321,7 +321,7 @@ routing_areas:
   redistribute:
     - 3
   param:
-    protocol: OSPFV3
+    type: OSPFV3
     area: "0.0.0.1"
     supernet: "FD00:aaaa:aaaa::1"
     supernet_mask: 96

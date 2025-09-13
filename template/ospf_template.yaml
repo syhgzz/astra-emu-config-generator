@@ -250,7 +250,7 @@ routing_areas:
 - id: 1
   param:
     area: 0.0.0.1
-    protocol: OSPFV3
+    type: OSPFV3
     subnet_mask: 112
     supernet: FD00:aaaa:aaaa::1
     supernet_mask: 96
@@ -260,7 +260,7 @@ routing_areas:
 - id: 2
   param:
     area: 0.0.0.2
-    protocol: OSPFV3
+    type: OSPFV3
     subnet_mask: 112
     supernet: FD00:aaaa:bbbb::2
     supernet_mask: 96
@@ -270,7 +270,7 @@ routing_areas:
 - id: 3
   param:
     area: 0.0.0.3
-    protocol: OSPFV3
+    type: OSPFV3
     subnet_mask: 112
     supernet: FD00:aaaa:cccc::3
     supernet_mask: 96
@@ -280,7 +280,7 @@ routing_areas:
 - id: 0
   param:
     area: 0.0.0.0
-    protocol: OSPFV3
+    type: OSPFV3
     subnet_mask: 112
     supernet: FD00:aaaa:dddd::4
     supernet_mask: 96
