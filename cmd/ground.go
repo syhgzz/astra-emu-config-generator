@@ -91,6 +91,14 @@ var groundCmd = &cobra.Command{
 			NodeType: 2,
 		}
 
+		earthCenteredPointingOrientationModel := kubenet_config.EarthCenteredPointingOrientationModel{
+			Type: "EarthCenteredPointing",
+		}
+
+		orientationModel := kubenet_config.NetworkNodeOrientationModel{
+			EarthCenteredPointingOrientationModel: &earthCenteredPointingOrientationModel,
+		}
+
 		for idx := range num {
 			nodeName := strings.ToLower(name) + strconv.Itoa(idx)
 
@@ -122,12 +130,13 @@ var groundCmd = &cobra.Command{
 			networkNodes = append(
 				networkNodes,
 				kubenet_config.NetworkNode{
-					Name:          nodeName,
-					Type:          "Container",
-					VisualOptions: &visualOptions,
-					Intfs:         intfs,
-					MobilityModel: mobilityModel,
-					Param:         &networkNodeParam,
+					Name:             nodeName,
+					Type:             "Container",
+					VisualOptions:    &visualOptions,
+					Intfs:            intfs,
+					MobilityModel:    mobilityModel,
+					OrientationModel: orientationModel,
+					Param:            &networkNodeParam,
 				},
 			)
 		}

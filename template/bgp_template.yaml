@@ -256,11 +256,19 @@ routing_areas:
 - id: 1
   param:
     area: 0.0.0.1
-    type: OSPFV3
     subnet_mask: 112
     supernet: FD00:aaaa:aaaa::1
     supernet_mask: 96
-    throttle_spf: "5000 10000 50000"
+    throttle_spf: 50 200 1000
+    enable_bfd: true
+    detect_multiplier: 3
+    receive_interval: 100
+    transmit_interval: 100
+    enable_auth: true
+    auth_key_id: "10"
+    auth_hash_algo: "hmac-sha-256"
+    auth_key: "1234567890"
+    type: OSPFV3
   protocol: OSPFV3
   redistribute:
   - 4
