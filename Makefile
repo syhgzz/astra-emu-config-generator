@@ -36,8 +36,8 @@ output-test-dir:
 .PHONY: s1-tle s2-tle s3-tle s1 s2 s3 ground1 ground2 ground3 two-shell multi-shell
 
 # include on demand for your tests
-# include .mk/multi_shell_bgp_tests.mk
-include .mk/multi_shell_wxwx.mk
+include .mk/multi_shell_bgp_no_routing_tests.mk
+# include .mk/multi_shell_wxwx.mk
 # include .mk/multi_shell_ospf_tests.mk
-include .mk/physic_tests.mk
+# include .mk/physic_tests.mk
 

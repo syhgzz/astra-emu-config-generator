@@ -35,8 +35,14 @@ var kubenetCmd = &cobra.Command{
 		offset, _ := cmd.Flags().GetInt32("offset")
 		image, _ := cmd.Flags().GetString("image")
 		routingAreaId, _ := cmd.Flags().GetInt32("routingArea")
+		noRoutingArea, _ := cmd.Flags().GetBool("no-routing-area")
 		fake, _ := cmd.Flags().GetBool("fake")
 		crossSphere, _ := cmd.Flags().GetBool("cross-sphere")
+
+		var routingAreaPtr *int32
+		if !noRoutingArea {
+			routingAreaPtr = &routingAreaId
+		}
 
 		enableGroundAccess := false
 		if accessIntfNum != 0 && accessLinkmodel != "" &&
@@ -209,7 +215,7 @@ var kubenetCmd = &cobra.Command{
 				LinkModel:     "satlaser",
 				TopologyParam: interSatTopologyParam0,
 				LinkParam:     interSatlinkParam,
-				RoutingArea:   &routingAreaId,
+				RoutingArea:   routingAreaPtr,
 			}
 			intfs = append(
 				intfs,
@@ -222,7 +228,7 @@ var kubenetCmd = &cobra.Command{
 				LinkModel:     "satlaser",
 				TopologyParam: interSatTopologyParam1,
 				LinkParam:     interSatlinkParam,
-				RoutingArea:   &routingAreaId,
+				RoutingArea:   routingAreaPtr,
 			}
 			intfs = append(
 				intfs,
@@ -235,7 +241,7 @@ var kubenetCmd = &cobra.Command{
 				LinkModel:     "satlaser",
 				TopologyParam: interSatTopologyParam2,
 				LinkParam:     interSatlinkParam,
-				RoutingArea:   &routingAreaId,
+				RoutingArea:   routingAreaPtr,
 			}
 			intfs = append(
 				intfs,
@@ -248,7 +254,7 @@ var kubenetCmd = &cobra.Command{
 				LinkModel:     "satlaser",
 				TopologyParam: interSatTopologyParam3,
 				LinkParam:     interSatlinkParam,
-				RoutingArea:   &routingAreaId,
+				RoutingArea:   routingAreaPtr,
 			}
 			intfs = append(
 				intfs,
@@ -262,7 +268,7 @@ var kubenetCmd = &cobra.Command{
 					LinkModel:     "satlaser",
 					TopologyParam: interSatTopologyParam4,
 					LinkParam:     interSatlinkParam,
-					RoutingArea:   &routingAreaId,
+					RoutingArea:   routingAreaPtr,
 				}
 				intfs = append(
 					intfs,
@@ -275,7 +281,7 @@ var kubenetCmd = &cobra.Command{
 					LinkModel:     "satlaser",
 					TopologyParam: interSatTopologyParam5,
 					LinkParam:     interSatlinkParam,
-					RoutingArea:   &routingAreaId,
+					RoutingArea:   routingAreaPtr,
 				}
 				intfs = append(
 					intfs,
@@ -293,7 +299,7 @@ var kubenetCmd = &cobra.Command{
 						LinkModel:     accessLinkmodel,
 						TopologyParam: coneTopologyParam,
 						LinkParam:     accessIntfLinkParam,
-						RoutingArea:   &routingAreaId,
+						RoutingArea:   routingAreaPtr,
 					},
 				)
 			}
@@ -386,6 +392,7 @@ func init() {
 	kubenetCmd.Flags().StringP("singleHopLatency", "s", "5ms", "linkmodel SingleHopLatency")
 	kubenetCmd.Flags().String("image", "", "application image")
 	kubenetCmd.Flags().Int32P("routingArea", "r", 1, "routing area Id")
+	kubenetCmd.Flags().Bool("no-routing-area", false, "Disable routing area for all interfaces")
 
 	// params for ground access intfs
 	kubenetCmd.Flags().Int("accessIntfNum", 0, "the number of access intfs")

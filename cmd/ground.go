@@ -31,6 +31,12 @@ var groundCmd = &cobra.Command{
 		accessTopologymodel, _ := cmd.Flags().GetString("accessTopologymodel")
 		image, _ := cmd.Flags().GetString("image")
 		routingAreaId, _ := cmd.Flags().GetInt32("routingArea")
+		noRoutingArea, _ := cmd.Flags().GetBool("no-routing-area")
+
+		var routingAreaPtr *int32
+		if !noRoutingArea {
+			routingAreaPtr = &routingAreaId
+		}
 
 		yamlData, err := os.ReadFile(template)
 		if err != nil {
@@ -111,7 +117,7 @@ var groundCmd = &cobra.Command{
 					LinkModel:     accessLinkmodel,
 					TopologyParam: coneTopologyParam,
 					LinkParam:     accessIntfLinkParam,
-					RoutingArea:   &routingAreaId,
+					RoutingArea:   routingAreaPtr,
 				},
 			)
 
@@ -166,6 +172,7 @@ func init() {
 	// params for network experiment
 	groundCmd.Flags().String("image", "", "application image")
 	groundCmd.Flags().Int32P("routingArea", "r", 1, "routing area Id")
+	groundCmd.Flags().Bool("no-routing-area", false, "Disable routing area for all interfaces")
 
 	// params for ground access intfs
 	groundCmd.Flags().String("accessFadingmodel", "", "the name of access intf fadingmodel")
