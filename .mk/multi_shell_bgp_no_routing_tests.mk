@@ -16,19 +16,19 @@ s3-tle: tle-file-dir
 s1: s1-tle multi_shell_bgp_dir
 	go run ./main.go generate -N 100 -P 10 -E 10 --no-routing-area \
 	--accessIntfNum 16 --accessFadingmodel fading_model1 --accessLinkmodel Satellite --accessTopologymodel cone1 \
-	--offset 0 -F 0 -i ${TLE_FILE_DIR}/s1.tle -o ${MULTI_SHELL_BGP_DIR}/s1.yaml -t ${MULTI_SHELL_BGP_TEMPLATE} -r 1 -n S1
+	--offset 0 -i ${TLE_FILE_DIR}/s1.tle -o ${MULTI_SHELL_BGP_DIR}/s1.yaml -t ${MULTI_SHELL_BGP_TEMPLATE} -r 1 -n S1
 	@cp ${MULTI_SHELL_BGP_DIR}/s1.yaml ${OUTPUT_TEST_DIR}/s1.yaml
 
 s2: s2-tle multi_shell_bgp_dir
 	go run ./main.go generate -N 560 -P 35 -E 35 --no-routing-area \
 	--accessIntfNum 16 --accessFadingmodel fading_model1 --accessLinkmodel Satellite --accessTopologymodel cone2 \
-	--offset 0 -F 0 -i ${TLE_FILE_DIR}/s2.tle -o ${MULTI_SHELL_BGP_DIR}/s2.yaml -t ${MULTI_SHELL_BGP_TEMPLATE} -r 2 -n S2
+	--offset 0 -i ${TLE_FILE_DIR}/s2.tle -o ${MULTI_SHELL_BGP_DIR}/s2.yaml -t ${MULTI_SHELL_BGP_TEMPLATE} -r 2 -n S2
 	@cp ${MULTI_SHELL_BGP_DIR}/s2.yaml ${OUTPUT_TEST_DIR}/s2.yaml
 
 s3: s3-tle multi_shell_bgp_dir
 	go run ./main.go generate -N 648 -P 36 -E 36 --no-routing-area \
 	--accessIntfNum 16 --accessFadingmodel fading_model1 --accessLinkmodel Satellite --accessTopologymodel cone3 \
-	--offset 0 -F 0 -i ${TLE_FILE_DIR}/s3.tle -o ${MULTI_SHELL_BGP_DIR}/s3.yaml -t ${MULTI_SHELL_BGP_TEMPLATE} -r 3 -n S3
+	--offset 0 -i ${TLE_FILE_DIR}/s3.tle -o ${MULTI_SHELL_BGP_DIR}/s3.yaml -t ${MULTI_SHELL_BGP_TEMPLATE} -r 3 -n S3
 	@cp ${MULTI_SHELL_BGP_DIR}/s3.yaml ${OUTPUT_TEST_DIR}/s3.yaml
 
 ground1: multi_shell_bgp_dir

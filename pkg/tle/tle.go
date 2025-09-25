@@ -219,7 +219,7 @@ func (t *TLEParams) NewTLEWithOverrides(overrideFunc TLEItemOverrideFunc) TLEIte
 			item.Inclination = t.Inclination
 			// Reference: https://ww2.mathworks.cn/help/aerotbx/ug/satellitescenario.walkerdelta.html#mw_badf1acd-4f40-4ad6-987e-c7d35ae2368c
 			// item.MeanAnomaly = phaseGap*float64(satId) + t.Phase*360.0/float64(t.Num)*float64(satId)
-			item.MeanAnomaly = phaseGap*float64(satId) + 360.0/float64(t.Plane)*t.Phase*float64((planeId)%t.Plane)
+			item.MeanAnomaly = phaseGap*float64(satId) + 360.0/float64(satNumPerTrack)*t.Phase*float64((planeId)%t.Plane)
 			item.MeanMotion = MeanMotionFromAlt(t.Height)
 			area := 10.0
 			mass := 260.0

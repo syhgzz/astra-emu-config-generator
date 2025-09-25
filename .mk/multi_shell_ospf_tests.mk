@@ -16,17 +16,17 @@ s3-tle: tle-file-dir
 s1: s1-tle multi_shell_ospf_dir
 	go run ./main.go generate -N 60 -P 10 -E 10 \
 	--accessIntfNum 16 --accessFadingmodel fading_model1 --accessLinkmodel Satellite --accessTopologymodel cone1 \
-	--offset 0 -F 0 -i {TLE_FILE_DIR}/s1.tle -o {KUBENET_FILE_DIR}/multi_shell_ospf_tests/s1.yaml -t {TEMPLATE} -r 1 -n S1
+	--offset 0 -i {TLE_FILE_DIR}/s1.tle -o {KUBENET_FILE_DIR}/multi_shell_ospf_tests/s1.yaml -t {TEMPLATE} -r 1 -n S1
 
 s2: s2-tle multi_shell_ospf_dir
 	go run ./main.go generate -N 108 -P 9 -E 9 \
 	--accessIntfNum 16 --accessFadingmodel fading_model1 --accessLinkmodel Satellite --accessTopologymodel cone2 \
-	--offset 0 -F 0 -i {TLE_FILE_DIR}/s2.tle -o {KUBENET_FILE_DIR}/multi_shell_ospf_tests/s2.yaml -t {TEMPLATE} -r 2 -n S2
+	--offset 0 -i {TLE_FILE_DIR}/s2.tle -o {KUBENET_FILE_DIR}/multi_shell_ospf_tests/s2.yaml -t {TEMPLATE} -r 2 -n S2
 
 s3: s3-tle multi_shell_ospf_dir
 	go run ./main.go generate -N 648 -P 36 -E 36 \
 	--accessIntfNum 16 --accessFadingmodel fading_model1 --accessLinkmodel Satellite --accessTopologymodel cone3 \
-	--offset 0 -F 0 -i {TLE_FILE_DIR}/s3.tle -o {KUBENET_FILE_DIR}/multi_shell_ospf_tests/s3.yaml -t {TEMPLATE} -r 3 -n S3
+	--offset 0 -i {TLE_FILE_DIR}/s3.tle -o {KUBENET_FILE_DIR}/multi_shell_ospf_tests/s3.yaml -t {TEMPLATE} -r 3 -n S3
 
 ground1: multi_shell_ospf_dir
 	go run ./main.go ground -N 20 --longitude 113.2 --latitude 19.7 \

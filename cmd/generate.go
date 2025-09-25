@@ -31,7 +31,6 @@ var kubenetCmd = &cobra.Command{
 		accessFadingmodel, _ := cmd.Flags().GetString("accessFadingmodel")
 		accessLinkmodel, _ := cmd.Flags().GetString("accessLinkmodel")
 		accessTopologymodel, _ := cmd.Flags().GetString("accessTopologymodel")
-		phase, _ := cmd.Flags().GetFloat32("phase")
 		offset, _ := cmd.Flags().GetInt32("offset")
 		image, _ := cmd.Flags().GetString("image")
 		routingAreaId, _ := cmd.Flags().GetInt32("routingArea")
@@ -329,22 +328,20 @@ var kubenetCmd = &cobra.Command{
 					MobilityModel:    mobilityModel,
 					OrientationModel: orientationModel,
 					Param:            &networkNodeParam,
-					IsFake:           &fake,
 				},
 			)
 		}
-		walkerDeltaSphere := kubenet_config.WalkerDeltaSphere{
-			Type:   "WalkerDelta",
+		walkerSphere := kubenet_config.WalkerSphere{
+			Type:   "Walker",
 			Planes: planes,
 			Offset: offset,
-			Phase:  phase,
 			IsFull: isFull,
 		}
 		spheres := []kubenet_config.ConstellationSpheresInner{}
 		spheres = append(
 			spheres,
 			kubenet_config.ConstellationSpheresInner{
-				WalkerDeltaSphere: &walkerDeltaSphere,
+				WalkerSphere: &walkerSphere,
 			},
 		)
 		constellations = append(
@@ -361,6 +358,10 @@ var kubenetCmd = &cobra.Command{
 		networkExperiment.Constellations = append(networkExperiment.Constellations, constellations...)
 		networkExperiment.NetworkNodes = append(networkExperiment.NetworkNodes, networkNodes...)
 
+		if fake {
+			networkExperiment.Extra.IsFakeTest = &fake
+		}
+
 		// bytes, err := networkExperiment.MarshalJSON()
 		bytes, err := util.StructToYAML(networkExperiment)
 		if err != nil {
@@ -376,12 +377,11 @@ var kubenetCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(kubenetCmd)
 
-	// params for walker-delta constellation model
+	// params for walker constellation model
 	kubenetCmd.Flags().StringP("name", "n", "", "the name of constellation")
 	kubenetCmd.Flags().IntP("num", "N", 300, "Total number of satellites, which must be divisible by P")
 	kubenetCmd.Flags().IntP("plane", "P", 10, "The num of orbital planes")
 	kubenetCmd.Flags().IntP("needed-plane", "E", 0, "The num of plane used")
-	kubenetCmd.Flags().Float32P("phase", "F", 0, "Phasing between satellites in adjacent planes, range from 0 to plane-1")
 	kubenetCmd.Flags().Int32("offset", 0, "Offset")
 	kubenetCmd.Flags().Bool("fake", false, "Fake")
 	kubenetCmd.Flags().Bool("cross-sphere", false, "cross-sphere")

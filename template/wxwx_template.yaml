@@ -24,8 +24,8 @@ link_models:
 - name: satlaser
   param:
     type: SatelliteLaserLink
-    bandwidth: 1Gbps
-    single_hop_latency: 5ms
+    bandwidth: 10Gbps
+    single_hop_latency: 1ms
 network_nodes:
 fading_models:
 - name: fading_model1

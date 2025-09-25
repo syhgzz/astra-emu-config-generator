@@ -40,7 +40,7 @@ func MergeNetworkExperiment(nes []*kubenet_config.NetworkExperiment) *kubenet_co
 
 	for _, constellation := range constellationsMap {
 		for idx, sphere := range constellation.Spheres {
-			sphere.WalkerDeltaSphere.Idx = int32(idx)
+			sphere.WalkerSphere.Idx = int32(idx)
 		}
 	}
 
