@@ -251,7 +251,7 @@ topology_models:
 - name: walkerinter
   param:
     type: WalkerInterSatTopo  
-    default_angle: 120
+    default_angle: 20
 routing_areas:
 - id: 1
   param:

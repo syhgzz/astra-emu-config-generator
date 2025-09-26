@@ -5,7 +5,7 @@ multi_shell_bgp_dir:
 	mkdir -p ${MULTI_SHELL_BGP_DIR}
 
 s1-tle: tle-file-dir
-	go run ./main.go tle -N 800 -P 20 -E 20 -I 60 -H 1000 -F 1 -D 100 -o ${TLE_FILE_DIR}/s1.tle -n S1
+	go run ./main.go tle -N 2400 -P 40 -E 40 -I 60 -H 1000 -F 9 -D 100 -o ${TLE_FILE_DIR}/s1.tle -n S1
 
 s2-tle: tle-file-dir
 	go run ./main.go tle -N 560 -P 35 -E 35 -I 55 -H 1000 -F 0 -D 100 -o ${TLE_FILE_DIR}/s2.tle -n S2
@@ -14,9 +14,9 @@ s3-tle: tle-file-dir
 	go run ./main.go tle -N 648 -P 36 -E 36 -I 89 -H 1500 -F 0 -D 100 -o ${TLE_FILE_DIR}/s3.tle -n S3
 
 s1: s1-tle multi_shell_bgp_dir
-	go run ./main.go generate -N 800 -P 20 -E 20 \
-	--accessIntfNum 16 --accessFadingmodel fading_model1 --accessLinkmodel Satellite --accessTopologymodel cone1 \
-	--fake true --offset -1 -i ${TLE_FILE_DIR}/s1.tle -o ${MULTI_SHELL_BGP_DIR}/s1.yaml -t ${MULTI_SHELL_BGP_TEMPLATE} -r 1 -n S1
+	go run ./main.go generate -N 2400 -P 40 -E 40 -F 9 \
+	--fake --accessIntfNum 16 --accessFadingmodel fading_model1 --accessLinkmodel Satellite --accessTopologymodel cone1 \
+	--offset -1 -i ${TLE_FILE_DIR}/s1.tle -o ${MULTI_SHELL_BGP_DIR}/s1.yaml -t ${MULTI_SHELL_BGP_TEMPLATE} -r 1 -n S1
 	@cp ${MULTI_SHELL_BGP_DIR}/s1.yaml ${OUTPUT_TEST_DIR}/s1.yaml
 
 s2: s2-tle multi_shell_bgp_dir

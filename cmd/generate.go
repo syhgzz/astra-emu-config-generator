@@ -37,6 +37,7 @@ var kubenetCmd = &cobra.Command{
 		noRoutingArea, _ := cmd.Flags().GetBool("no-routing-area")
 		fake, _ := cmd.Flags().GetBool("fake")
 		crossSphere, _ := cmd.Flags().GetBool("cross-sphere")
+		phase, _ := cmd.Flags().GetFloat64("phase")
 
 		var routingAreaPtr *int32
 		if !noRoutingArea {
@@ -334,6 +335,7 @@ var kubenetCmd = &cobra.Command{
 		walkerSphere := kubenet_config.WalkerSphere{
 			Type:   "Walker",
 			Planes: planes,
+			Phase:  int32(phase),
 			Offset: offset,
 			IsFull: isFull,
 		}
@@ -383,6 +385,7 @@ func init() {
 	kubenetCmd.Flags().IntP("plane", "P", 10, "The num of orbital planes")
 	kubenetCmd.Flags().IntP("needed-plane", "E", 0, "The num of plane used")
 	kubenetCmd.Flags().Int32("offset", 0, "Offset")
+	kubenetCmd.Flags().Float64P("phase", "F", 0, "Phasing between satellites in adjacent planes, range from 0 to plane-1")
 	kubenetCmd.Flags().Bool("fake", false, "Fake")
 	kubenetCmd.Flags().Bool("cross-sphere", false, "cross-sphere")
 
