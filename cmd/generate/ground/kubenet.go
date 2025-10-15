@@ -1,23 +1,22 @@
-package cmd
+package ground
 
 import (
 	"fmt"
 	"math/rand"
-	"os"
 	"strconv"
 	"strings"
 
-	"dslab.sjtu/kubenet-config-generator/pkg/util"
+	"dslab.sjtu/kubenet-config-generator/pkg/kubenet"
 	"dslab.sjtu/kubenet/api/pkg/kubenet_config"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
 
-// groundCmd represents the ground command
-var groundCmd = &cobra.Command{
-	Use:   "ground",
-	Short: "Generate ground cluster",
-	Long:  `Generate ground cluster from params.`,
+// kubenetCmd represents the ground command
+var kubenetCmd = &cobra.Command{
+	Use:   "kubenet",
+	Short: "Generate Kubenet config for ground",
+	Long:  `Generate Kubenet config for ground.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("Start generating Ground cluster YAML")
 		num, _ := cmd.Flags().GetInt("num")
@@ -38,13 +37,9 @@ var groundCmd = &cobra.Command{
 			routingAreaPtr = &routingAreaId
 		}
 
-		yamlData, err := os.ReadFile(template)
+		networkExperiment, err := kubenet.ReadConfig(template)
 		if err != nil {
 			logrus.Fatalf("failed to read networkExperiment: %v", err)
-		}
-		networkExperiment, err := util.YAMLToStruct(yamlData)
-		if err != nil {
-			logrus.Fatalf("failed to unmarshal networkExperiment: %v", err)
 		}
 
 		networkNodes := []kubenet_config.NetworkNode{}
@@ -149,37 +144,33 @@ var groundCmd = &cobra.Command{
 
 		networkExperiment.NetworkNodes = append(networkExperiment.NetworkNodes, networkNodes...)
 
-		bytes, err := util.StructToYAML(networkExperiment)
+		err = kubenet.WriteConfig(outputPath, networkExperiment)
 		if err != nil {
-			logrus.Fatalf("failed to marshal networkExperiment: %v", err)
-		}
-		err = os.WriteFile(outputPath, bytes, 0644)
-		if err != nil {
-			logrus.Fatalf("failed to write networkExperiment to file: %v", err)
+			logrus.Fatalf("failed to write networkExperiment: %v", err)
 		}
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(groundCmd)
+	GroundCmd.AddCommand(kubenetCmd)
 
 	// params for ground cluster
-	groundCmd.Flags().StringP("name", "n", "", "the name of ground cluster")
-	groundCmd.Flags().IntP("num", "N", 20, "Total number of ground cluster nodes")
-	groundCmd.Flags().Float64("longitude", 0.0, "longitude")
-	groundCmd.Flags().Float64("latitude", 0.0, "latitude")
+	kubenetCmd.Flags().StringP("name", "n", "", "the name of ground cluster")
+	kubenetCmd.Flags().IntP("num", "N", 20, "Total number of ground cluster nodes")
+	kubenetCmd.Flags().Float64("longitude", 0.0, "longitude")
+	kubenetCmd.Flags().Float64("latitude", 0.0, "latitude")
 
 	// params for network experiment
-	groundCmd.Flags().String("image", "", "application image")
-	groundCmd.Flags().Int32P("routingArea", "r", 1, "routing area Id")
-	groundCmd.Flags().Bool("no-routing-area", false, "Disable routing area for all interfaces")
+	kubenetCmd.Flags().String("image", "", "application image")
+	kubenetCmd.Flags().Int32P("routingArea", "r", 1, "routing area Id")
+	kubenetCmd.Flags().Bool("no-routing-area", false, "Disable routing area for all interfaces")
 
 	// params for ground access intfs
-	groundCmd.Flags().String("accessFadingmodel", "", "the name of access intf fadingmodel")
-	groundCmd.Flags().String("accessLinkmodel", "", "the name of access intf linkmodel")
-	groundCmd.Flags().String("accessTopologymodel", "", "the name of access intf topologymodel")
+	kubenetCmd.Flags().String("accessFadingmodel", "", "the name of access intf fadingmodel")
+	kubenetCmd.Flags().String("accessLinkmodel", "", "the name of access intf linkmodel")
+	kubenetCmd.Flags().String("accessTopologymodel", "", "the name of access intf topologymodel")
 
 	// params for input and output
-	groundCmd.Flags().StringP("template", "t", "./test.template.yaml", "Kubenet template YAML input path")
-	groundCmd.Flags().StringP("output", "o", "./ground.yaml", "Kubenet YAML output path")
+	kubenetCmd.Flags().StringP("template", "t", "./test.template.yaml", "Kubenet template YAML input path")
+	kubenetCmd.Flags().StringP("output", "o", "./ground.yaml", "Kubenet YAML output path")
 }

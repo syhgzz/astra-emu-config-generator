@@ -1,12 +1,11 @@
-package cmd
+package walker
 
 import (
 	"fmt"
-	"os"
 	"strconv"
 
+	"dslab.sjtu/kubenet-config-generator/pkg/kubenet"
 	"dslab.sjtu/kubenet-config-generator/pkg/tle"
-	"dslab.sjtu/kubenet-config-generator/pkg/util"
 	"dslab.sjtu/kubenet/api/pkg/kubenet_config"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
@@ -14,11 +13,11 @@ import (
 
 // kubenetCmd represents the generate command
 var kubenetCmd = &cobra.Command{
-	Use:   "generate",
-	Short: "Generate Kubenet Config YAML",
-	Long:  `Generate Kubenet Config YAML.`,
+	Use:   "kubenet",
+	Short: "Generate Kubenet Config",
+	Long:  `Generate Kubenet Config.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("Start generating Kubenet Config YAML")
+		fmt.Println("Start generating Kubenet Config")
 		num, _ := cmd.Flags().GetInt("num")
 		name, _ := cmd.Flags().GetString("name")
 		plane, _ := cmd.Flags().GetInt("plane")
@@ -54,14 +53,11 @@ var kubenetCmd = &cobra.Command{
 		actualNum := satNumPerTrack * neededPlane
 		isFull := plane == neededPlane
 
-		yamlData, err := os.ReadFile(template)
+		networkExperiment, err := kubenet.ReadConfig(template)
 		if err != nil {
 			logrus.Fatalf("failed to read networkExperiment: %v", err)
 		}
-		networkExperiment, err := util.YAMLToStruct(yamlData)
-		if err != nil {
-			logrus.Fatalf("failed to unmarshal networkExperiment: %v", err)
-		}
+
 		networkNodes := []kubenet_config.NetworkNode{}
 		constellations := []kubenet_config.Constellation{}
 
@@ -364,29 +360,19 @@ var kubenetCmd = &cobra.Command{
 			networkExperiment.Extra.IsFakeTest = &fake
 		}
 
-		// bytes, err := networkExperiment.MarshalJSON()
-		bytes, err := util.StructToYAML(networkExperiment)
+		err = kubenet.WriteConfig(outputPath, networkExperiment)
 		if err != nil {
-			logrus.Fatalf("failed to marshal networkExperiment: %v", err)
+			logrus.Fatalf("failed to write networkExperiment: %v", err)
 		}
-		err = os.WriteFile(outputPath, bytes, 0644)
-		if err != nil {
-			logrus.Fatalf("failed to write networkExperiment to file: %v", err)
-		}
+
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(kubenetCmd)
+	WalkerCmd.AddCommand(kubenetCmd)
 
-	// params for walker constellation model
-	kubenetCmd.Flags().StringP("name", "n", "", "the name of constellation")
-	kubenetCmd.Flags().IntP("num", "N", 300, "Total number of satellites, which must be divisible by P")
-	kubenetCmd.Flags().IntP("plane", "P", 10, "The num of orbital planes")
-	kubenetCmd.Flags().IntP("needed-plane", "E", 0, "The num of plane used")
+	// params for constellation
 	kubenetCmd.Flags().Int32("offset", 0, "Offset")
-	kubenetCmd.Flags().Float64P("phase", "F", 0, "Phasing between satellites in adjacent planes, range from 0 to plane-1")
-	kubenetCmd.Flags().Bool("fake", false, "Fake")
 	kubenetCmd.Flags().Bool("cross-sphere", false, "cross-sphere")
 
 	// params for network experiment
@@ -396,6 +382,7 @@ func init() {
 	kubenetCmd.Flags().String("image", "", "application image")
 	kubenetCmd.Flags().Int32P("routingArea", "r", 1, "routing area Id")
 	kubenetCmd.Flags().Bool("no-routing-area", false, "Disable routing area for all interfaces")
+	kubenetCmd.Flags().Bool("fake", false, "Fake")
 
 	// params for ground access intfs
 	kubenetCmd.Flags().Int("accessIntfNum", 0, "the number of access intfs")

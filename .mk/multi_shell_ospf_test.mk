@@ -43,14 +43,14 @@ ground3: multi_shell_ospf_dir
 	--accessFadingmodel fading_model1 --accessLinkmodel Satellite --accessTopologymodel cone3 \
 	-o {KUBENET_FILE_DIR}/multi_shell_ospf_tests/ground3.yaml -t {TEMPLATE} -r 3 -n Ground3
 
-two-shell: s1 s2 ground1 ground2 output-test-dir
+two-shell: s1 s2 ground1 ground2 $(OUTPUT_TEST_DIR)
 	go run ./main.go merge -i ${MULTI_SHELL_OSPF_DIR} -o $(OUTPUT_TEST_DIR)/two_shell_ospf_test.yaml
 
-two-shell-ng: s1 s2 output-test-dir
+two-shell-ng: s1 s2 $(OUTPUT_TEST_DIR)
 	go run ./main.go merge -i ${MULTI_SHELL_OSPF_DIR} -o $(OUTPUT_TEST_DIR)/two_shell_ng_ospf_test.yaml
 
-multi-shell: s1 s2 s3 ground1 ground2 ground3 output-test-dir
+multi-shell: s1 s2 s3 ground1 ground2 ground3 $(OUTPUT_TEST_DIR)
 	go run ./main.go merge -i ${MULTI_SHELL_OSPF_DIR} -o $(OUTPUT_TEST_DIR)/multi_shell_ospf_test.yaml
 
-multi-shell-ng: s1 s2 s3 output-test-dir
+multi-shell-ng: s1 s2 s3 $(OUTPUT_TEST_DIR)
 	go run ./main.go merge -i ${MULTI_SHELL_OSPF_DIR} -o $(OUTPUT_TEST_DIR)/multi_shell_ng_ospf_test.yaml

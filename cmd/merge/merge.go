@@ -1,27 +1,30 @@
-package cmd
+package merge
 
 import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"strings"
 
 	"dslab.sjtu/kubenet-config-generator/pkg/kubenet"
-	"dslab.sjtu/kubenet-config-generator/pkg/util"
 	"dslab.sjtu/kubenet/api/pkg/kubenet_config"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
 
 // tleCmd represents the tle command
-var mergeCmd = &cobra.Command{
+var MergeCmd = &cobra.Command{
 	Use:   "merge",
 	Short: "Merge yaml files",
 	Long:  `Merge yaml files.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("Start merge yaml files")
 		intputPath, _ := cmd.Flags().GetString("input")
 		outputPath, _ := cmd.Flags().GetString("output")
+
+		// Check if input path exists
+		if _, err := os.Stat(intputPath); os.IsNotExist(err) {
+			logrus.Fatalf("input path does not exist: %v", intputPath)
+			return
+		}
 
 		entries, err := os.ReadDir(intputPath)
 		if err != nil {
@@ -31,17 +34,10 @@ var mergeCmd = &cobra.Command{
 
 		networkExperiments := []*kubenet_config.NetworkExperiment{}
 		for _, entry := range entries {
-			if strings.HasSuffix(entry.Name(), ".yaml") == false {
-				continue
-			}
-
 			filename := filepath.Join(intputPath, entry.Name())
 			fmt.Println("merge file:", filename)
-			yamlData, err := os.ReadFile(filename)
-			if err != nil {
-				logrus.Fatalf("failed to read networkExperiment: %v", err)
-			}
-			entryNetworkExperiment, err := util.YAMLToStruct(yamlData)
+
+			entryNetworkExperiment, err := kubenet.ReadConfig(filename)
 			if err != nil {
 				logrus.Fatalf("failed to unmarshal networkExperiment: %v", err)
 			}
@@ -51,20 +47,15 @@ var mergeCmd = &cobra.Command{
 
 		networkExperiment := kubenet.MergeNetworkExperiment(networkExperiments)
 
-		bytes, err := util.StructToYAML(networkExperiment)
+		err = kubenet.WriteConfig(outputPath, networkExperiment)
 		if err != nil {
-			logrus.Fatalf("failed to marshal networkExperiment: %v", err)
-		}
-		err = os.WriteFile(outputPath, bytes, 0644)
-		if err != nil {
-			logrus.Fatalf("failed to write networkExperiment to file: %v", err)
+			logrus.Fatalf("failed to write merged networkExperiment: %v", err)
 		}
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(mergeCmd)
 
-	mergeCmd.Flags().StringP("input", "i", "./data", "directory of yaml files to be merged")
-	mergeCmd.Flags().StringP("output", "o", "./testAll.yaml", "merged file output path")
+	MergeCmd.Flags().StringP("input", "i", "./data", "directory of yaml files to be merged")
+	MergeCmd.Flags().StringP("output", "o", "./testAll.yaml", "merged file output path")
 }

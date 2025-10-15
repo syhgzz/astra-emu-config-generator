@@ -31,5 +31,5 @@ s3: s3-tle MULTI_SHELL_WXWX_DIR
 	--offset 0 -i ${TLE_FILE_DIR}/s3.tle -o ${MULTI_SHELL_WXWX_DIR}/s3.yaml -t ${MULTI_SHELL_WXWX_TEMPLATE} -r 3 -n S1
 	@cp ${MULTI_SHELL_WXWX_DIR}/s3.yaml ${OUTPUT_TEST_DIR}/s3.yaml
 
-multi-shell: s1 s2 s3 output-test-dir
+multi-shell: s1 s2 s3 $(OUTPUT_TEST_DIR)
 	go run ./main.go merge -i ${MULTI_SHELL_WXWX_DIR} -o $(OUTPUT_TEST_DIR)/wxwx.yaml
