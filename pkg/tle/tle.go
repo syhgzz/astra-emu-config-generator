@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"math"
 	"os"
-	"strconv"
-	"strings"
 	"time"
 )
 
@@ -169,12 +167,14 @@ func CalculateOrbitalPeriod(h float64) float64 {
 }
 
 type TLEParams struct {
-	Height      float64
-	Name        string
-	Num         int
-	Plane       int
-	Phase       float64
-	Inclination float64
+	Height           float64
+	ConstellationIdx int
+	Num              int
+	Plane            int
+	Phase            float64
+	Inclination      float64
+
+	NameRule string
 
 	// Plane Delta Start
 	DeltaInit float64
@@ -214,7 +214,7 @@ func (t *TLEParams) NewTLEWithOverrides(overrideFunc TLEItemOverrideFunc) TLEIte
 		for satId := range satNumPerTrack {
 			item := NewTLEItem()
 			item.SatId = 10000 + 100*planeId + satId
-			item.Name = strings.ToUpper(t.Name) + "-" + strconv.Itoa(item.SatId)
+			item.Name = t.GenerateSatelliteName(planeId, satId)
 			item.Raan = raan
 			item.Inclination = t.Inclination
 			// Reference: https://ww2.mathworks.cn/help/aerotbx/ug/satellitescenario.walkerdelta.html#mw_badf1acd-4f40-4ad6-987e-c7d35ae2368c
@@ -253,4 +253,12 @@ func ConvertTimeToTLEEpoch(t time.Time) (epochYear int, epoch float64) {
 	epoch = dayOfYear + fractionalDay
 
 	return epochYear, epoch
+}
+
+func (t *TLEParams) GenerateSatelliteName(planeId int, satId int) string {
+	if t.NameRule == "wxwx-1" {
+		return fmt.Sprintf("s-%d-%d-%d", t.ConstellationIdx, planeId, satId)
+	}
+
+	return fmt.Sprintf("s%d-%d", t.ConstellationIdx, 10000+100*planeId+satId)
 }

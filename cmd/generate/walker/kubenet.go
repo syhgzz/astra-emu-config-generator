@@ -17,9 +17,11 @@ var kubenetCmd = &cobra.Command{
 	Short: "Generate Kubenet Config",
 	Long:  `Generate Kubenet Config.`,
 	Run: func(cmd *cobra.Command, args []string) {
+		var routingAreaPtr *int32
+
 		fmt.Println("Start generating Kubenet Config")
 		num, _ := cmd.Flags().GetInt("num")
-		name, _ := cmd.Flags().GetString("name")
+		constellationIdx, _ := cmd.Flags().GetInt("constellation-idx")
 		plane, _ := cmd.Flags().GetInt("plane")
 		neededPlane, _ := cmd.Flags().GetInt("needed-plane")
 		nodeNamePre, _ := cmd.Flags().GetString("nodeNamePre")
@@ -32,16 +34,13 @@ var kubenetCmd = &cobra.Command{
 		accessTopologymodel, _ := cmd.Flags().GetString("accessTopologymodel")
 		offset, _ := cmd.Flags().GetInt32("offset")
 		image, _ := cmd.Flags().GetString("image")
-		routingAreaId, _ := cmd.Flags().GetInt32("routingArea")
-		noRoutingArea, _ := cmd.Flags().GetBool("no-routing-area")
+		routingAreaId, err := cmd.Flags().GetInt32("routingArea")
+		if err == nil {
+			routingAreaPtr = &routingAreaId
+		}
 		fake, _ := cmd.Flags().GetBool("fake")
 		crossSphere, _ := cmd.Flags().GetBool("cross-sphere")
 		phase, _ := cmd.Flags().GetFloat64("phase")
-
-		var routingAreaPtr *int32
-		if !noRoutingArea {
-			routingAreaPtr = &routingAreaId
-		}
 
 		enableGroundAccess := false
 		if accessIntfNum != 0 && accessLinkmodel != "" &&
@@ -345,7 +344,7 @@ var kubenetCmd = &cobra.Command{
 		constellations = append(
 			constellations,
 			kubenet_config.Constellation{
-				Name:    name,
+				Name:    fmt.Sprintf("s%d", constellationIdx),
 				Spheres: spheres,
 			},
 		)
@@ -381,7 +380,6 @@ func init() {
 	kubenetCmd.Flags().StringP("singleHopLatency", "s", "5ms", "linkmodel SingleHopLatency")
 	kubenetCmd.Flags().String("image", "", "application image")
 	kubenetCmd.Flags().Int32P("routingArea", "r", 1, "routing area Id")
-	kubenetCmd.Flags().Bool("no-routing-area", false, "Disable routing area for all interfaces")
 	kubenetCmd.Flags().Bool("fake", false, "Fake")
 
 	// params for ground access intfs

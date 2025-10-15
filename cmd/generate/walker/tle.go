@@ -14,7 +14,7 @@ var tleCmd = &cobra.Command{
 	Long:  `Generate TLE from params.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("Start generating TLE")
-		name, _ := cmd.Flags().GetString("name")
+		constellationIdx, _ := cmd.Flags().GetInt("constellation-idx")
 		height, _ := cmd.Flags().GetFloat64("height")
 		num, _ := cmd.Flags().GetInt("num")
 		plane, _ := cmd.Flags().GetInt("plane")
@@ -23,6 +23,7 @@ var tleCmd = &cobra.Command{
 		phase, _ := cmd.Flags().GetFloat64("phase")
 		inclination, _ := cmd.Flags().GetFloat64("inclination")
 		outputPath, _ := cmd.Flags().GetString("output")
+		nameRule, _ := cmd.Flags().GetString("name-rule")
 
 		if height <= 0 || num <= 0 || plane <= 0 {
 			fmt.Println("height, num, plane must be positive")
@@ -42,12 +43,14 @@ var tleCmd = &cobra.Command{
 		}
 
 		tleParams := tle.TLEParams{
-			Height:      height,
-			Name:        name,
-			Num:         num,
-			Plane:       plane,
-			Phase:       phase,
-			Inclination: inclination,
+			Height:           height,
+			ConstellationIdx: constellationIdx,
+			Num:              num,
+			Plane:            plane,
+			Phase:            phase,
+			Inclination:      inclination,
+
+			NameRule: nameRule,
 
 			DeltaInit:   deltaInit,
 			NeededPlane: neededPlane,
@@ -64,6 +67,7 @@ var tleCmd = &cobra.Command{
 func init() {
 	WalkerCmd.AddCommand(tleCmd)
 
+	tleCmd.Flags().StringP("name-rule", "r", "", "the name rule of constellation")
 	tleCmd.Flags().Float64P("height", "H", 500, "Orbit height(km), recommended 300km - 1500km")
 	tleCmd.Flags().Float64P("delta-init", "D", 0, "The initial delta of the first plane")
 	tleCmd.Flags().Float64P("inclination", "I", 50, "Orbital inclination")
