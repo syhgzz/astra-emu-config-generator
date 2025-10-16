@@ -35,8 +35,8 @@ $(OUTPUT_TEST_DIR):
 .PHONY: s1-tle s2-tle s3-tle s1 s2 s3 ground1 ground2 ground3 two-shell multi-shell
 
 # include on demand for your tests
-# include .mk/multi_shell_mixed_bgp_ospf_test.mk
+include .mk/multi_shell_mixed_bgp_ospf_test.mk
 # include .mk/multi_shell_no_routing_test.mk
 # include .mk/multi_shell_ospf_test.mk
-include .mk/multi_shell_wxwx_test.mk
+# include .mk/multi_shell_wxwx_test.mk
 # include .mk/physic_test.mk

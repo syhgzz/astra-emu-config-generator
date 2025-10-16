@@ -11,6 +11,7 @@ func MergeNetworkExperiment(nes []*kubenet_config.NetworkExperiment) *kubenet_co
 	constellationsMap := make(map[string]kubenet_config.Constellation)
 	topologyModelsMap := make(map[string]kubenet_config.TopologyModel)
 	fadingModelsMap := make(map[string]kubenet_config.FadingModel)
+	networkDeviceModelMap := make(map[string]kubenet_config.NetworkDeviceModel)
 
 	for _, ne := range nes {
 		for _, linkModel := range ne.LinkModels {
@@ -35,6 +36,9 @@ func MergeNetworkExperiment(nes []*kubenet_config.NetworkExperiment) *kubenet_co
 		}
 		for _, fadingModel := range ne.FadingModels {
 			fadingModelsMap[fadingModel.Name] = fadingModel
+		}
+		for _, networkDeviceModel := range ne.NetworkDeviceModels {
+			networkDeviceModelMap[networkDeviceModel.Name] = networkDeviceModel
 		}
 	}
 
@@ -62,6 +66,9 @@ func MergeNetworkExperiment(nes []*kubenet_config.NetworkExperiment) *kubenet_co
 	}
 	for _, fadingModel := range fadingModelsMap {
 		ne.FadingModels = append(ne.FadingModels, fadingModel)
+	}
+	for _, networkDeviceModel := range networkDeviceModelMap {
+		ne.NetworkDeviceModels = append(ne.NetworkDeviceModels, networkDeviceModel)
 	}
 	ne.Extra = nes[0].Extra
 
