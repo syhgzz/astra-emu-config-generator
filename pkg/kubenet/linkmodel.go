@@ -4,12 +4,11 @@ import (
 	"dslab.sjtu/kubenet/api/pkg/kubenet_config"
 )
 
-func NewLinkModels(bandwidth, singleHopLatency string) ([]kubenet_config.LinkModel, error) {
+func NewLinkModels(bandwidth string) ([]kubenet_config.LinkModel, error) {
 	linkModels := []kubenet_config.LinkModel{}
 	satelliteLaserLinkParam := kubenet_config.SatelliteLaserLinkParam{
 		Type:             "SatelliteLaserLink",
 		Bandwidth:        bandwidth,
-		SingleHopLatency: singleHopLatency,
 	}
 	linkModelParam := kubenet_config.LinkModelParam{
 		SatelliteLaserLinkParam: &satelliteLaserLinkParam,
@@ -22,11 +21,10 @@ func NewLinkModels(bandwidth, singleHopLatency string) ([]kubenet_config.LinkMod
 	return linkModels, nil
 }
 
-func NewSatelliteLaserLink(bandwidth, singleHopLatency string) kubenet_config.LinkModel {
+func NewSatelliteLaserLink(bandwidth string) kubenet_config.LinkModel {
 	satelliteLaserLinkParam := kubenet_config.SatelliteLaserLinkParam{
 		Type:             "SatelliteLaserLink",
 		Bandwidth:        bandwidth,
-		SingleHopLatency: singleHopLatency,
 	}
 	linkModelParam := kubenet_config.LinkModelParam{
 		SatelliteLaserLinkParam: &satelliteLaserLinkParam,

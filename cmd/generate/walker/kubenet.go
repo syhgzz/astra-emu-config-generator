@@ -18,6 +18,7 @@ var kubenetCmd = &cobra.Command{
 	Long:  `Generate Kubenet Config.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		var routingAreaPtr *int32
+		var networkDeviceModelptr *string
 
 		fmt.Println("Start generating Kubenet Config")
 		num, _ := cmd.Flags().GetInt("num")
@@ -37,6 +38,10 @@ var kubenetCmd = &cobra.Command{
 		routingAreaId, err := cmd.Flags().GetInt32("routingArea")
 		if err == nil {
 			routingAreaPtr = &routingAreaId
+		}
+		networkDeviceModelName, err := cmd.Flags().GetString("networkDeviceModel")
+		if err == nil {
+			networkDeviceModelptr = &networkDeviceModelName
 		}
 		fake, _ := cmd.Flags().GetBool("fake")
 		crossSphere, _ := cmd.Flags().GetBool("cross-sphere")
@@ -141,12 +146,15 @@ var kubenetCmd = &cobra.Command{
 			GeneralWirelessLinkIntfParam: &generalWirelessLinkIntfParam,
 		}
 
+		testSuiteImage := "harbor.sail.se.sjtu.edu.cn/utils/test-suite:v0.2"
+
 		ports := []int32{5000, 5001, 5002}
 		computationUnits := []kubenet_config.ComputationUnit{}
 		computationUnits = append(
 			computationUnits,
 			kubenet_config.ComputationUnit{
-				Image: "harbor.sail.se.sjtu.edu.cn/utils/test-suite:v0.2",
+				Name:  "testsuite",
+				Image: &testSuiteImage,
 				Ports: ports,
 			},
 		)
@@ -154,7 +162,7 @@ var kubenetCmd = &cobra.Command{
 			computationUnits = append(
 				computationUnits,
 				kubenet_config.ComputationUnit{
-					Image: image,
+					Image: &image,
 				},
 			)
 		}
@@ -317,13 +325,14 @@ var kubenetCmd = &cobra.Command{
 			networkNodes = append(
 				networkNodes,
 				kubenet_config.NetworkNode{
-					Name:             nodeName,
-					Type:             "Container",
-					VisualOptions:    &visualOptions,
-					Intfs:            intfs,
-					MobilityModel:    mobilityModel,
-					OrientationModel: orientationModel,
-					Param:            &networkNodeParam,
+					Name:               nodeName,
+					Type:               "Container",
+					VisualOptions:      &visualOptions,
+					Intfs:              intfs,
+					MobilityModel:      mobilityModel,
+					OrientationModel:   orientationModel,
+					Param:              &networkNodeParam,
+					NetworkDeviceModel: networkDeviceModelptr,
 				},
 			)
 		}
@@ -377,8 +386,8 @@ func init() {
 	// params for network experiment
 	kubenetCmd.Flags().String("nodeNamePre", "", "the prefix of network node name")
 	kubenetCmd.Flags().StringP("bandwidth", "b", "1Gibps", "linkmodel Bandwidth")
-	kubenetCmd.Flags().StringP("singleHopLatency", "s", "5ms", "linkmodel SingleHopLatency")
 	kubenetCmd.Flags().String("image", "", "application image")
+	kubenetCmd.Flags().String("networkDeviceModel", "ndm1", "network device model name")
 	kubenetCmd.Flags().Int32P("routingArea", "r", 1, "routing area Id")
 	kubenetCmd.Flags().Bool("fake", false, "Fake")
 

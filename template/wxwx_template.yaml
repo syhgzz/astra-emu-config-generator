@@ -25,7 +25,9 @@ link_models:
   param:
     type: SatelliteLaserLink
     bandwidth: 10Gbps
-    single_hop_latency: 1ms
+network_device_models:
+- name: ndm1
+  process_delay: 5ms
 network_nodes:
 fading_models:
 - name: fading_model1

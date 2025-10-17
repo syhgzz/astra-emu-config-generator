@@ -62,12 +62,15 @@ var kubenetCmd = &cobra.Command{
 			GeneralWirelessLinkIntfParam: &generalWirelessLinkIntfParam,
 		}
 
+		testSuiteImage := "harbor.sail.se.sjtu.edu.cn/utils/test-suite:v0.2"
+
 		ports := []int32{5000, 5001, 5002}
 		computationUnits := []kubenet_config.ComputationUnit{}
 		computationUnits = append(
 			computationUnits,
 			kubenet_config.ComputationUnit{
-				Image: "harbor.sail.se.sjtu.edu.cn/utils/test-suite:v0.2",
+				Name:  "testsuite",
+				Image: &testSuiteImage,
 				Ports: ports,
 			},
 		)
@@ -75,7 +78,7 @@ var kubenetCmd = &cobra.Command{
 			computationUnits = append(
 				computationUnits,
 				kubenet_config.ComputationUnit{
-					Image: image,
+					Image: &image,
 				},
 			)
 		}
