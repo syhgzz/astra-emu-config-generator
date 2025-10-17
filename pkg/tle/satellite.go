@@ -45,7 +45,7 @@ func NewConstellation(filePath string) ([]Satellite, error) {
 	constellation := []Satellite{}
 	for idx := 0; idx < len(lines); idx += 3 {
 		name := strings.ReplaceAll(strings.Trim(lines[idx], " "), " ", "-")
-		name = strings.ReplaceAll(name, "-", "")
+		// name = strings.ReplaceAll(name, "-", "")
 		name = strings.ReplaceAll(name, "(", "")
 		name = strings.ReplaceAll(name, ")", "")
 		name = strings.ToLower(name)
