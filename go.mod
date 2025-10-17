@@ -6,7 +6,7 @@ require github.com/spf13/cobra v1.9.1
 
 require dslab.sjtu/kubenet/api v0.0.0
 
-replace dslab.sjtu/kubenet/api v0.0.0 => git.sail.se.sjtu.edu.cn/dslab/kubenet-api v1.0.28
+replace dslab.sjtu/kubenet/api v0.0.0 => git.sail.se.sjtu.edu.cn/dslab/kubenet-api v1.0.30
 
 require (
 	github.com/cockroachdb/logtags v0.0.0-20230118201751-21c54148d20b // indirect
