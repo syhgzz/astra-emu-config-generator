@@ -1,10 +1,9 @@
-package util
+package kubenet_config_util
 
 import (
 	"encoding/json"
 	"fmt"
 
-	"dslab.sjtu/kubenet-config-generator/api/pkg/kubenet_config"
 	"gopkg.in/yaml.v2"
 )
 
@@ -25,10 +24,10 @@ func convertMap(i interface{}) interface{} {
 	return i
 }
 
-func YamlToJson(yamlData []byte) (string, error) {
+func YamlToJson(yamlData []byte) ([]byte, error) {
 	var yamlDataInterface interface{}
 	if err := yaml.Unmarshal(yamlData, &yamlDataInterface); err != nil {
-		return "", fmt.Errorf("解析 YAML 失败: %v", err)
+		return nil, fmt.Errorf("解析 YAML 失败: %v", err)
 	}
 
 	// 递归转换
@@ -36,24 +35,25 @@ func YamlToJson(yamlData []byte) (string, error) {
 
 	jsonData, err := json.MarshalIndent(jsonCompatibleData, "", "  ")
 	if err != nil {
-		return "", fmt.Errorf("转换为 JSON 失败: %v", err)
+		return nil, fmt.Errorf("转换为 JSON 失败: %v", err)
 	}
 
-	return string(jsonData), nil
+	return jsonData, nil
 }
 
-// YAMLToStruct 函数将 YAML 数据转换为结构体
-func YAMLToStruct(yamlData []byte) (*kubenet_config.NetworkExperiment, error) {
-	gotJSON, err := YamlToJson(yamlData)
-	if err != nil {
-		return nil, fmt.Errorf("failed to convert YAML to JSON: %v", err)
+func JsonToYaml(jsonData []byte) ([]byte, error) {
+	var jsonDataInterface interface{}
+	if err := json.Unmarshal(jsonData, &jsonDataInterface); err != nil {
+		return nil, fmt.Errorf("解析 JSON 失败: %v", err)
 	}
 
-	var exp kubenet_config.NetworkExperiment
-	err = exp.UnmarshalJSON([]byte(gotJSON))
+	// 递归转换
+	yamlCompatibleData := convertMap(jsonDataInterface)
+
+	yamlData, err := yaml.Marshal(yamlCompatibleData)
 	if err != nil {
-		return nil, fmt.Errorf("failed to unmarshal JSON to struct: %v", err)
+		return nil, fmt.Errorf("转换为 YAML 失败: %v", err)
 	}
 
-	return &exp, nil
+	return yamlData, nil
 }

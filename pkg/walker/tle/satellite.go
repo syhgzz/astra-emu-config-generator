@@ -1,4 +1,4 @@
-package kubenet
+package tle
 
 import (
 	"os"
@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/cockroachdb/errors"
+	"github.com/joshuaferrara/go-satellite"
 	gosate "github.com/joshuaferrara/go-satellite"
 )
 
@@ -26,7 +27,7 @@ func NewStatellite(name, line1, line2 string) (*Satellite, error) {
 	}
 	return &Satellite{
 		Name:      name,
-		Satellite: gosate.TLEToSat(line1, line2, "wgs84"),
+		Satellite: gosate.TLEToSat(line1, line2, satellite.GravityWGS72),
 	}, nil
 }
 
@@ -44,7 +45,7 @@ func NewConstellation(filePath string) ([]Satellite, error) {
 	constellation := []Satellite{}
 	for idx := 0; idx < len(lines); idx += 3 {
 		name := strings.ReplaceAll(strings.Trim(lines[idx], " "), " ", "-")
-		name = strings.ReplaceAll(name, "-", "")
+		// name = strings.ReplaceAll(name, "-", "")
 		name = strings.ReplaceAll(name, "(", "")
 		name = strings.ReplaceAll(name, ")", "")
 		name = strings.ToLower(name)
