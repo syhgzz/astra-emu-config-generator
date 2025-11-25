@@ -1,4 +1,4 @@
-package kubenet
+package kubenet_config_util
 
 import (
 	"fmt"
@@ -6,7 +6,6 @@ import (
 	"path/filepath"
 	"strings"
 
-	"dslab.sjtu/kubenet-config-generator/pkg/util"
 	"dslab.sjtu/kubenet/api/pkg/kubenet_config"
 )
 
@@ -22,7 +21,7 @@ func ReadConfig(filePath string) (*kubenet_config.NetworkExperiment, error) {
 	}
 
 	if strings.HasSuffix(filePath, ".yaml") {
-		jsonData, err := util.YamlToJson(rawData)
+		jsonData, err := YamlToJson(rawData)
 		if err != nil {
 			return nil, fmt.Errorf("failed to convert YAML to JSON: %v", err)
 		}
@@ -57,7 +56,7 @@ func WriteConfig(filePath string, exp *kubenet_config.NetworkExperiment) error {
 	}
 
 	if strings.HasSuffix(filePath, ".yaml") {
-		rawData, err = util.JsonToYaml(rawData)
+		rawData, err = JsonToYaml(rawData)
 		if err != nil {
 			return fmt.Errorf("failed to convert YAML to JSON: %v", err)
 		}

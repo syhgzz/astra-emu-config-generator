@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"strings"
 
-	"dslab.sjtu/kubenet-config-generator/pkg/kubenet"
+	"dslab.sjtu/kubenet-config-generator/pkg/kubenet_config_util"
 	"dslab.sjtu/kubenet/api/pkg/kubenet_config"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
@@ -30,14 +30,13 @@ var kubenetCmd = &cobra.Command{
 		accessTopologymodel, _ := cmd.Flags().GetString("accessTopologymodel")
 		image, _ := cmd.Flags().GetString("image")
 		routingAreaId, _ := cmd.Flags().GetInt32("routingArea")
-		noRoutingArea, _ := cmd.Flags().GetBool("no-routing-area")
 
 		var routingAreaPtr *int32
-		if !noRoutingArea {
+		if routingAreaId >= 0 {
 			routingAreaPtr = &routingAreaId
 		}
 
-		networkExperiment, err := kubenet.ReadConfig(template)
+		networkExperiment, err := kubenet_config_util.ReadConfig(template)
 		if err != nil {
 			logrus.Fatalf("failed to read networkExperiment: %v", err)
 		}
@@ -147,7 +146,7 @@ var kubenetCmd = &cobra.Command{
 
 		networkExperiment.NetworkNodes = append(networkExperiment.NetworkNodes, networkNodes...)
 
-		err = kubenet.WriteConfig(outputPath, networkExperiment)
+		err = kubenet_config_util.WriteConfig(outputPath, networkExperiment)
 		if err != nil {
 			logrus.Fatalf("failed to write networkExperiment: %v", err)
 		}
@@ -165,13 +164,12 @@ func init() {
 
 	// params for network experiment
 	kubenetCmd.Flags().String("image", "", "application image")
-	kubenetCmd.Flags().Int32P("routingArea", "r", 1, "routing area Id")
-	kubenetCmd.Flags().Bool("no-routing-area", false, "Disable routing area for all interfaces")
+	kubenetCmd.Flags().Int32P("routingArea", "r", -1, "routing area Id")
 
 	// params for ground access intfs
-	kubenetCmd.Flags().String("accessFadingmodel", "", "the name of access intf fadingmodel")
-	kubenetCmd.Flags().String("accessLinkmodel", "", "the name of access intf linkmodel")
-	kubenetCmd.Flags().String("accessTopologymodel", "", "the name of access intf topologymodel")
+	kubenetCmd.Flags().String("accessFadingmodel", "fading_model1", "the name of access intf fadingmodel")
+	kubenetCmd.Flags().String("accessLinkmodel", "Satellite", "the name of access intf linkmodel")
+	kubenetCmd.Flags().String("accessTopologymodel", "cone1", "the name of access intf topologymodel")
 
 	// params for input and output
 	kubenetCmd.Flags().StringP("template", "t", "./test.template.yaml", "Kubenet template YAML input path")

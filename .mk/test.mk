@@ -1,9 +1,7 @@
 NN ?= kubenet/$(TEST)
-DATA ?= $(OUTPUT_TEST_DIR)/$(TEST).yaml
+DATA ?= $(KUBENET_CONFIG_FILE_DIR)/$(TEST).yaml
 
 SERVER ?= http://localhost:9090
-# SERVER ?= http://10.0.0.10:9090
-# SERVER ?= http://10.0.0.31:31002
 
 .PHONY: exp-apply exp-delete exp-start exp-stop
 

@@ -3,7 +3,8 @@ package walker
 import (
 	"fmt"
 
-	"dslab.sjtu/kubenet-config-generator/pkg/tle"
+	"dslab.sjtu/kubenet-config-generator/cmd/util"
+	"dslab.sjtu/kubenet-config-generator/pkg/walker/tle"
 	"github.com/spf13/cobra"
 )
 
@@ -12,64 +13,59 @@ var tleCmd = &cobra.Command{
 	Use:   "tle",
 	Short: "Generate TLE",
 	Long:  `Generate TLE from params.`,
-	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("Start generating TLE")
-		constellationIdx, _ := cmd.Flags().GetInt("constellation-idx")
-		height, _ := cmd.Flags().GetFloat64("height")
-		num, _ := cmd.Flags().GetInt("num")
-		plane, _ := cmd.Flags().GetInt("plane")
-		neededPlane, _ := cmd.Flags().GetInt("needed-plane")
-		deltaInit, _ := cmd.Flags().GetFloat64("delta-init")
-		phase, _ := cmd.Flags().GetFloat64("phase")
-		inclination, _ := cmd.Flags().GetFloat64("inclination")
+	RunE: func(cmd *cobra.Command, args []string) error {
+		fmt.Println("🚀 Start generating TLE")
+
+		configFile, _ := cmd.Flags().GetString("config")
+		shellIdx, _ := cmd.Flags().GetInt("shell-idx")
 		outputPath, _ := cmd.Flags().GetString("output")
-		nameRule, _ := cmd.Flags().GetString("name-rule")
 
-		if height <= 0 || num <= 0 || plane <= 0 {
-			fmt.Println("height, num, plane must be positive")
-			return
-		}
-		if num%plane != 0 {
-			fmt.Println("num must be divisible by plane")
-			return
-		}
-		if inclination < 0 || inclination > 90 {
-			fmt.Println("inclination must be between 0 and 90")
-			return
-		}
-		if phase < 0 || phase >= float64(plane) {
-			fmt.Println("phase must be between 0 and plane")
-			return
+		p := tle.NewDefaultTLEParams()
+
+		if configFile != "" {
+			// 优先从 YAML 读取
+			err := tle.LoadTLEParamsFromYAML(configFile, shellIdx, &p)
+			if err != nil {
+				return fmt.Errorf("failed to load tle params from config file %s: %w", configFile, err)
+			}
+			fmt.Println("📖 Loaded tle params from YAML:", configFile)
+		} else {
+			// 从命令行读取参数
+			util.SetIfChanged[int](cmd, "shell-idx", func(v int) { p.ConstellationIdx = v })
+			util.SetIfChanged[float64](cmd, "height", func(v float64) { p.Height = v })
+			util.SetIfChanged[int](cmd, "num", func(v int) { p.Num = v })
+			util.SetIfChanged[int](cmd, "plane", func(v int) { p.Plane = v })
+			util.SetIfChanged[int](cmd, "needed-plane", func(v int) { p.NeededPlane = v })
+			util.SetIfChanged[float64](cmd, "delta-init", func(v float64) { p.DeltaInit = v })
+			util.SetIfChanged[float64](cmd, "phase", func(v float64) { p.Phase = v })
+			util.SetIfChanged[float64](cmd, "inclination", func(v float64) { p.Inclination = v })
+			util.SetIfChanged[string](cmd, "name-rule", func(v string) { p.NameRule = v })
 		}
 
-		tleParams := tle.TLEParams{
-			Height:           height,
-			ConstellationIdx: constellationIdx,
-			Num:              num,
-			Plane:            plane,
-			Phase:            phase,
-			Inclination:      inclination,
+		generator := tle.NewTLEGenerator(
+			tle.WithParams(p),
+			tle.WithOutput(outputPath),
+		)
 
-			NameRule: nameRule,
-
-			DeltaInit:   deltaInit,
-			NeededPlane: neededPlane,
+		if err := generator.Generate(); err != nil {
+			fmt.Println("❌ generate tle failed")
+			return err
 		}
-		items := tleParams.NewTLE()
 
-		err := items.WriteFile(outputPath)
-		if err != nil {
-			fmt.Printf("Failed to write TLE file: %v\n", err)
-		}
+		fmt.Println("✅ TLE generated:", outputPath)
+		return nil
 	},
 }
 
 func init() {
 	WalkerCmd.AddCommand(tleCmd)
 
-	tleCmd.Flags().StringP("name-rule", "r", "", "the name rule of constellation")
-	tleCmd.Flags().Float64P("height", "H", 500, "Orbit height(km), recommended 300km - 1500km")
+	// DO NOT SET DEFAULTS HERE
+	// defaults are set in NewDefaultTLEParams
+	tleCmd.Flags().String("name-rule", "", "the name rule of constellation")
+	tleCmd.Flags().Float64P("height", "H", 0, "Orbit height(km), recommended 300km - 1500km")
 	tleCmd.Flags().Float64P("delta-init", "D", 0, "The initial delta of the first plane")
-	tleCmd.Flags().Float64P("inclination", "I", 50, "Orbital inclination")
-	tleCmd.Flags().StringP("output", "o", "./test.tle", "TLE output path")
+	tleCmd.Flags().Float64P("inclination", "I", 0, "Orbital inclination")
+	tleCmd.Flags().StringP("output", "o", "", "TLE output path")
+	_ = tleCmd.MarkFlagRequired("output")
 }

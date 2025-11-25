@@ -1,0 +1,43 @@
+shells:
+  - shell-index: 1 # -c
+    satellite-num: 240 # -N
+    plane-num: 10 # -P
+    needed-plane-num: 10 # -E
+    orbit-inclination: 60 # -I
+    height: 1000 # -H
+    phase: 5 # -F
+    initial-delta: 100 # -D
+    offset: -1 # --offset
+    fake: true # --fake
+    cross-sphere: true # --cross-sphere
+    ground-access: true # --ground-access
+    routing-area: 1 # -r
+    name-rule: wxwx-1 # --name-rule
+  - shell-index: 2 # -c
+    satellite-num: 560 # -N
+    plane-num: 35 # -P
+    needed-plane-num: 35 # -E
+    orbital-inclination: 55 # -I
+    height: 1000 # -H
+    phase: 0 # -F
+    initial-delta: 100 # -D
+    offset: -1 # --offset
+    fake: true # --fake
+    cross-sphere: true # --cross-sphere
+    ground-access: true # --ground-access
+    routing-area: 2 # -r
+    name-rule: wxwx-1 # --name-rule
+  - shell-index: 3 # -c
+    satellite-num: 648 # -N
+    plane-num: 36 # -P
+    needed-plane-num: 36 # -E
+    orbital-inclination: 89 # -I
+    height: 1500 # -H
+    phase: 0 # -F
+    initial-delta: 100 # -D
+    offset: -1 # --offset
+    fake: true # --fake
+    cross-sphere: true # --cross-sphere
+    ground-access: true # --ground-access
+    routing-area: 3 # -r
+    name-rule: wxwx-1 # --name-rule

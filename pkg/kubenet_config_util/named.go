@@ -1,4 +1,4 @@
-package util
+package kubenet_config_util
 
 type Named interface {
 	GetName() string

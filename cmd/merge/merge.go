@@ -2,12 +2,8 @@ package merge
 
 import (
 	"fmt"
-	"os"
-	"path/filepath"
 
-	"dslab.sjtu/kubenet-config-generator/pkg/kubenet"
-	"dslab.sjtu/kubenet/api/pkg/kubenet_config"
-	"github.com/sirupsen/logrus"
+	"dslab.sjtu/kubenet-config-generator/pkg/merge"
 	"github.com/spf13/cobra"
 )
 
@@ -16,46 +12,30 @@ var MergeCmd = &cobra.Command{
 	Use:   "merge",
 	Short: "Merge yaml files",
 	Long:  `Merge yaml files.`,
-	Run: func(cmd *cobra.Command, args []string) {
-		intputPath, _ := cmd.Flags().GetString("input")
+	RunE: func(cmd *cobra.Command, args []string) error {
+		inputPath, _ := cmd.Flags().GetString("input")
 		outputPath, _ := cmd.Flags().GetString("output")
 
-		// Check if input path exists
-		if _, err := os.Stat(intputPath); os.IsNotExist(err) {
-			logrus.Fatalf("input path does not exist: %v", intputPath)
-			return
+		fmt.Println("🔀 Start merging yaml files:", inputPath, "➡️ ", outputPath)
+
+		merger := merge.NewConfigMerger(
+			merge.WithInputPath(inputPath),
+			merge.WithOutputPath(outputPath),
+			merge.WithRecursive(false),
+			merge.WithFilterExt(".yaml"),
+			merge.WithIgnoreError(false),
+		)
+
+		if err := merger.Merge(); err != nil {
+			return fmt.Errorf("merge config failed: %w", err)
 		}
-
-		entries, err := os.ReadDir(intputPath)
-		if err != nil {
-			logrus.Fatalf("failed to read directory: %v", err)
-			return
-		}
-
-		networkExperiments := []*kubenet_config.NetworkExperiment{}
-		for _, entry := range entries {
-			filename := filepath.Join(intputPath, entry.Name())
-			fmt.Println("merge file:", filename)
-
-			entryNetworkExperiment, err := kubenet.ReadConfig(filename)
-			if err != nil {
-				logrus.Fatalf("failed to unmarshal networkExperiment: %v", err)
-			}
-			networkExperiments = append(networkExperiments, entryNetworkExperiment)
-
-		}
-
-		networkExperiment := kubenet.MergeNetworkExperiment(networkExperiments)
-
-		err = kubenet.WriteConfig(outputPath, networkExperiment)
-		if err != nil {
-			logrus.Fatalf("failed to write merged networkExperiment: %v", err)
-		}
+		return nil
 	},
 }
 
 func init() {
-
 	MergeCmd.Flags().StringP("input", "i", "./data", "directory of yaml files to be merged")
+	_ = MergeCmd.MarkFlagRequired("input")
 	MergeCmd.Flags().StringP("output", "o", "./testAll.yaml", "merged file output path")
+	_ = MergeCmd.MarkFlagRequired("output")
 }
