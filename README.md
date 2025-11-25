@@ -1,93 +1,84 @@
 # kubenet-config-generator
 
+kubenet-config-generator 是用于生成**大规模多壳层**卫星场景的kubenet配置的工具。输入支持命令行和配置文件（shell-config，YAML）两种方式，输出kubenet配置文件（kubenet-config，YAML）。 
 
+**⚠️ 配置文件并不会上传到远程仓库，请自行在本地妥善保管**
 
-## Getting started
-
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
-
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
-
-## Add your files
-
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/topics/git/add_files/#add-files-to-a-git-repository) or push an existing Git repository with the following command:
+## Directory Structure
 
 ```
-cd existing_repo
-git remote add origin https://git.sjtu.edu.cn/dslab/kubenet-config-generator.git
-git branch -M main
-git push -uf origin main
+kubenet-config-generator/
+├── .mk/                                # Makefile 片段
+│   └── gen.mk                          # 生成相关 Makefile 片段
+│   └── test.mk                         # 测试相关 Makefile 片段
+├── cmd/                                # Cobra 命令目录
+├── config/                             # shell-config 配置文件目录
+│   └── multi_shell.yaml.example        # 示例配置文件
+├── output/                             # 输出文件目录
+│   ├── tle/                            # 生成 TLE 文件目录
+│   └── kubenet/                        # 生成 kubenet-config 文件目录
+├── template/                           # 模板文件目录
+│   └── kubenet_template.yaml.example   # kubenet 配置模板示例文件
+├── .gitignore                          # Git 忽略文件
+├── Makefile                            # Makefile 主文件
+├── README.md                           # 项目说明文件
+└── make.env.example                    # Makefile 环境变量示例文件
 ```
-
-## Integrate with your tools
-
-- [ ] [Set up project integrations](https://git.sjtu.edu.cn/dslab/kubenet-config-generator/-/settings/integrations)
-
-## Collaborate with your team
-
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/user/project/merge_requests/auto_merge/)
-
-## Test and Deploy
-
-Use the built-in continuous integration in GitLab.
-
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
-
-***
-
-# Editing this README
-
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
-
-## Suggestions for a good README
-
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
-
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
 
 ## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+1. 复制示例文件
+    ```bash
+    cp make.env.example make.env
+    cp config/multi_shell.yaml.example config/multi_shell.yaml
+    cp template/kubenet_template.yaml.example template/kubenet_template.yaml
+    ```
+2. 编辑 `template/kubenet_template.yaml` 文件，配置 kubenet 模版内容
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+3. 编辑 `config/multi_shell.yaml` 文件，配置多壳层场景，参数见下文表格
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+4. 编辑 `make.env` 文件，配置文件名，指定壳层等
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+5. 运行 Makefile 生成 kubenet 配置文件。本工具支持单壳层和多壳层两种生成模式，多壳层场景下会自动做配置文件合并
+    ```bash
+    # clean output directory
+    make clean-output
+    # generate multiple shells
+    make gen-all
+    # generate one shell
+    make gen-one
+    ```
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+## Configuration
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+本工具输入支持命令行和配置文件（shell-config，YAML）两种方式。
+命令行使用参考`.mk/gen.mk`中的命令。如果`-c`参数为空，则从命令行读取壳层参数，否则从`-c`指定配置文件读取。这里介绍两种模式的配置参数。
 
-## License
-For open source projects, say how it is licensed.
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+|     |     |     |     |     |     |     |     |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 参数名 | 必须 | 类型  | 单位  | 命令行参数 | yaml文件配置 | 默认值 | 约束  |
+| 配置文件路径 |     | string |     | \-c<br>\--config |     | ""  |     |
+| shell index | ✅   | int |     | \-s<br>\--shell-index | shell-index | 1   |     |
+| 卫星总数 |     | int |     | \-N<br>\--num | satellite-num | 300 |     |
+| 平分球体总轨道面数量 |     | int |     | \-P<br>\--plane | plane-num | 10  | 整除卫星总数 |
+| 需要生成的轨道面数量 |     | int |     | \-E<br>\--neede-plane | needed-plane-num | 10  | ≤ plane-num |
+| 相位  |     | float64 |     | \-F<br>\--phase | phase | 0   | < plane-num |
+|     |     |     |     |     |     |     |     |
+| tle文件输出路径 | ✅   | string |     | \-o<br>\--output |     | -  |     |
+| 轨道高度 |     | float64 | km  | \-H<br>\--height | height | 500 |     |
+| 第一个轨道面的起始赤经角（初始RAAN）|     | float64 | 度   | \-D<br>\--delta-init | initial delta | 0   | \[0, 360) |
+| 轨道倾角 |     | float64 | 度   | \-I<br>\--inclination | orbit-inclination | 50  | \[0, 180\] |
+| 命名规则 |     | string |     | \--name-rule | name-rule |     | 目前只有wxwx-1 |
+|     |     |     |     |     |     |     |     |
+| 模版路径 | ✅   | string |     | \-t<br>\--template |     | -  |     |
+| tle文件路径 | ✅   | string |     | \-i<br>\--input |     | -  |     |
+| Kubenet config输出路径 | ✅   | string |     | \-o<br>\--output |     | -  |     |
+| offset |     | int32 |     | \--offset | offset | 0   | 正负不超过轨道面卫星数量 |
+| fake |     | bool |     | \--fake | fake | false |     |
+| cross sphere |     | bool |     | \--cross-sphere | cross-sphere | false |     |
+| ground access |     | bool |     | \--ground-access | ground-access | false |     |
+| access intf num |     | int |     | \--access-intf-num |     | 16  |     |
+| routing area |     | int32 |     | \-r<br>\--routing-area | routing-area | -   |     |
+| image |     | string |     | \--image |     | ""  |     |
+| node name prefix |     | string |     | \--node-name-prefix |     | ""  |     |
