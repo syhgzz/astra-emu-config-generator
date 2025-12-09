@@ -5,3 +5,5 @@ const (
 )
 
 var TEST_SUITE_PORTS = []int32{5000, 5001, 5002}
+
+const FLOW_TASK_BANDWIDTH = "9Gbps"
