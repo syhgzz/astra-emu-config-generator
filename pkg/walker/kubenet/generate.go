@@ -234,17 +234,6 @@ func (g *KubenetGenerator) GenerateFlowTasks(currentNodeName string, currentPhyI
 		intraPlaneTargetName = g.Config.NodeNamePrefix + phyConstellation[intraPhyIdx].Name
 	}
 
-	// 2. 轨道面间目标：下一轨道面，相同卫星索引
-	interPlaneTargetPlaneIdx := 0
-	if totalPlanes > 0 {
-		interPlaneTargetPlaneIdx = (currentPlaneIdx + 1) % totalPlanes
-	}
-	interPhyIdx := interPlaneTargetPlaneIdx*satNumPerTrack + currentSatIdx
-	var interPlaneTargetName string
-	if interPhyIdx >= 0 && interPhyIdx < len(phyConstellation) {
-		interPlaneTargetName = g.Config.NodeNamePrefix + phyConstellation[interPhyIdx].Name
-	}
-
 	// 创建轨道面内流量任务
 	backend := "iperf"
 	intraPlaneTask := kubenet_config.TaskSequence{
@@ -264,24 +253,39 @@ func (g *KubenetGenerator) GenerateFlowTasks(currentNodeName string, currentPhyI
 		},
 	}
 
-	// 创建轨道面间流量任务
-	interPlaneTask := kubenet_config.TaskSequence{
-		Uid: fmt.Sprintf("%s-inter", currentNodeName),
-		Sequence: []kubenet_config.Task{
-			{
-				Param: kubenet_config.TaskParam{
-					FlowTaskParam: &kubenet_config.FlowTaskParam{
-						Type:      "Flow",
-						Dst:       interPlaneTargetName,
-						Bandwidth: FLOW_TASK_BANDWIDTH,
-						Backend:   &backend,
-					},
-				},
-				// StartTime 和 StopTime 留空
-			},
-		},
-	}
+	tasks = append(tasks, intraPlaneTask)
 
-	tasks = append(tasks, intraPlaneTask, interPlaneTask)
+	if totalPlanes > 1 {
+		// 2. 轨道面间目标：下一轨道面，相同卫星索引
+		interPlaneTargetPlaneIdx := 0
+		if totalPlanes > 0 {
+			interPlaneTargetPlaneIdx = (currentPlaneIdx + 1) % totalPlanes
+		}
+		interPhyIdx := interPlaneTargetPlaneIdx*satNumPerTrack + currentSatIdx
+		var interPlaneTargetName string
+		if interPhyIdx >= 0 && interPhyIdx < len(phyConstellation) {
+			interPlaneTargetName = g.Config.NodeNamePrefix + phyConstellation[interPhyIdx].Name
+		}
+
+		// 创建轨道面间流量任务
+		interPlaneTask := kubenet_config.TaskSequence{
+			Uid: fmt.Sprintf("%s-inter", currentNodeName),
+			Sequence: []kubenet_config.Task{
+				{
+					Param: kubenet_config.TaskParam{
+						FlowTaskParam: &kubenet_config.FlowTaskParam{
+							Type:      "Flow",
+							Dst:       interPlaneTargetName,
+							Bandwidth: FLOW_TASK_BANDWIDTH,
+							Backend:   &backend,
+						},
+					},
+					// StartTime 和 StopTime 留空
+				},
+			},
+		}
+
+		tasks = append(tasks, interPlaneTask)
+	}
 	return tasks
 }
