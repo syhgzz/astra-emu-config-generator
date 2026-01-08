@@ -80,5 +80,6 @@ kubenet-config-generator/
 | ground access |     | bool |     | \--ground-access | ground-access | false |     |
 | access intf num |     | int |     | \--access-intf-num |     | 16  |     |
 | routing area |     | int32 |     | \-r<br>\--routing-area | routing-area | -   |     |
+| gen-flow |     | string |     | \--gen-flow |  gen-flow   | ""  | 指定flow task生成模式，可选值：walker-neighbour、random   |
 | image |     | string |     | \--image |     | ""  |     |
 | node name prefix |     | string |     | \--node-name-prefix |     | ""  |     |

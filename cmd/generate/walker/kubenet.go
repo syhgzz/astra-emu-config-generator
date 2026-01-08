@@ -42,7 +42,7 @@ var kubenetCmd = &cobra.Command{
 			util.SetIfChanged[string](cmd, "image", func(v string) { c.Image = v })
 			util.SetIfChanged[int32](cmd, "routing-area", func(v int32) { c.RoutingArea = v })
 			util.SetIfChanged[bool](cmd, "fake", func(v bool) { c.Fake = v })
-			util.SetIfChanged[bool](cmd, "gen-flow", func(v bool) { c.GenFlow = v })
+			util.SetIfChanged[string](cmd, "gen-flow", func(v string) { c.GenFlow = v })
 			util.SetIfChanged[bool](cmd, "cross-sphere", func(v bool) { c.CrossSphere = v })
 			util.SetIfChanged[bool](cmd, "ground-access", func(v bool) { c.GroundAccess = v })
 			util.SetIfChanged[float64](cmd, "phase", func(v float64) { c.Phase = v })
@@ -80,7 +80,7 @@ func init() {
 	kubenetCmd.Flags().String("image", "", "application image")
 	kubenetCmd.Flags().Int32P("routing-area", "r", 0, "routing area Id")
 	kubenetCmd.Flags().Bool("fake", false, "Fake")
-	kubenetCmd.Flags().Bool("gen-flow", false, "whether to generate flow tasks")
+	kubenetCmd.Flags().String("gen-flow", "", "how to generate flow tasks")
 
 	// params for ground access intfs
 	kubenetCmd.Flags().Bool("ground-access", false, "enable ground access")

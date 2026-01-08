@@ -124,13 +124,6 @@ func (g *KubenetGenerator) GenerateConstellation() (*ConstellationResult, error)
 			},
 		}
 
-		// declare flowTasks
-		var flowTasks []kubenet_config.TaskSequence
-		if g.Config.GenFlow {
-			// generate flow tasks
-			flowTasks = g.GenerateFlowTasks(nodeName, idx, satNumPerTrack, g.Config.NeededPlane, phyConstellation)
-		}
-
 		// intfs
 		intfs, err := g.GenerateSatelliteIntfs(IntfGenerateParam{
 			RoutingAreaId: g.Config.RoutingArea,
@@ -153,7 +146,6 @@ func (g *KubenetGenerator) GenerateConstellation() (*ConstellationResult, error)
 				OrientationModel:   orientationModel,
 				Param:              networkNodeParam,
 				NetworkDeviceModel: networkDeviceModelptr,
-				Tasks:              flowTasks,
 			},
 		)
 	}
@@ -172,6 +164,15 @@ func (g *KubenetGenerator) GenerateConstellation() (*ConstellationResult, error)
 				},
 			},
 		},
+	}
+
+	// generate flow tasks
+	switch flowPattern := g.Config.GenFlow; flowPattern {
+	case FLOW_GEN_MODE_WALKER_NEIGHBOUR:
+		g.GenerateNeighbourFlowTasks(constellations, networkNodes)
+	case FLOW_GEN_MODE_RANDOM:
+		g.GenerateRandomFlowTasks(networkNodes)
+	default:
 	}
 
 	return &ConstellationResult{
@@ -213,79 +214,4 @@ func (g *KubenetGenerator) GenerateVisualOption() (*kubenet_config.VisualOption,
 		ModelId:  "1",
 		NodeType: 1,
 	}, nil
-}
-
-func (g *KubenetGenerator) GenerateFlowTasks(currentNodeName string, currentPhyIdx, satNumPerTrack, totalPlanes int, phyConstellation []tle.Satellite) []kubenet_config.TaskSequence {
-	tasks := []kubenet_config.TaskSequence{}
-
-	// 计算目标卫星名称：通过 phyConstellation 中的真实名称获取，减少拼接出错风险
-	// 将物理索引转换为轨道面索引和同轨道内卫星索引
-	currentPlaneIdx := 0
-	currentSatIdx := 0
-	if satNumPerTrack > 0 {
-		currentPlaneIdx = currentPhyIdx / satNumPerTrack
-		currentSatIdx = currentPhyIdx % satNumPerTrack
-	}
-
-	// 1. 轨道面内目标：同一轨道面，卫星索引+1
-	intraPhyIdx := currentPlaneIdx*satNumPerTrack + ((currentSatIdx + 1) % satNumPerTrack)
-	var intraPlaneTargetName string
-	if intraPhyIdx >= 0 && intraPhyIdx < len(phyConstellation) {
-		intraPlaneTargetName = g.Config.NodeNamePrefix + phyConstellation[intraPhyIdx].Name
-	}
-
-	// 创建轨道面内流量任务
-	backend := "iperf"
-	intraPlaneTask := kubenet_config.TaskSequence{
-		Uid: fmt.Sprintf("%s-intra", currentNodeName),
-		Sequence: []kubenet_config.Task{
-			{
-				Param: kubenet_config.TaskParam{
-					FlowTaskParam: &kubenet_config.FlowTaskParam{
-						Type:      "Flow",
-						Dst:       intraPlaneTargetName,
-						Bandwidth: FLOW_TASK_BANDWIDTH,
-						Backend:   &backend,
-					},
-				},
-				// StartTime 和 StopTime 留空
-			},
-		},
-	}
-
-	tasks = append(tasks, intraPlaneTask)
-
-	if totalPlanes > 1 {
-		// 2. 轨道面间目标：下一轨道面，相同卫星索引
-		interPlaneTargetPlaneIdx := 0
-		if totalPlanes > 0 {
-			interPlaneTargetPlaneIdx = (currentPlaneIdx + 1) % totalPlanes
-		}
-		interPhyIdx := interPlaneTargetPlaneIdx*satNumPerTrack + currentSatIdx
-		var interPlaneTargetName string
-		if interPhyIdx >= 0 && interPhyIdx < len(phyConstellation) {
-			interPlaneTargetName = g.Config.NodeNamePrefix + phyConstellation[interPhyIdx].Name
-		}
-
-		// 创建轨道面间流量任务
-		interPlaneTask := kubenet_config.TaskSequence{
-			Uid: fmt.Sprintf("%s-inter", currentNodeName),
-			Sequence: []kubenet_config.Task{
-				{
-					Param: kubenet_config.TaskParam{
-						FlowTaskParam: &kubenet_config.FlowTaskParam{
-							Type:      "Flow",
-							Dst:       interPlaneTargetName,
-							Bandwidth: FLOW_TASK_BANDWIDTH,
-							Backend:   &backend,
-						},
-					},
-					// StartTime 和 StopTime 留空
-				},
-			},
-		}
-
-		tasks = append(tasks, interPlaneTask)
-	}
-	return tasks
 }

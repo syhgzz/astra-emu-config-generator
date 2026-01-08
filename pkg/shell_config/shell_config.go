@@ -21,7 +21,7 @@ type ShellConfig struct {
 	Fake             bool    `yaml:"fake"`
 	CrossSphere      bool    `yaml:"cross-sphere"`
 	GroundAccess     bool    `yaml:"ground-access"`
-	GenFlow          bool    `yaml:"gen-flow"`
+	GenFlow          string  `yaml:"gen-flow"`
 	RoutingArea      int32   `yaml:"routing-area"`
 	NameRule         string  `yaml:"name-rule"`
 }

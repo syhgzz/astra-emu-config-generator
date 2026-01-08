@@ -36,8 +36,8 @@ exp-reset: check-test
 
 exp-flow-start: check-test
 	@echo "🚦 Starting flow for experiment $(NN)..."
-	@curl -X POST "$(SERVER)/manage/flow/start?nn=${NN}"
+	@curl -X POST "$(SERVER)/experiment/flow/start?nn=${NN}"
 
 exp-flow-stop: check-test
 	@echo "🚦 Stopping flow for experiment $(NN)..."
-	@curl -X POST "$(SERVER)/manage/flow/stop?nn=${NN}"
+	@curl -X POST "$(SERVER)/experiment/flow/stop?nn=${NN}"

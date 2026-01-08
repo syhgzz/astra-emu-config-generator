@@ -11,7 +11,6 @@ shells:
     fake: true # --fake
     cross-sphere: true # --cross-sphere
     ground-access: true # --ground-access
-    gen-flow: true # --gen-flow
     routing-area: 1 # -r
     name-rule: wxwx-1 # --name-rule
   - shell-index: 2 # -c
@@ -26,7 +25,6 @@ shells:
     fake: true # --fake
     cross-sphere: true # --cross-sphere
     ground-access: true # --ground-access
-    gen-flow: true # --gen-flow
     routing-area: 2 # -r
     name-rule: wxwx-1 # --name-rule
   - shell-index: 3 # -c
@@ -41,6 +39,5 @@ shells:
     fake: true # --fake
     cross-sphere: true # --cross-sphere
     ground-access: true # --ground-access
-    gen-flow: true # --gen-flow
     routing-area: 3 # -r
     name-rule: wxwx-1 # --name-rule

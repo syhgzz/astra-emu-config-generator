@@ -22,7 +22,7 @@ type GeneratorConfig struct {
 	RoutingArea         int32
 	CrossSphere         bool
 	GroundAccess        bool
-	GenFlow             bool
+	GenFlow             string
 	Image               string
 	NetworkDeviceModel  string
 }
@@ -41,7 +41,7 @@ func NewDefaultGeneratorConfig() GeneratorConfig {
 		NetworkDeviceModel:  "ndm1",
 		// default bool var here not work
 		Fake:         false,
-		GenFlow:      false,
+		GenFlow:      "",
 		CrossSphere:  false,
 		GroundAccess: false,
 	}

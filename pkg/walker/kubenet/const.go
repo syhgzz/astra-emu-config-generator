@@ -6,4 +6,8 @@ const (
 
 var TEST_SUITE_PORTS = []int32{5000, 5001, 5002}
 
-const FLOW_TASK_BANDWIDTH = "9Gbps"
+const (
+	FLOW_TASK_BANDWIDTH            = "9Gbps"
+	FLOW_GEN_MODE_RANDOM           = "random"
+	FLOW_GEN_MODE_WALKER_NEIGHBOUR = "walker-neighbour"
+)
