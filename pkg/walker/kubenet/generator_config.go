@@ -25,6 +25,7 @@ type GeneratorConfig struct {
 	GenFlow             string
 	Image               string
 	NetworkDeviceModel  string
+	Schedule            string
 }
 
 func NewDefaultGeneratorConfig() GeneratorConfig {
@@ -44,6 +45,7 @@ func NewDefaultGeneratorConfig() GeneratorConfig {
 		GenFlow:      "",
 		CrossSphere:  false,
 		GroundAccess: false,
+		Schedule:     "",
 	}
 }
 
@@ -75,6 +77,7 @@ func LoadGeneratorConfigFromYAML(path string, shellIdx int, cfg *GeneratorConfig
 	cfg.GenFlow = shellCfg.GenFlow
 	cfg.CrossSphere = shellCfg.CrossSphere
 	cfg.GroundAccess = shellCfg.GroundAccess
+	cfg.Schedule = shellCfg.Schedule
 
 	return nil
 }

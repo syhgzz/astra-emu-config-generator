@@ -36,6 +36,19 @@ func (g *KubenetGenerator) GenerateKubenetConfig() error {
 		networkExperiment.Extra.IsFakeTest = &isFake
 	}
 
+	switch g.Config.Schedule {
+	case "EasyOrbit":
+		networkExperiment.Extra.SchedulePolicy = &kubenet_config.ExtraSchedulePolicy{
+			EasyOrbitPolicy: &kubenet_config.EasyOrbitPolicy{
+				Type: "EasyOrbit",
+			},
+		}
+	case "Random":
+	case "":
+	default:
+		logrus.Fatalf("unknown schedule: %s", g.Config.Schedule)
+	}
+
 	// write to output
 	err = kubenet_config_util.WriteConfig(g.OutputPath, networkExperiment)
 	if err != nil {

@@ -83,3 +83,4 @@ kubenet-config-generator/
 | gen-flow |     | string |     | \--gen-flow |  gen-flow   | ""  | 指定flow task生成模式，可选值：walker-neighbour、random   |
 | image |     | string |     | \--image |     | ""  |     |
 | node name prefix |     | string |     | \--node-name-prefix |     | ""  |     |
+| 调度策略 | | string | | | schedule | "" | 枚举值：Random, EasyOrbit

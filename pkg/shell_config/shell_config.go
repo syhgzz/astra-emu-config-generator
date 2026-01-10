@@ -24,6 +24,7 @@ type ShellConfig struct {
 	GenFlow          string  `yaml:"gen-flow"`
 	RoutingArea      int32   `yaml:"routing-area"`
 	NameRule         string  `yaml:"name-rule"`
+	Schedule         string  `yaml:"schedule"`
 }
 
 type ShellsConfig struct {

@@ -13,6 +13,7 @@ shells:
     ground-access: true # --ground-access
     routing-area: 1 # -r
     name-rule: wxwx-1 # --name-rule
+    schedule: Random
   - shell-index: 2 # -c
     satellite-num: 560 # -N
     plane-num: 35 # -P
