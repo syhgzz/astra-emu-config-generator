@@ -51,7 +51,7 @@ func (g *KubenetGenerator) GenerateNeighbourFlowTasks(constellations []kubenet_c
 					if len(currPlane.Satellites) > 1 {
 						nextSat := &currPlane.Satellites[(j+1)%len(currPlane.Satellites)]
 						if nextSat.Satellite != currSat.Satellite {
-							taskSequence.Sequence = append(taskSequence.Sequence, makeFlowTask(nextSat.Satellite))
+							taskSequence.Sequence = append(taskSequence.Sequence, makeFlowTask(nextSat.Satellite, g.Config.FlowBandwidth))
 						}
 					}
 
@@ -69,7 +69,7 @@ func (g *KubenetGenerator) GenerateNeighbourFlowTasks(constellations []kubenet_c
 						nextIdx = nextIdx % len(nextPlane.Satellites)
 
 						nextPlaneSat := &nextPlane.Satellites[nextIdx]
-						taskSequence.Sequence = append(taskSequence.Sequence, makeFlowTask(nextPlaneSat.Satellite))
+						taskSequence.Sequence = append(taskSequence.Sequence, makeFlowTask(nextPlaneSat.Satellite, g.Config.FlowBandwidth))
 					}
 
 					// add task to networknode
@@ -105,7 +105,7 @@ func (g *KubenetGenerator) GenerateRandomFlowTasks(
 		taskSeq := kubenet_config.TaskSequence{
 			Uid: fmt.Sprintf("%s-gen-flow", src.Name),
 			Sequence: []kubenet_config.Task{
-				makeFlowTask(dst),
+				makeFlowTask(dst, g.Config.FlowBandwidth),
 			},
 		}
 
@@ -113,14 +113,19 @@ func (g *KubenetGenerator) GenerateRandomFlowTasks(
 	}
 }
 
-func makeFlowTask(dst string) kubenet_config.Task {
-	return kubenet_config.Task{
+func makeFlowTask(dst, bandwidth string) kubenet_config.Task {
+	task := kubenet_config.Task{
 		Param: kubenet_config.TaskParam{
 			FlowTaskParam: &kubenet_config.FlowTaskParam{
-				Type:      "Flow",
-				Dst:       dst,
-				Bandwidth: FLOW_TASK_BANDWIDTH,
+				Type: "Flow",
+				Dst:  dst,
 			},
 		},
 	}
+
+	if bandwidth != "" {
+		task.Param.FlowTaskParam.Bandwidth = bandwidth
+	}
+
+	return task
 }

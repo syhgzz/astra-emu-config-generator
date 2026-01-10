@@ -14,6 +14,8 @@ shells:
     routing-area: 1 # -r
     name-rule: wxwx-1 # --name-rule
     schedule: Random
+    gen-flow: walker-neighbour
+    flow-bandwidth: 1Gbps
   - shell-index: 2 # -c
     satellite-num: 560 # -N
     plane-num: 35 # -P

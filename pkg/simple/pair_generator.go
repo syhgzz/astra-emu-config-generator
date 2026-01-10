@@ -127,7 +127,7 @@ func (g *SimpleGenerator) GeneratePair() error {
 							FlowTaskParam: &kubenet_config.FlowTaskParam{
 								Type:      "Flow",
 								Dst:       pairNodeName,
-								Bandwidth: g.config.Bandwidth,
+								Bandwidth: "",
 								Backend:   &backend,
 							},
 						},

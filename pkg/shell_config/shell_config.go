@@ -22,6 +22,7 @@ type ShellConfig struct {
 	CrossSphere      bool    `yaml:"cross-sphere"`
 	GroundAccess     bool    `yaml:"ground-access"`
 	GenFlow          string  `yaml:"gen-flow"`
+	FlowBandwidth    string  `yaml:"flow-bandwidth"`
 	RoutingArea      int32   `yaml:"routing-area"`
 	NameRule         string  `yaml:"name-rule"`
 	Schedule         string  `yaml:"schedule"`

@@ -23,6 +23,7 @@ type GeneratorConfig struct {
 	CrossSphere         bool
 	GroundAccess        bool
 	GenFlow             string
+	FlowBandwidth       string
 	Image               string
 	NetworkDeviceModel  string
 	Schedule            string
@@ -41,11 +42,12 @@ func NewDefaultGeneratorConfig() GeneratorConfig {
 		AccessTopologyModel: "cone1",
 		NetworkDeviceModel:  "ndm1",
 		// default bool var here not work
-		Fake:         false,
-		GenFlow:      "",
-		CrossSphere:  false,
-		GroundAccess: false,
-		Schedule:     "",
+		Fake:          false,
+		GenFlow:       "",
+		FlowBandwidth: "",
+		CrossSphere:   false,
+		GroundAccess:  false,
+		Schedule:      "",
 	}
 }
 
@@ -78,6 +80,7 @@ func LoadGeneratorConfigFromYAML(path string, shellIdx int, cfg *GeneratorConfig
 	cfg.CrossSphere = shellCfg.CrossSphere
 	cfg.GroundAccess = shellCfg.GroundAccess
 	cfg.Schedule = shellCfg.Schedule
+	cfg.FlowBandwidth = shellCfg.FlowBandwidth
 
 	return nil
 }
