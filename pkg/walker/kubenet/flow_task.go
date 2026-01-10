@@ -57,7 +57,18 @@ func (g *KubenetGenerator) GenerateNeighbourFlowTasks(constellations []kubenet_c
 
 					// generate inter-plane flow task
 					if j < len(nextPlane.Satellites) && nextPlane.Idx != currPlane.Idx {
-						nextPlaneSat := &nextPlane.Satellites[j]
+						offset := g.Config.Offset
+						if i == g.Config.PlaneNum {
+							offset += int32(g.Config.Phase)
+						}
+
+						nextIdx := (j + int(offset))
+						if nextIdx < 0 {
+							nextIdx += len(nextPlane.Satellites)
+						}
+						nextIdx = nextIdx % len(nextPlane.Satellites)
+
+						nextPlaneSat := &nextPlane.Satellites[nextIdx]
 						taskSequence.Sequence = append(taskSequence.Sequence, makeFlowTask(nextPlaneSat.Satellite))
 					}
 
