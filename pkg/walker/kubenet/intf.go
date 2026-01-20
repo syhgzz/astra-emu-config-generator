@@ -23,9 +23,17 @@ func (g *KubenetGenerator) GenerateSatelliteIntfs(param IntfGenerateParam) ([]ku
 
 	// 前四个默认接口
 	for i := 0; i < 4; i++ {
+		var topologyModel string
+		switch i {
+		case 0, 1:
+			topologyModel = "intra-orbit-isl"
+		case 2, 3:
+			topologyModel = "inter-orbit-isl"
+		}
+
 		intfs = append(intfs, kubenet_config.Intf{
 			Name:          fmt.Sprintf("intf%d", i),
-			TopologyModel: "walkerinter",
+			TopologyModel: topologyModel,
 			LinkModel:     "satlaser",
 			TopologyParam: g.IntfTemplateSet.WalkerInterSatTopoParams[i],
 			LinkParam:     *g.IntfTemplateSet.InterSatLinkParam,
@@ -37,7 +45,7 @@ func (g *KubenetGenerator) GenerateSatelliteIntfs(param IntfGenerateParam) ([]ku
 		for i := 4; i < 6; i++ {
 			intfs = append(intfs, kubenet_config.Intf{
 				Name:          fmt.Sprintf("intf%d", i),
-				TopologyModel: "walkerinter",
+				TopologyModel: "intra-sphere-isl",
 				LinkModel:     "satlaser",
 				TopologyParam: g.IntfTemplateSet.WalkerInterSatTopoParams[i],
 				LinkParam:     *g.IntfTemplateSet.InterSatLinkParam,

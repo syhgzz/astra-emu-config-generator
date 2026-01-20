@@ -58,10 +58,18 @@ topology_models:
 - name: fixed1
   param:
     type: FixedTopo
-- name: walkerinter
+- name: intra-orbit-isl
   param:
     type: WalkerInterSatTopo  
-    default_angle: 140
+    default_angle: 90
+- name: inter-orbit-isl
+  param:
+    type: WalkerInterSatTopo  
+    default_angle: 20
+- name: intra-sphere-isl
+  param:
+    type: WalkerInterSatTopo  
+    default_angle: 90
 routing_areas:
 - id: 1
   param:
@@ -102,4 +110,4 @@ routing_areas:
   protocol: OSPFV3
 constellations:
 extra:
-  start_timestamp: 2023-10-01T12:00:00Z
+  start_timestamp: 2025-12-01T12:00:00Z
