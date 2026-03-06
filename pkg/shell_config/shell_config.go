@@ -26,6 +26,7 @@ type ShellConfig struct {
 	RoutingArea      int32   `yaml:"routing-area"`
 	NameRule         string  `yaml:"name-rule"`
 	Schedule         string  `yaml:"schedule"`
+	Image            string  `yaml:"image"`
 }
 
 type ShellsConfig struct {

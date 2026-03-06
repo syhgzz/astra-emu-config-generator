@@ -16,6 +16,7 @@ shells:
     schedule: Random
     gen-flow: walker-neighbour
     flow-bandwidth: 1Gbps
+    image: harbor.sail.se.sjtu.edu.cn/utils/test-suite:v0.2 # --image
   - shell-index: 2 # -c
     satellite-num: 560 # -N
     plane-num: 35 # -P

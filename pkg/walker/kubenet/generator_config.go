@@ -45,6 +45,7 @@ func NewDefaultGeneratorConfig() GeneratorConfig {
 		Fake:          false,
 		GenFlow:       "",
 		FlowBandwidth: "",
+		Image:         "",
 		CrossSphere:   false,
 		GroundAccess:  false,
 		Schedule:      "",
@@ -81,6 +82,7 @@ func LoadGeneratorConfigFromYAML(path string, shellIdx int, cfg *GeneratorConfig
 	cfg.GroundAccess = shellCfg.GroundAccess
 	cfg.Schedule = shellCfg.Schedule
 	cfg.FlowBandwidth = shellCfg.FlowBandwidth
+	cfg.Image = shellCfg.Image
 
 	return nil
 }

@@ -196,14 +196,7 @@ func (g *KubenetGenerator) GenerateConstellation() (*ConstellationResult, error)
 
 func (g *KubenetGenerator) GenerateNetworkNodeParam() (*kubenet_config.NetworkNodeParam, error) {
 	// 创建计算单元列表
-	testSuiteImage := TEST_SUITE_IMAGE
-	computationUnits := []kubenet_config.ComputationUnit{
-		{
-			Name:  "test-suite",
-			Image: &testSuiteImage,
-			Ports: TEST_SUITE_PORTS,
-		},
-	}
+	computationUnits := []kubenet_config.ComputationUnit{}
 
 	// 如果配置了用户镜像，添加用户计算单元
 	if g.Config.Image != "" {

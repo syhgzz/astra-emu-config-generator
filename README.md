@@ -82,6 +82,6 @@ kubenet-config-generator/
 | routing area |     | int32 |     | \-r<br>\--routing-area | routing-area | -   |     |
 | gen-flow |     | string |     | \--gen-flow |  gen-flow   | ""  | 指定flow task生成模式，可选值：walker-neighbour、random   |
 | flow-bandwidth |     | string |     |  | flow-bandwidth | ""   |   如 1Gbps  |
-| image |     | string |     | \--image |     | ""  |     |
+| image |     | string |     | \--image | image | ""  |     |
 | node name prefix |     | string |     | \--node-name-prefix |     | ""  |     |
 | 调度策略 | | string | | | schedule | "" | 枚举值：Random, EasyOrbit
