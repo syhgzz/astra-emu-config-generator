@@ -44,7 +44,6 @@ func NewKubenetGenerator(opts ...Option) *KubenetGenerator {
 	g.IntfParamSet = NewIntfParamSet(
 		g.Config.GroundAccess, AccessParams{
 			AccessIntfMaxLinkNum: g.Config.AccessIntfMaxLinkNum,
-			AccessFadingModel:    g.Config.AccessFadingModel,
 		},
 	)
 	return g

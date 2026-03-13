@@ -7,11 +7,11 @@ type IntfParamSet struct {
 	InterSatLinkParam        *kubenet_config.IntfLinkParam
 	ConeTopologyParam        *kubenet_config.IntfTopologyParam
 	AccessIntfLinkParam      *kubenet_config.IntfLinkParam
+	ExternalTopologyParam    *kubenet_config.IntfTopologyParam
 }
 
 type AccessParams struct {
 	AccessIntfMaxLinkNum int
-	AccessFadingModel    string
 }
 
 func NewIntfParamSet(enableAccess bool, accessParams AccessParams) *IntfParamSet {
@@ -45,9 +45,15 @@ func NewIntfParamSet(enableAccess bool, accessParams AccessParams) *IntfParamSet
 				Bandwidth:   1e10,
 				Gain:        20,
 				PowerInDbm:  55,
-				FadingModel: accessParams.AccessFadingModel,
+				FadingModel: ACCE_FADING_MODEL,
 			},
 		}
+	}
+
+	set.ExternalTopologyParam = &kubenet_config.IntfTopologyParam{
+		ExternalTopoIntfParam: &kubenet_config.ExternalTopoIntfParam{
+			Type: "ExternalTopoIntf",
+		},
 	}
 
 	return set
