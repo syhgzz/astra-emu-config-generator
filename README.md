@@ -39,7 +39,7 @@ kubenet-config-generator/
 
 4. 编辑 `make.env` 文件，配置文件名，指定壳层等
 
-5. 运行 Makefile 生成 kubenet 配置文件。本工具支持单壳层和多壳层两种生成模式，多壳层场景下会自动做配置文件合并
+5. 运行 Makefile 生成 kubenet 配置文件。本工具支持单壳层和多壳层两种生成模式。**⚠️ 执行多壳层生成时，会将`output`目录下所有配置文件合并，因此生成前请确保`output/kubenet`目录为空**
     ```bash
     # clean output directory
     make clean-output
