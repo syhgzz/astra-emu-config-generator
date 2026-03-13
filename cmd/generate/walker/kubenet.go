@@ -37,7 +37,7 @@ var kubenetCmd = &cobra.Command{
 			util.SetIfChanged[int](cmd, "plane", func(v int) { c.PlaneNum = v })
 			util.SetIfChanged[int](cmd, "needed-plane", func(v int) { c.NeededPlane = v })
 			util.SetIfChanged[string](cmd, "node-name-prefix", func(v string) { c.NodeNamePrefix = v })
-			util.SetIfChanged[int](cmd, "access-intf-num", func(v int) { c.AccessIntfNum = v })
+			util.SetIfChanged[int](cmd, "access-intf-max-links", func(v int) { c.AccessIntfMaxLinkNum = v })
 			util.SetIfChanged[int32](cmd, "offset", func(v int32) { c.Offset = v })
 			util.SetIfChanged[string](cmd, "image", func(v string) { c.Image = v })
 			util.SetIfChanged[int32](cmd, "routing-area", func(v int32) { c.RoutingArea = v })
@@ -84,7 +84,7 @@ func init() {
 
 	// params for ground access intfs
 	kubenetCmd.Flags().Bool("ground-access", false, "enable ground access")
-	kubenetCmd.Flags().Int("access-intf-num", 0, "the number of access intfs")
+	kubenetCmd.Flags().Int("access-intf-max-links", 0, "the maximum number of links for access intf")
 
 	// params for input and output
 	kubenetCmd.Flags().StringP("template", "t", "", "Kubenet template YAML input path")

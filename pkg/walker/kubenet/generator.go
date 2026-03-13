@@ -3,11 +3,11 @@ package kubenet
 import "fmt"
 
 type KubenetGenerator struct {
-	Config          GeneratorConfig
-	IntfTemplateSet *IntfTemplateSet
-	TemplatePath    string
-	InputPath       string
-	OutputPath      string
+	Config       GeneratorConfig
+	IntfParamSet *IntfParamSet
+	TemplatePath string
+	InputPath    string
+	OutputPath   string
 }
 
 type Option func(*KubenetGenerator)
@@ -41,10 +41,10 @@ func NewKubenetGenerator(opts ...Option) *KubenetGenerator {
 	for _, opt := range opts {
 		opt(g)
 	}
-	g.IntfTemplateSet = NewIntfTemplateSet(
+	g.IntfParamSet = NewIntfParamSet(
 		g.Config.GroundAccess, AccessParams{
-			AccessIntfNum:     g.Config.AccessIntfNum,
-			AccessFadingModel: g.Config.AccessFadingModel,
+			AccessIntfMaxLinkNum: g.Config.AccessIntfMaxLinkNum,
+			AccessFadingModel:    g.Config.AccessFadingModel,
 		},
 	)
 	return g

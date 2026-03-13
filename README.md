@@ -78,7 +78,7 @@ kubenet-config-generator/
 | fake |     | bool |     | \--fake | fake | false |     |
 | cross sphere |     | bool |     | \--cross-sphere | cross-sphere | false |     |
 | ground access |     | bool |     | \--ground-access | ground-access | false |     |
-| access intf num |     | int |     | \--access-intf-num |     | 16  |     |
+| access intf max links |     | int |     | \--access-intf-max-links |     | 16  |     |
 | routing area |     | int32 |     | \-r<br>\--routing-area | routing-area | -   |     |
 | gen-flow |     | string |     | \--gen-flow |  gen-flow   | ""  | 指定flow task生成模式，可选值：walker-neighbour、random   |
 | flow-bandwidth |     | string |     |  | flow-bandwidth | ""   |   如 1Gbps  |

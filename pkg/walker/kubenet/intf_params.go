@@ -2,27 +2,27 @@ package kubenet
 
 import "dslab.sjtu/kubenet/api/pkg/kubenet_config"
 
-type IntfTemplateSet struct {
-	WalkerInterSatTopoParams []kubenet_config.IntfTopologyParam
+type IntfParamSet struct {
+	WalkerInterSatTopoParams map[string]*kubenet_config.IntfTopologyParam
 	InterSatLinkParam        *kubenet_config.IntfLinkParam
 	ConeTopologyParam        *kubenet_config.IntfTopologyParam
 	AccessIntfLinkParam      *kubenet_config.IntfLinkParam
 }
 
 type AccessParams struct {
-	AccessIntfNum     int
-	AccessFadingModel string
+	AccessIntfMaxLinkNum int
+	AccessFadingModel    string
 }
 
-func NewIntfTemplateSet(enableAccess bool, accessParams AccessParams) *IntfTemplateSet {
-	set := &IntfTemplateSet{
-		WalkerInterSatTopoParams: []kubenet_config.IntfTopologyParam{
-			{WalkerInterSatTopoIntfParam: &kubenet_config.WalkerInterSatTopoIntfParam{Type: "WalkerInterSatTopoIntf", Axis: "X"}},
-			{WalkerInterSatTopoIntfParam: &kubenet_config.WalkerInterSatTopoIntfParam{Type: "WalkerInterSatTopoIntf", Axis: "XX"}},
-			{WalkerInterSatTopoIntfParam: &kubenet_config.WalkerInterSatTopoIntfParam{Type: "WalkerInterSatTopoIntf", Axis: "Y"}},
-			{WalkerInterSatTopoIntfParam: &kubenet_config.WalkerInterSatTopoIntfParam{Type: "WalkerInterSatTopoIntf", Axis: "YY"}},
-			{WalkerInterSatTopoIntfParam: &kubenet_config.WalkerInterSatTopoIntfParam{Type: "WalkerInterSatTopoIntf", Axis: "Z"}},
-			{WalkerInterSatTopoIntfParam: &kubenet_config.WalkerInterSatTopoIntfParam{Type: "WalkerInterSatTopoIntf", Axis: "ZZ"}},
+func NewIntfParamSet(enableAccess bool, accessParams AccessParams) *IntfParamSet {
+	set := &IntfParamSet{
+		WalkerInterSatTopoParams: map[string]*kubenet_config.IntfTopologyParam{
+			X_INTF_NAME:  {WalkerInterSatTopoIntfParam: &kubenet_config.WalkerInterSatTopoIntfParam{Type: "WalkerInterSatTopoIntf", Axis: "X"}},
+			XX_INTF_NAME: {WalkerInterSatTopoIntfParam: &kubenet_config.WalkerInterSatTopoIntfParam{Type: "WalkerInterSatTopoIntf", Axis: "XX"}},
+			Y_INTF_NAME:  {WalkerInterSatTopoIntfParam: &kubenet_config.WalkerInterSatTopoIntfParam{Type: "WalkerInterSatTopoIntf", Axis: "Y"}},
+			YY_INTF_NAME: {WalkerInterSatTopoIntfParam: &kubenet_config.WalkerInterSatTopoIntfParam{Type: "WalkerInterSatTopoIntf", Axis: "YY"}},
+			Z_INTF_NAME:  {WalkerInterSatTopoIntfParam: &kubenet_config.WalkerInterSatTopoIntfParam{Type: "WalkerInterSatTopoIntf", Axis: "Z"}},
+			ZZ_INTF_NAME: {WalkerInterSatTopoIntfParam: &kubenet_config.WalkerInterSatTopoIntfParam{Type: "WalkerInterSatTopoIntf", Axis: "ZZ"}},
 		},
 		InterSatLinkParam: &kubenet_config.IntfLinkParam{
 			SatelliteLaserLinkIntfParam: &kubenet_config.SatelliteLaserLinkIntfParam{
@@ -36,7 +36,7 @@ func NewIntfTemplateSet(enableAccess bool, accessParams AccessParams) *IntfTempl
 			SatelliteConeTopoIntfParam: &kubenet_config.SatelliteConeTopoIntfParam{
 				Type:     "SatelliteConeTopoIntf",
 				Role:     1,
-				MaxLinks: int32(accessParams.AccessIntfNum),
+				MaxLinks: int32(accessParams.AccessIntfMaxLinkNum),
 			},
 		}
 		set.AccessIntfLinkParam = &kubenet_config.IntfLinkParam{

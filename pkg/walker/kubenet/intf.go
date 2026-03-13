@@ -1,11 +1,29 @@
 package kubenet
 
 import (
-	"fmt"
-	"strconv"
-
 	"dslab.sjtu/kubenet/api/pkg/kubenet_config"
 )
+
+// 生成卫星接口的参数结构体
+type intfDesc struct {
+	Name          string
+	TopologyModel string
+	LinkModel     string
+}
+
+// X XX Y YY方向四个intf
+var defaultIntfs = []intfDesc{
+	{X_INTF_NAME, INTRA_ORBIT_ISL_TOPOLOGY_MODEL, SAT_LINK_MODEL},
+	{XX_INTF_NAME, INTRA_ORBIT_ISL_TOPOLOGY_MODEL, SAT_LINK_MODEL},
+	{Y_INTF_NAME, INTER_ORBIT_ISL_TOPOLOGY_MODEL, SAT_LINK_MODEL},
+	{YY_INTF_NAME, INTER_ORBIT_ISL_TOPOLOGY_MODEL, SAT_LINK_MODEL},
+}
+
+// Z ZZ方向跨壳层intf
+var crossSphereIntfs = []intfDesc{
+	{Z_INTF_NAME, INTER_SPHERE_ISL_TOPOLOGY_MODEL, SAT_LINK_MODEL},
+	{ZZ_INTF_NAME, INTER_SPHERE_ISL_TOPOLOGY_MODEL, SAT_LINK_MODEL},
+}
 
 type IntfGenerateParam struct {
 	RoutingAreaId int32
@@ -14,41 +32,33 @@ type IntfGenerateParam struct {
 }
 
 func (g *KubenetGenerator) GenerateSatelliteIntfs(param IntfGenerateParam) ([]kubenet_config.Intf, error) {
-	intfs := []kubenet_config.Intf{}
+	intfs := make([]kubenet_config.Intf, 0, len(defaultIntfs))
 
 	var routingAreaPtr *int32
 	if param.RoutingAreaId > 0 {
 		routingAreaPtr = &param.RoutingAreaId
 	}
 
-	// 前四个默认接口
-	for i := 0; i < 4; i++ {
-		var topologyModel string
-		switch i {
-		case 0, 1:
-			topologyModel = "intra-orbit-isl"
-		case 2, 3:
-			topologyModel = "inter-orbit-isl"
-		}
-
+	// X XX Y YY方向四个intf
+	for _, d := range defaultIntfs {
 		intfs = append(intfs, kubenet_config.Intf{
-			Name:          fmt.Sprintf("intf%d", i),
-			TopologyModel: topologyModel,
-			LinkModel:     "satlaser",
-			TopologyParam: g.IntfTemplateSet.WalkerInterSatTopoParams[i],
-			LinkParam:     *g.IntfTemplateSet.InterSatLinkParam,
+			Name:          d.Name,
+			TopologyModel: d.TopologyModel,
+			LinkModel:     d.LinkModel,
+			TopologyParam: *g.IntfParamSet.WalkerInterSatTopoParams[d.Name],
+			LinkParam:     *g.IntfParamSet.InterSatLinkParam,
 			RoutingArea:   routingAreaPtr,
 		})
 	}
-	// 跨壳层接口
+	// Z ZZ方向跨壳层intf
 	if param.CrossSphere {
-		for i := 4; i < 6; i++ {
+		for _, d := range crossSphereIntfs {
 			intfs = append(intfs, kubenet_config.Intf{
-				Name:          fmt.Sprintf("intf%d", i),
-				TopologyModel: "intra-sphere-isl",
-				LinkModel:     "satlaser",
-				TopologyParam: g.IntfTemplateSet.WalkerInterSatTopoParams[i],
-				LinkParam:     *g.IntfTemplateSet.InterSatLinkParam,
+				Name:          d.Name,
+				TopologyModel: d.TopologyModel,
+				LinkModel:     d.LinkModel,
+				TopologyParam: *g.IntfParamSet.WalkerInterSatTopoParams[d.Name],
+				LinkParam:     *g.IntfParamSet.InterSatLinkParam,
 				RoutingArea:   routingAreaPtr,
 			})
 		}
@@ -57,11 +67,11 @@ func (g *KubenetGenerator) GenerateSatelliteIntfs(param IntfGenerateParam) ([]ku
 	// 地面接入接口
 	if param.GroundAccess {
 		accessIntf := kubenet_config.Intf{
-			Name:          "acce" + strconv.Itoa(4),
+			Name:          ACCESS_INTF_NAME,
 			TopologyModel: g.Config.AccessTopologyModel,
 			LinkModel:     g.Config.AccessLinkModel,
-			TopologyParam: *g.IntfTemplateSet.ConeTopologyParam,
-			LinkParam:     *g.IntfTemplateSet.AccessIntfLinkParam,
+			TopologyParam: *g.IntfParamSet.ConeTopologyParam,
+			LinkParam:     *g.IntfParamSet.AccessIntfLinkParam,
 			RoutingArea:   routingAreaPtr,
 		}
 		intfs = append(intfs, accessIntf)

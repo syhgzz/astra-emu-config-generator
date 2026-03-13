@@ -7,40 +7,40 @@ import (
 )
 
 type GeneratorConfig struct {
-	SatelliteNum        int
-	PlaneNum            int
-	NeededPlane         int
-	ShellIdx            int
-	Phase               float64
-	Offset              int32
-	Fake                bool
-	NodeNamePrefix      string
-	AccessIntfNum       int
-	AccessFadingModel   string
-	AccessLinkModel     string
-	AccessTopologyModel string
-	RoutingArea         int32
-	CrossSphere         bool
-	GroundAccess        bool
-	GenFlow             string
-	FlowBandwidth       string
-	Image               string
-	NetworkDeviceModel  string
-	Schedule            string
+	SatelliteNum         int
+	PlaneNum             int
+	NeededPlane          int
+	ShellIdx             int
+	Phase                float64
+	Offset               int32
+	Fake                 bool
+	NodeNamePrefix       string
+	AccessIntfMaxLinkNum int
+	AccessFadingModel    string
+	AccessLinkModel      string
+	AccessTopologyModel  string
+	RoutingArea          int32
+	CrossSphere          bool
+	GroundAccess         bool
+	GenFlow              string
+	FlowBandwidth        string
+	Image                string
+	NetworkDeviceModel   string
+	Schedule             string
 }
 
 func NewDefaultGeneratorConfig() GeneratorConfig {
 	return GeneratorConfig{
-		SatelliteNum:        300,
-		PlaneNum:            10,
-		NeededPlane:         10,
-		ShellIdx:            1,
-		NodeNamePrefix:      "",
-		AccessIntfNum:       16,
-		AccessFadingModel:   "fading_model1",
-		AccessLinkModel:     "Satellite",
-		AccessTopologyModel: "cone1",
-		NetworkDeviceModel:  "ndm1",
+		SatelliteNum:         300,
+		PlaneNum:             10,
+		NeededPlane:          10,
+		ShellIdx:             1,
+		NodeNamePrefix:       "",
+		AccessIntfMaxLinkNum: 16,
+		AccessFadingModel:    "fading_model1",
+		AccessLinkModel:      "Satellite",
+		AccessTopologyModel:  "cone1",
+		NetworkDeviceModel:   "ndm1",
 		// default bool var here not work
 		Fake:          false,
 		GenFlow:       "",
