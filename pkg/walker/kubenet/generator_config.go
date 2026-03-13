@@ -16,12 +16,10 @@ type GeneratorConfig struct {
 	Fake                 bool
 	NodeNamePrefix       string
 	AccessIntfMaxLinkNum int
-	AccessFadingModel    string
-	AccessLinkModel      string
-	AccessTopologyModel  string
 	RoutingArea          int32
 	CrossSphere          bool
 	GroundAccess         bool
+	ExternalTopo         bool
 	GenFlow              string
 	FlowBandwidth        string
 	Image                string
@@ -37,9 +35,6 @@ func NewDefaultGeneratorConfig() GeneratorConfig {
 		ShellIdx:             1,
 		NodeNamePrefix:       "",
 		AccessIntfMaxLinkNum: 16,
-		AccessFadingModel:    "fading_model1",
-		AccessLinkModel:      "Satellite",
-		AccessTopologyModel:  "cone1",
 		NetworkDeviceModel:   "ndm1",
 		// default bool var here not work
 		Fake:          false,
@@ -48,6 +43,7 @@ func NewDefaultGeneratorConfig() GeneratorConfig {
 		Image:         "",
 		CrossSphere:   false,
 		GroundAccess:  false,
+		ExternalTopo:  false,
 		Schedule:      "",
 	}
 }
@@ -80,6 +76,7 @@ func LoadGeneratorConfigFromYAML(path string, shellIdx int, cfg *GeneratorConfig
 	cfg.GenFlow = shellCfg.GenFlow
 	cfg.CrossSphere = shellCfg.CrossSphere
 	cfg.GroundAccess = shellCfg.GroundAccess
+	cfg.ExternalTopo = shellCfg.ExternalTopo
 	cfg.Schedule = shellCfg.Schedule
 	cfg.FlowBandwidth = shellCfg.FlowBandwidth
 	cfg.Image = shellCfg.Image

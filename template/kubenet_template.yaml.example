@@ -70,6 +70,9 @@ topology_models:
   param:
     type: WalkerInterSatTopo  
     default_angle: 90
+- name: external
+  param:
+    type: ExternalTopo
 routing_areas:
 - id: 1
   param:

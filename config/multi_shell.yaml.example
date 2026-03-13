@@ -11,6 +11,7 @@ shells:
     fake: true # --fake
     cross-sphere: true # --cross-sphere
     ground-access: true # --ground-access
+    external-topo: false
     routing-area: 1 # -r
     name-rule: wxwx-1 # --name-rule
     schedule: Random
