@@ -59,17 +59,17 @@ kubenet-config-generator/
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 参数名 | 必须 | 类型  | 单位  | 命令行参数 | yaml文件配置 | 默认值 | 约束  |
 | 配置文件路径 |     | string |     | \-c<br>\--config |     | ""  |     |
-| shell index | ✅   | int |     | \-s<br>\--shell-index | shell-index | 1   |     |
-| 卫星总数 |     | int |     | \-N<br>\--num | satellite-num | 300 |     |
-| 平分球体总轨道面数量 |     | int |     | \-P<br>\--plane | plane-num | 10  | 整除卫星总数 |
-| 需要生成的轨道面数量 |     | int |     | \-E<br>\--neede-plane | needed-plane-num | 10  | ≤ plane-num |
-| 相位  |     | float64 |     | \-F<br>\--phase | phase | 0   | < plane-num |
+| shell index | ✅   | int |     | \-s<br>\--shell-index | shell-index | 0   |     |
+| 卫星总数 |     | int |     | \-N<br>\--num | satellite-num | 0 |     |
+| 平分球体总轨道面数量 |     | int |     | \-P<br>\--plane | plane-num | 0  | 整除卫星总数 |
+| 需要生成的轨道面数量 |     | int |     | \-E<br>\--neede-plane | needed-plane-num | 0  | [1, plane-num) |
+| 相位  |     | float64 |     | \-F<br>\--phase | phase | 0   | [0, plane-num) |
 |     |     |     |     |     |     |     |     |
 | tle文件输出路径 | ✅   | string |     | \-o<br>\--output |     | -  |     |
-| 轨道高度 |     | float64 | km  | \-H<br>\--height | height | 500 |     |
+| 轨道高度 |     | float64 | km  | \-H<br>\--height | height | 0 |     |
 | 第一个轨道面的起始赤经角（初始RAAN）|     | float64 | 度   | \-D<br>\--delta-init | initial delta | 0   | \[0, 360) |
-| 轨道倾角 |     | float64 | 度   | \-I<br>\--inclination | orbit-inclination | 50  | \[0, 180\] |
-| 命名规则 |     | string |     | \--name-rule | name-rule |     | 目前只有wxwx-1 |
+| 轨道倾角 |     | float64 | 度   | \-I<br>\--inclination | orbit-inclination | 0  | \[0, 180\] |
+| 命名规则 |     | string |     | \--name-rule | name-rule |   ""  | 目前只有wxwx-1 |
 |     |     |     |     |     |     |     |     |
 | 模版路径 | ✅   | string |     | \-t<br>\--template |     | -  |     |
 | tle文件路径 | ✅   | string |     | \-i<br>\--input |     | -  |     |

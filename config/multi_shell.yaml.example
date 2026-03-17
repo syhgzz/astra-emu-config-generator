@@ -22,7 +22,7 @@ shells:
     satellite-num: 560 # -N
     plane-num: 35 # -P
     needed-plane-num: 35 # -E
-    orbital-inclination: 55 # -I
+    orbit-inclination: 55 # -I
     height: 1000 # -H
     phase: 0 # -F
     initial-delta: 100 # -D
@@ -36,7 +36,7 @@ shells:
     satellite-num: 648 # -N
     plane-num: 36 # -P
     needed-plane-num: 36 # -E
-    orbital-inclination: 89 # -I
+    orbit-inclination: 89 # -I
     height: 1500 # -H
     phase: 0 # -F
     initial-delta: 100 # -D

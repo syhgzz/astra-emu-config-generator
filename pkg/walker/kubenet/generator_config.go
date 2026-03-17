@@ -29,22 +29,8 @@ type GeneratorConfig struct {
 
 func NewDefaultGeneratorConfig() GeneratorConfig {
 	return GeneratorConfig{
-		SatelliteNum:         300,
-		PlaneNum:             10,
-		NeededPlane:          10,
-		ShellIdx:             1,
-		NodeNamePrefix:       "",
 		AccessIntfMaxLinkNum: 16,
 		NetworkDeviceModel:   "ndm1",
-		// default bool var here not work
-		Fake:          false,
-		GenFlow:       "",
-		FlowBandwidth: "",
-		Image:         "",
-		CrossSphere:   false,
-		GroundAccess:  false,
-		ExternalTopo:  false,
-		Schedule:      "",
 	}
 }
 
@@ -54,22 +40,13 @@ func LoadGeneratorConfigFromYAML(path string, shellIdx int, cfg *GeneratorConfig
 		return fmt.Errorf("load and unmarshal yaml file %s fail: %w", path, err)
 	}
 
-	// 只在 YAML 有意义的值时覆盖
 	if shellCfg.ShellIndex >= 0 {
 		cfg.ShellIdx = shellCfg.ShellIndex
 	}
-	if shellCfg.SatelliteNum > 0 {
-		cfg.SatelliteNum = shellCfg.SatelliteNum
-	}
-	if shellCfg.PlaneNum > 0 {
-		cfg.PlaneNum = shellCfg.PlaneNum
-	}
-	if shellCfg.NeededPlaneNum > 0 {
-		cfg.NeededPlane = shellCfg.NeededPlaneNum
-	}
-	if shellCfg.RoutingArea > 0 {
-		cfg.RoutingArea = shellCfg.RoutingArea
-	}
+	cfg.SatelliteNum = shellCfg.SatelliteNum
+	cfg.PlaneNum = shellCfg.PlaneNum
+	cfg.NeededPlane = shellCfg.NeededPlaneNum
+	cfg.RoutingArea = shellCfg.RoutingArea
 	cfg.Offset = shellCfg.Offset
 	cfg.Phase = shellCfg.Phase
 	cfg.Fake = shellCfg.Fake
