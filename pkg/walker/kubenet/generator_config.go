@@ -22,7 +22,7 @@ type GeneratorConfig struct {
 	ExternalTopo         bool
 	GenFlow              string
 	FlowBandwidth        string
-	Image                string
+	Containers           []shell_config.ContainerConfig
 	NetworkDeviceModel   string
 	Schedule             string
 }
@@ -56,7 +56,7 @@ func LoadGeneratorConfigFromYAML(path string, shellIdx int, cfg *GeneratorConfig
 	cfg.ExternalTopo = shellCfg.ExternalTopo
 	cfg.Schedule = shellCfg.Schedule
 	cfg.FlowBandwidth = shellCfg.FlowBandwidth
-	cfg.Image = shellCfg.Image
+	cfg.Containers = shellCfg.Containers
 
 	return nil
 }

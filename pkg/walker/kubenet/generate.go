@@ -199,10 +199,10 @@ func (g *KubenetGenerator) GenerateNetworkNodeParam() (*kubenet_config.NetworkNo
 	computationUnits := []kubenet_config.ComputationUnit{}
 
 	// 如果配置了用户镜像，添加用户计算单元
-	if g.Config.Image != "" {
+	for _, container := range g.Config.Containers {
 		computationUnits = append(computationUnits, kubenet_config.ComputationUnit{
-			Name:  "user-image",
-			Image: &g.Config.Image,
+			Name:  container.Name,
+			Image: &container.Image,
 		})
 	}
 

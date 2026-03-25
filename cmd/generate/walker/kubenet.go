@@ -39,7 +39,6 @@ var kubenetCmd = &cobra.Command{
 			util.SetIfChanged[string](cmd, "node-name-prefix", func(v string) { c.NodeNamePrefix = v })
 			util.SetIfChanged[int](cmd, "access-intf-max-links", func(v int) { c.AccessIntfMaxLinkNum = v })
 			util.SetIfChanged[int32](cmd, "offset", func(v int32) { c.Offset = v })
-			util.SetIfChanged[string](cmd, "image", func(v string) { c.Image = v })
 			util.SetIfChanged[int32](cmd, "routing-area", func(v int32) { c.RoutingArea = v })
 			util.SetIfChanged[bool](cmd, "fake", func(v bool) { c.Fake = v })
 			util.SetIfChanged[string](cmd, "gen-flow", func(v string) { c.GenFlow = v })
