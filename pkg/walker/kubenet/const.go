@@ -6,12 +6,12 @@ const (
 )
 
 const (
-	X_INTF_NAME  = "isl-X"
-	XX_INTF_NAME = "isl-XX"
-	Y_INTF_NAME  = "isl-Y"
-	YY_INTF_NAME = "isl-YY"
-	Z_INTF_NAME  = "isl-Z"
-	ZZ_INTF_NAME = "isl-ZZ"
+	X_INTF_NAME  = "islx"
+	XX_INTF_NAME = "islxx"
+	Y_INTF_NAME  = "isly"
+	YY_INTF_NAME = "islyy"
+	Z_INTF_NAME  = "islz"
+	ZZ_INTF_NAME = "islzz"
 
 	ACCESS_INTF_NAME = "acce"
 
