@@ -38,8 +38,9 @@ func ReadConfig(filePath string) (*kubenet_config.NetworkExperiment, error) {
 }
 
 func WriteConfig(filePath string, exp *kubenet_config.NetworkExperiment) error {
-	// check if file is json or yaml
-	if !strings.HasSuffix(filePath, ".yaml") && !strings.HasSuffix(filePath, ".json") {
+	ext := filepath.Ext(filePath)
+
+	if ext != ".yaml" && ext != ".json" {
 		return fmt.Errorf("unsupported file format: %v", filePath)
 	}
 
@@ -55,7 +56,7 @@ func WriteConfig(filePath string, exp *kubenet_config.NetworkExperiment) error {
 		return fmt.Errorf("failed to marshal struct to JSON: %v", err)
 	}
 
-	if strings.HasSuffix(filePath, ".yaml") {
+	if ext == ".yaml" {
 		rawData, err = JsonToYaml(rawData)
 		if err != nil {
 			return fmt.Errorf("failed to convert YAML to JSON: %v", err)
