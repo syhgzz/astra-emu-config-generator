@@ -86,3 +86,22 @@ kubenet-config-generator/
 | image |     | string |     | \--image | image | ""  |     |
 | node name prefix |     | string |     | \--node-name-prefix |     | ""  |     |
 | 调度策略 | | string | | | schedule | "" | 枚举值：Random, EasyOrbit
+
+## 使用 Kubenet Validator
+
+在 kubenet repo 内运行：
+
+```bash
+GOBIN=$(CurrentDIR)/bin go install ./cmd/validator
+```
+
+然后在本地运行：
+
+```bash
+# 简要运行
+./bin/validator --input output/kubenet/s1.yaml
+# 查看节点详细信息
+./bin/validator --input output/kubenet/s1.yaml --node-detail 
+# 查看节点和链路详细信息
+./bin/validator --input output/kubenet/s1.yaml --node-detail --link-detail
+```
