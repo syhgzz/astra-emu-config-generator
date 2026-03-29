@@ -202,7 +202,6 @@ func (g *KubenetGenerator) GenerateNetworkNodeParam() (*kubenet_config.NetworkNo
 
 func (g *KubenetGenerator) GenerateVisualOption() (*kubenet_config.VisualOption, error) {
 	return &kubenet_config.VisualOption{
-		ModelId:  "1",
-		NodeType: 1,
+		ModelId: "1",
 	}, nil
 }
