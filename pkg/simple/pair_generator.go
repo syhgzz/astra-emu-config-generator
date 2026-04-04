@@ -142,7 +142,7 @@ func (g *SimpleGenerator) GeneratePair() error {
 
 		networkExperiment.Extra.SchedulePolicy.ExplicitPolicy.ExplicitPairs = append(
 			networkExperiment.Extra.SchedulePolicy.ExplicitPolicy.ExplicitPairs,
-			kubenet_config.ExplictPolicyPair{
+			kubenet_config.ExplicitPolicyPair{
 				NetworkNode: nodeName,
 				ComputeNode: computeNode,
 			},

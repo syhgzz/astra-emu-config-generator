@@ -13,3 +13,5 @@ template/*.yaml
 *.env
 
 bin/
+
+.DS_Store

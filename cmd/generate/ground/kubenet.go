@@ -90,8 +90,7 @@ var kubenetCmd = &cobra.Command{
 		}
 
 		visualOptions := kubenet_config.VisualOption{
-			ModelId:  "4",
-			NodeType: 2,
+			ModelId: "4",
 		}
 
 		earthCenteredPointingOrientationModel := kubenet_config.EarthCenteredPointingOrientationModel{
