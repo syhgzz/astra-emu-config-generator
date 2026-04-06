@@ -29,6 +29,28 @@ network_device_models:
 - name: ndm1
   process_delay: 5ms
 network_nodes:
+- name: earth
+  type: Fake
+  intfs: []
+  mobility_model:
+    type: PhySim
+    mass: 5.972e24
+    gravity_from: 0
+    gravity_to: 1
+    collision: 0
+    init_position:
+      x: 0
+      "y": 0
+      z: 0
+  orientation_model:
+    type: PeriodicRotation
+    period: 86164.0905
+    axis:
+      x: 0
+      "y": 0
+      z: 1
+  param:
+    type: Fake
 fading_models:
 - name: fading_model1
   a_sigma: 1.01

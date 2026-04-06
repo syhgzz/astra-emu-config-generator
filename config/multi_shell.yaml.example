@@ -1,5 +1,6 @@
 shells:
   - shell-index: 1 # -c
+    root: earth
     satellite-num: 240 # -N
     plane-num: 10 # -P
     needed-plane-num: 10 # -E
@@ -19,6 +20,7 @@ shells:
     flow-bandwidth: 1Gbps
     image: harbor.sail.se.sjtu.edu.cn/utils/test-suite:v0.2 # --image
   - shell-index: 2 # -c
+    root: earth
     satellite-num: 560 # -N
     plane-num: 35 # -P
     needed-plane-num: 35 # -E
@@ -33,6 +35,7 @@ shells:
     routing-area: 2 # -r
     name-rule: wxwx-1 # --name-rule
   - shell-index: 3 # -c
+    root: earth
     satellite-num: 648 # -N
     plane-num: 36 # -P
     needed-plane-num: 36 # -E

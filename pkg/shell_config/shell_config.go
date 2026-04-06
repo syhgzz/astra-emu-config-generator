@@ -15,6 +15,7 @@ type ContainerConfig struct {
 // 定义与 YAML 对应的结构体
 type ShellConfig struct {
 	ShellIndex       int               `yaml:"shell-index"`
+	Root             string            `yaml:"root"`
 	SatelliteNum     int               `yaml:"satellite-num"`
 	PlaneNum         int               `yaml:"plane-num"`
 	NeededPlaneNum   int               `yaml:"needed-plane-num"`

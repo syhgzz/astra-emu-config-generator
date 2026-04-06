@@ -25,6 +25,7 @@ type GeneratorConfig struct {
 	Containers           []shell_config.ContainerConfig
 	NetworkDeviceModel   string
 	Schedule             string
+	Root                 string
 }
 
 func NewDefaultGeneratorConfig() GeneratorConfig {
@@ -57,6 +58,7 @@ func LoadGeneratorConfigFromYAML(path string, shellIdx int, cfg *GeneratorConfig
 	cfg.Schedule = shellCfg.Schedule
 	cfg.FlowBandwidth = shellCfg.FlowBandwidth
 	cfg.Containers = shellCfg.Containers
+	cfg.Root = shellCfg.Root
 
 	return nil
 }

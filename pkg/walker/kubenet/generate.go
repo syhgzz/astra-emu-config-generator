@@ -147,19 +147,24 @@ func (g *KubenetGenerator) GenerateConstellation() (*ConstellationResult, error)
 			return nil, fmt.Errorf("failed to generate satellite intfs: %v", err)
 		}
 
-		//networknode
+		node := kubenet_config.NetworkNode{
+			Name:               nodeName,
+			Type:               "Container",
+			VisualOptions:      visualOption,
+			Intfs:              intfs,
+			MobilityModel:      mobilityModel,
+			OrientationModel:   orientationModel,
+			Param:              networkNodeParam,
+			NetworkDeviceModel: networkDeviceModelptr,
+		}
+
+		if g.Config.Root != "" {
+			node.Root = &g.Config.Root
+		}
+
 		networkNodes = append(
 			networkNodes,
-			kubenet_config.NetworkNode{
-				Name:               nodeName,
-				Type:               "Container",
-				VisualOptions:      visualOption,
-				Intfs:              intfs,
-				MobilityModel:      mobilityModel,
-				OrientationModel:   orientationModel,
-				Param:              networkNodeParam,
-				NetworkDeviceModel: networkDeviceModelptr,
-			},
+			node,
 		)
 	}
 	constellations = []kubenet_config.Constellation{
