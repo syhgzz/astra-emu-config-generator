@@ -10,6 +10,7 @@ func MergeNetworkExperiment(nes []*kubenet_config.NetworkExperiment) *kubenet_co
 	topologyModelsMap := make(map[string]kubenet_config.TopologyModel)
 	fadingModelsMap := make(map[string]kubenet_config.FadingModel)
 	networkDeviceModelMap := make(map[string]kubenet_config.NetworkDeviceModel)
+	aeroModelsMap := make(map[string]kubenet_config.AeroModel)
 
 	newConstellation := kubenet_config.Constellation{
 		Name: MERGED_CONSTELLATION_NAME,
@@ -40,6 +41,11 @@ func MergeNetworkExperiment(nes []*kubenet_config.NetworkExperiment) *kubenet_co
 		for _, networkDeviceModel := range ne.NetworkDeviceModels {
 			networkDeviceModelMap[networkDeviceModel.Name] = networkDeviceModel
 		}
+		if ne.PhysicsSimulation != nil {
+			for _, aeroModel := range ne.PhysicsSimulation.AeroModels {
+				aeroModelsMap[aeroModel.Name] = aeroModel
+			}
+		}
 	}
 
 	// 给收集到的所有shpere设置idx， 以防重复
@@ -50,7 +56,9 @@ func MergeNetworkExperiment(nes []*kubenet_config.NetworkExperiment) *kubenet_co
 	// 将收集到的spheres放入新的constellation中
 	newConstellation.Spheres = spheres
 
-	ne := &kubenet_config.NetworkExperiment{}
+	ne := &kubenet_config.NetworkExperiment{
+		PhysicsSimulation: &kubenet_config.PhysicsSimulation{},
+	}
 	for _, linkModel := range linkModelsMap {
 		ne.LinkModels = append(ne.LinkModels, linkModel)
 	}
@@ -68,6 +76,9 @@ func MergeNetworkExperiment(nes []*kubenet_config.NetworkExperiment) *kubenet_co
 	}
 	for _, networkDeviceModel := range networkDeviceModelMap {
 		ne.NetworkDeviceModels = append(ne.NetworkDeviceModels, networkDeviceModel)
+	}
+	for _, aeroModel := range aeroModelsMap {
+		ne.PhysicsSimulation.AeroModels = append(ne.PhysicsSimulation.AeroModels, aeroModel)
 	}
 	ne.Constellations = append(ne.Constellations, newConstellation)
 	ne.Extra = nes[0].Extra
