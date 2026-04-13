@@ -44,8 +44,9 @@ var kubenetCmd = &cobra.Command{
 		networkNodes := []kubenet_config.NetworkNode{}
 
 		coneTopoIntfParam := kubenet_config.SatelliteConeTopoIntfParam{
-			Type: "SatelliteConeTopoIntf",
-			Role: 0,
+			Type:     "SatelliteConeTopoIntf",
+			Role:     0,
+			MaxLinks: 1,
 		}
 		coneTopologyParam := kubenet_config.IntfTopologyParam{
 			SatelliteConeTopoIntfParam: &coneTopoIntfParam,
