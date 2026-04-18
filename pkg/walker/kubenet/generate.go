@@ -2,6 +2,7 @@ package kubenet
 
 import (
 	"fmt"
+	"strings"
 
 	"dslab.sjtu/kubenet-config-generator/pkg/kubenet_config_util"
 	"dslab.sjtu/kubenet-config-generator/pkg/walker/tle"
@@ -81,11 +82,7 @@ func (g *KubenetGenerator) GenerateConstellation() (*ConstellationResult, error)
 		networkDeviceModelptr = nil
 	}
 
-	// networknode param
-	networkNodeParam, err := g.GenerateNetworkNodeParam()
-	if err != nil {
-		return nil, fmt.Errorf("failed to generate network node param: %v", err)
-	}
+	// networknode param will be generated per node below
 
 	// visual option
 	visualOption, err := g.GenerateVisualOption()
@@ -147,6 +144,11 @@ func (g *KubenetGenerator) GenerateConstellation() (*ConstellationResult, error)
 			return nil, fmt.Errorf("failed to generate satellite intfs: %v", err)
 		}
 
+		networkNodeParam, err := g.GenerateNetworkNodeParam(nodeName)
+		if err != nil {
+			return nil, fmt.Errorf("failed to generate network node param: %v", err)
+		}
+
 		node := kubenet_config.NetworkNode{
 			Name:               nodeName,
 			Type:               "Container",
@@ -199,15 +201,36 @@ func (g *KubenetGenerator) GenerateConstellation() (*ConstellationResult, error)
 	}, nil
 }
 
-func (g *KubenetGenerator) GenerateNetworkNodeParam() (*kubenet_config.NetworkNodeParam, error) {
+func (g *KubenetGenerator) GenerateNetworkNodeParam(nodeName string) (*kubenet_config.NetworkNodeParam, error) {
 	// 创建计算单元列表
 	computationUnits := []kubenet_config.ComputationUnit{}
 
 	// 如果配置了用户镜像，添加用户计算单元
 	for _, container := range g.Config.Containers {
+		if len(container.MatchNodes) > 0 {
+			matched := false
+			for _, target := range container.MatchNodes {
+				if strings.Contains(nodeName, target) {
+					matched = true
+					break
+				}
+			}
+			if !matched {
+				continue
+			}
+		}
+
+		var envs []kubenet_config.Env
+		for k, v := range container.Envs {
+			envs = append(envs, kubenet_config.Env{
+				Key:   k,
+				Value: v,
+			})
+		}
 		computationUnits = append(computationUnits, kubenet_config.ComputationUnit{
 			Name:  container.Name,
 			Image: &container.Image,
+			Envs:  envs,
 		})
 	}
 

@@ -8,8 +8,10 @@ import (
 )
 
 type ContainerConfig struct {
-	Name  string `yaml:"name"`
-	Image string `yaml:"image"`
+	Name       string            `yaml:"name"`
+	Image      string            `yaml:"image"`
+	Envs       map[string]string `yaml:"envs"`
+	MatchNodes []string          `yaml:"match-nodes"`
 }
 
 // 定义与 YAML 对应的结构体
