@@ -1,20 +1,30 @@
 package merge
 
+import (
+	"sync"
+
+	"dslab.sjtu/kubenet/api/pkg/kubenet_config"
+)
+
 type Option func(*ConfigMerger)
 
 // ConfigMerger handles merging of kubenet configuration files.
 // It supports options for input/output paths, recursion, file filtering, and error handling.
 type ConfigMerger struct {
-	InputPath   string
+	InputPaths  []string
 	OutputPath  string
 	Recursive   bool
 	FilterExt   string
 	IgnoreError bool
+
+	networkExperiments []*kubenet_config.NetworkExperiment
+
+	mu sync.Mutex
 }
 
-func WithInputPath(path string) Option {
+func WithInputPaths(paths []string) Option {
 	return func(m *ConfigMerger) {
-		m.InputPath = path
+		m.InputPaths = paths
 	}
 }
 

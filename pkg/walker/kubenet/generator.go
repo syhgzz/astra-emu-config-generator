@@ -3,11 +3,11 @@ package kubenet
 import "fmt"
 
 type KubenetGenerator struct {
-	Config          GeneratorConfig
-	IntfTemplateSet *IntfTemplateSet
-	TemplatePath    string
-	InputPath       string
-	OutputPath      string
+	Config       GeneratorConfig
+	IntfParamSet *IntfParamSet
+	TemplatePath string
+	InputPath    string
+	OutputPath   string
 }
 
 type Option func(*KubenetGenerator)
@@ -41,10 +41,9 @@ func NewKubenetGenerator(opts ...Option) *KubenetGenerator {
 	for _, opt := range opts {
 		opt(g)
 	}
-	g.IntfTemplateSet = NewIntfTemplateSet(
+	g.IntfParamSet = NewIntfParamSet(
 		g.Config.GroundAccess, AccessParams{
-			AccessIntfNum:     g.Config.AccessIntfNum,
-			AccessFadingModel: g.Config.AccessFadingModel,
+			AccessIntfMaxLinkNum: g.Config.AccessIntfMaxLinkNum,
 		},
 	)
 	return g
@@ -53,8 +52,11 @@ func NewKubenetGenerator(opts ...Option) *KubenetGenerator {
 func (g *KubenetGenerator) Validate() error {
 	cfg := g.Config
 
-	if cfg.NeededPlane < 0 || cfg.NeededPlane > cfg.PlaneNum {
-		return fmt.Errorf("needed plane must be between 0 and plane")
+	if cfg.SatelliteNum <= 0 || cfg.PlaneNum <= 0 {
+		return fmt.Errorf("satellite num and plane num must be positive")
+	}
+	if cfg.NeededPlane <= 0 || cfg.NeededPlane > cfg.PlaneNum {
+		return fmt.Errorf("needed plane must be between 1 and plane")
 	}
 	if cfg.SatelliteNum%cfg.PlaneNum != 0 {
 		return fmt.Errorf("satellite num must be divisible by plane")

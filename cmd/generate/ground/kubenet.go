@@ -44,8 +44,9 @@ var kubenetCmd = &cobra.Command{
 		networkNodes := []kubenet_config.NetworkNode{}
 
 		coneTopoIntfParam := kubenet_config.SatelliteConeTopoIntfParam{
-			Type: "SatelliteConeTopoIntf",
-			Role: 0,
+			Type:     "SatelliteConeTopoIntf",
+			Role:     0,
+			MaxLinks: 1,
 		}
 		coneTopologyParam := kubenet_config.IntfTopologyParam{
 			SatelliteConeTopoIntfParam: &coneTopoIntfParam,
@@ -119,10 +120,12 @@ var kubenetCmd = &cobra.Command{
 
 			// TODO
 			staticMobilityModel := kubenet_config.StaticMobilityModel{
-				Type:      "Static",
-				Longitude: longitude + rand.Float64()*2.0,
-				Latitude:  latitude + rand.Float64()*2.0,
-				Altitude:  50,
+				Type: "Static",
+				Position: kubenet_config.PositionLLA{
+					Longitude: longitude + rand.Float64()*2.0,
+					Latitude:  latitude + rand.Float64()*2.0,
+					Altitude:  50,
+				},
 			}
 
 			mobilityModel := kubenet_config.NetworkNodeMobilityModel{

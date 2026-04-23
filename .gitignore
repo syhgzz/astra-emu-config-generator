@@ -11,3 +11,7 @@ template/*.yaml
 
 # 环境变量
 *.env
+
+bin/
+
+.DS_Store

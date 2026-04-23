@@ -1,0 +1,7 @@
+num: 10
+topology: line
+bandwidth: 10Gbps
+latency: 10ms
+schedule-nodes:
+  - node1
+  - node2

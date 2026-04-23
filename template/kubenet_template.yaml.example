@@ -29,6 +29,28 @@ network_device_models:
 - name: ndm1
   process_delay: 5ms
 network_nodes:
+- name: earth
+  type: Fake
+  intfs: []
+  mobility_model:
+    type: PhySim
+    mass: 5.972e24
+    gravity_from: 0
+    gravity_to: 1
+    collision: 0
+    init_position:
+      x: 0
+      "y": 0
+      z: 0
+  orientation_model:
+    type: PeriodicRotation
+    period: 86164.0905
+    axis:
+      x: 0
+      "y": 0
+      z: 1
+  param:
+    type: Fake
 fading_models:
 - name: fading_model1
   a_sigma: 1.01
@@ -58,10 +80,21 @@ topology_models:
 - name: fixed1
   param:
     type: FixedTopo
-- name: walkerinter
+- name: intra-orbit-isl
   param:
     type: WalkerInterSatTopo  
-    default_angle: 140
+    default_angle: 90
+- name: inter-orbit-isl
+  param:
+    type: WalkerInterSatTopo  
+    default_angle: 20
+- name: inter-sphere-isl
+  param:
+    type: WalkerInterSatTopo  
+    default_angle: 90
+- name: external
+  param:
+    type: ExternalTopo
 routing_areas:
 - id: 1
   param:
@@ -102,4 +135,4 @@ routing_areas:
   protocol: OSPFV3
 constellations:
 extra:
-  start_timestamp: 2023-10-01T12:00:00Z
+  start_timestamp: 2025-12-01T12:00:00Z

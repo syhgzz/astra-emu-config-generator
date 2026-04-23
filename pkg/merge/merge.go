@@ -3,61 +3,64 @@ package merge
 import (
 	"fmt"
 	"os"
-	"path/filepath"
+	"sync"
 
 	"dslab.sjtu/kubenet-config-generator/pkg/kubenet_config_util"
-	"dslab.sjtu/kubenet/api/pkg/kubenet_config"
 	"github.com/sirupsen/logrus"
 )
 
 func (m *ConfigMerger) Merge() error {
-	if m.InputPath == "" || m.OutputPath == "" {
-		return fmt.Errorf("input and output paths are required")
-	}
+	logrus.Infof("🔀 Start reading yaml files...")
 
-	if _, err := os.Stat(m.InputPath); os.IsNotExist(err) {
-		return fmt.Errorf("input path does not exist: %v", m.InputPath)
-	}
+	wg := sync.WaitGroup{}
+	wg.Add(len(m.InputPaths))
 
-	entries, err := os.ReadDir(m.InputPath)
-	if err != nil {
-		return fmt.Errorf("failed to read directory: %v", err)
-	}
-
-	var networkExperiments []*kubenet_config.NetworkExperiment
-
-	for _, entry := range entries {
-		if entry.IsDir() && !m.Recursive {
-			continue
-		}
-
-		filename := filepath.Join(m.InputPath, entry.Name())
-		if m.FilterExt != "" && filepath.Ext(filename) != m.FilterExt {
-			continue
-		}
-
-		// fmt.Println("merge file:", filename)
-
-		entryNetworkExperiment, err := kubenet_config_util.ReadConfig(filename)
-		if err != nil {
-			if m.IgnoreError {
-				logrus.Warnf("skip invalid config: %v", filename)
-				continue
+	for _, inputPath := range m.InputPaths {
+		go func(path string) {
+			if err := m.ReadNetworkExperiment(path); err != nil {
+				logrus.Errorf("error reading config %v: %s", path, err)
 			}
-			return fmt.Errorf("failed to read config %v: %w", filename, err)
-		}
-		networkExperiments = append(networkExperiments, entryNetworkExperiment)
+			wg.Done()
+		}(inputPath)
 	}
 
-	if len(networkExperiments) == 0 {
-		return fmt.Errorf("no valid input files found in %s", m.InputPath)
+	wg.Wait()
+
+	logrus.Infof("🔀 Merging %d configs...", len(m.networkExperiments))
+
+	if len(m.networkExperiments) == 0 {
+		return fmt.Errorf("no valid config needed to be merged")
 	}
 
-	networkExperiment := MergeNetworkExperiment(networkExperiments)
+	networkExperiment := MergeNetworkExperiment(m.networkExperiments)
+
+	logrus.Infof("✅ Merged %d configs\n", len(m.networkExperiments))
+
 	if err := kubenet_config_util.WriteConfig(m.OutputPath, networkExperiment); err != nil {
 		return fmt.Errorf("failed to write merged config: %w", err)
 	}
 
-	fmt.Printf("✅ Merged %d configs into %s\n", len(networkExperiments), m.OutputPath)
+	logrus.Infof("✅ Wrote merged config to %s\n", m.OutputPath)
+
+	return nil
+}
+
+func (m *ConfigMerger) ReadNetworkExperiment(inputPath string) error {
+	if _, err := os.Stat(inputPath); os.IsNotExist(err) {
+		return fmt.Errorf("input path does not exist: %v", inputPath)
+	}
+
+	entryNetworkExperiment, err := kubenet_config_util.ReadConfig(inputPath)
+	if err != nil {
+		if m.IgnoreError {
+			logrus.Warnf("skip invalid config: %v", inputPath)
+			return nil
+		}
+		return fmt.Errorf("failed to read config %v: %w", inputPath, err)
+	}
+
+	m.mu.Lock()
+	m.networkExperiments = append(m.networkExperiments, entryNetworkExperiment)
+	m.mu.Unlock()
 	return nil
 }

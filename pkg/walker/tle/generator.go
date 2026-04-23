@@ -39,8 +39,8 @@ func (g *TLEGenerator) Validate() error {
 	if p.Height <= 0 || p.Num <= 0 || p.Plane <= 0 {
 		return fmt.Errorf("height, num, plane must be positive")
 	}
-	if p.NeededPlane < 0 || p.NeededPlane > p.Plane {
-		return fmt.Errorf("needed plane must be between 0 and plane")
+	if p.NeededPlane <= 0 || p.NeededPlane > p.Plane {
+		return fmt.Errorf("needed plane must be between 1 and plane")
 	}
 	if p.Num%p.Plane != 0 {
 		return fmt.Errorf("satellite num must be divisible by plane")

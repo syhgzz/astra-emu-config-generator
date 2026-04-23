@@ -37,11 +37,11 @@ var kubenetCmd = &cobra.Command{
 			util.SetIfChanged[int](cmd, "plane", func(v int) { c.PlaneNum = v })
 			util.SetIfChanged[int](cmd, "needed-plane", func(v int) { c.NeededPlane = v })
 			util.SetIfChanged[string](cmd, "node-name-prefix", func(v string) { c.NodeNamePrefix = v })
-			util.SetIfChanged[int](cmd, "access-intf-num", func(v int) { c.AccessIntfNum = v })
+			util.SetIfChanged[int](cmd, "access-intf-max-links", func(v int) { c.AccessIntfMaxLinkNum = v })
 			util.SetIfChanged[int32](cmd, "offset", func(v int32) { c.Offset = v })
-			util.SetIfChanged[string](cmd, "image", func(v string) { c.Image = v })
 			util.SetIfChanged[int32](cmd, "routing-area", func(v int32) { c.RoutingArea = v })
 			util.SetIfChanged[bool](cmd, "fake", func(v bool) { c.Fake = v })
+			util.SetIfChanged[string](cmd, "gen-flow", func(v string) { c.GenFlow = v })
 			util.SetIfChanged[bool](cmd, "cross-sphere", func(v bool) { c.CrossSphere = v })
 			util.SetIfChanged[bool](cmd, "ground-access", func(v bool) { c.GroundAccess = v })
 			util.SetIfChanged[float64](cmd, "phase", func(v float64) { c.Phase = v })
@@ -79,10 +79,11 @@ func init() {
 	kubenetCmd.Flags().String("image", "", "application image")
 	kubenetCmd.Flags().Int32P("routing-area", "r", 0, "routing area Id")
 	kubenetCmd.Flags().Bool("fake", false, "Fake")
+	kubenetCmd.Flags().String("gen-flow", "", "how to generate flow tasks")
 
 	// params for ground access intfs
 	kubenetCmd.Flags().Bool("ground-access", false, "enable ground access")
-	kubenetCmd.Flags().Int("access-intf-num", 0, "the number of access intfs")
+	kubenetCmd.Flags().Int("access-intf-max-links", 0, "the maximum number of links for access intf")
 
 	// params for input and output
 	kubenetCmd.Flags().StringP("template", "t", "", "Kubenet template YAML input path")

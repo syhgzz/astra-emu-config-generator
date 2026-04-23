@@ -7,22 +7,35 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
+type ContainerConfig struct {
+	Name       string            `yaml:"name"`
+	Image      string            `yaml:"image"`
+	Envs       map[string]string `yaml:"envs"`
+	MatchNodes []string          `yaml:"match-nodes"`
+}
+
 // 定义与 YAML 对应的结构体
 type ShellConfig struct {
-	ShellIndex       int     `yaml:"shell-index"`
-	SatelliteNum     int     `yaml:"satellite-num"`
-	PlaneNum         int     `yaml:"plane-num"`
-	NeededPlaneNum   int     `yaml:"needed-plane-num"`
-	OrbitInclination float64 `yaml:"orbit-inclination"`
-	Height           float64 `yaml:"height"`
-	Phase            float64 `yaml:"phase"`
-	InitialDelta     float64 `yaml:"initial-delta"`
-	Offset           int32   `yaml:"offset"`
-	Fake             bool    `yaml:"fake"`
-	CrossSphere      bool    `yaml:"cross-sphere"`
-	GroundAccess     bool    `yaml:"ground-access"`
-	RoutingArea      int32   `yaml:"routing-area"`
-	NameRule         string  `yaml:"name-rule"`
+	ShellIndex       int               `yaml:"shell-index"`
+	Root             string            `yaml:"root"`
+	SatelliteNum     int               `yaml:"satellite-num"`
+	PlaneNum         int               `yaml:"plane-num"`
+	NeededPlaneNum   int               `yaml:"needed-plane-num"`
+	OrbitInclination float64           `yaml:"orbit-inclination"`
+	Height           float64           `yaml:"height"`
+	Phase            float64           `yaml:"phase"`
+	InitialDelta     float64           `yaml:"initial-delta"`
+	Offset           int32             `yaml:"offset"`
+	Fake             bool              `yaml:"fake"`
+	CrossSphere      bool              `yaml:"cross-sphere"`
+	GroundAccess     bool              `yaml:"ground-access"`
+	ExternalTopo     bool              `yaml:"external-topo"`
+	GenFlow          string            `yaml:"gen-flow"`
+	FlowBandwidth    string            `yaml:"flow-bandwidth"`
+	RoutingArea      int32             `yaml:"routing-area"`
+	NameRule         string            `yaml:"name-rule"`
+	Schedule         string            `yaml:"schedule"`
+	Containers       []ContainerConfig `yaml:"containers"`
 }
 
 type ShellsConfig struct {

@@ -31,7 +31,7 @@ kubenet-config-gen-%: tle-gen-% kubenet-file-dir
 	go run ./main.go generate walker kubenet -c $(CONFIG_PATH) -s $* -t $(TEMPLATE_PATH) -i $(TLE_FILE_DIR)/s$*.tle -o $(KUBENET_CONFIG_FILE_DIR)/s$*.yaml
 
 merge:
-	go run ./main.go merge -i $(KUBENET_CONFIG_FILE_DIR) -o $(MERGE_OUTPUT_PATH)
+	go run ./main.go merge $(foreach s,$(SHELLS),-i $(KUBENET_CONFIG_FILE_DIR)/s$(s).yaml) -o $(MERGE_OUTPUT_PATH)
 
 # --- generate one shell ---
 

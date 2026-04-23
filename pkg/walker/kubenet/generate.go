@@ -2,6 +2,7 @@ package kubenet
 
 import (
 	"fmt"
+	"strings"
 
 	"dslab.sjtu/kubenet-config-generator/pkg/kubenet_config_util"
 	"dslab.sjtu/kubenet-config-generator/pkg/walker/tle"
@@ -36,6 +37,19 @@ func (g *KubenetGenerator) GenerateKubenetConfig() error {
 		networkExperiment.Extra.IsFakeTest = &isFake
 	}
 
+	switch g.Config.Schedule {
+	case "EasyOrbit":
+		networkExperiment.Extra.SchedulePolicy = &kubenet_config.ExtraSchedulePolicy{
+			EasyOrbitPolicy: &kubenet_config.EasyOrbitPolicy{
+				Type: "EasyOrbit",
+			},
+		}
+	case "Random":
+	case "":
+	default:
+		logrus.Fatalf("unknown schedule: %s", g.Config.Schedule)
+	}
+
 	// write to output
 	err = kubenet_config_util.WriteConfig(g.OutputPath, networkExperiment)
 	if err != nil {
@@ -68,11 +82,7 @@ func (g *KubenetGenerator) GenerateConstellation() (*ConstellationResult, error)
 		networkDeviceModelptr = nil
 	}
 
-	// networknode param
-	networkNodeParam, err := g.GenerateNetworkNodeParam()
-	if err != nil {
-		return nil, fmt.Errorf("failed to generate network node param: %v", err)
-	}
+	// networknode param will be generated per node below
 
 	// visual option
 	visualOption, err := g.GenerateVisualOption()
@@ -134,19 +144,29 @@ func (g *KubenetGenerator) GenerateConstellation() (*ConstellationResult, error)
 			return nil, fmt.Errorf("failed to generate satellite intfs: %v", err)
 		}
 
-		//networknode
+		networkNodeParam, err := g.GenerateNetworkNodeParam(nodeName)
+		if err != nil {
+			return nil, fmt.Errorf("failed to generate network node param: %v", err)
+		}
+
+		node := kubenet_config.NetworkNode{
+			Name:               nodeName,
+			Type:               "Container",
+			VisualOptions:      visualOption,
+			Intfs:              intfs,
+			MobilityModel:      mobilityModel,
+			OrientationModel:   orientationModel,
+			Param:              networkNodeParam,
+			NetworkDeviceModel: networkDeviceModelptr,
+		}
+
+		if g.Config.Root != "" {
+			node.Root = &g.Config.Root
+		}
+
 		networkNodes = append(
 			networkNodes,
-			kubenet_config.NetworkNode{
-				Name:               nodeName,
-				Type:               "Container",
-				VisualOptions:      visualOption,
-				Intfs:              intfs,
-				MobilityModel:      mobilityModel,
-				OrientationModel:   orientationModel,
-				Param:              networkNodeParam,
-				NetworkDeviceModel: networkDeviceModelptr,
-			},
+			node,
 		)
 	}
 	constellations = []kubenet_config.Constellation{
@@ -166,28 +186,51 @@ func (g *KubenetGenerator) GenerateConstellation() (*ConstellationResult, error)
 		},
 	}
 
+	// generate flow tasks
+	switch flowPattern := g.Config.GenFlow; flowPattern {
+	case FLOW_GEN_MODE_WALKER_NEIGHBOUR:
+		g.GenerateNeighbourFlowTasks(constellations, networkNodes)
+	case FLOW_GEN_MODE_RANDOM:
+		g.GenerateRandomFlowTasks(networkNodes)
+	default:
+	}
+
 	return &ConstellationResult{
 		Constellations: constellations,
 		NetworkNodes:   networkNodes,
 	}, nil
 }
 
-func (g *KubenetGenerator) GenerateNetworkNodeParam() (*kubenet_config.NetworkNodeParam, error) {
+func (g *KubenetGenerator) GenerateNetworkNodeParam(nodeName string) (*kubenet_config.NetworkNodeParam, error) {
 	// 创建计算单元列表
-	testSuiteImage := TEST_SUITE_IMAGE
-	computationUnits := []kubenet_config.ComputationUnit{
-		{
-			Name:  "test-suite",
-			Image: &testSuiteImage,
-			Ports: TEST_SUITE_PORTS,
-		},
-	}
+	computationUnits := []kubenet_config.ComputationUnit{}
 
 	// 如果配置了用户镜像，添加用户计算单元
-	if g.Config.Image != "" {
+	for _, container := range g.Config.Containers {
+		if len(container.MatchNodes) > 0 {
+			matched := false
+			for _, target := range container.MatchNodes {
+				if strings.Contains(nodeName, target) {
+					matched = true
+					break
+				}
+			}
+			if !matched {
+				continue
+			}
+		}
+
+		var envs []kubenet_config.Env
+		for k, v := range container.Envs {
+			envs = append(envs, kubenet_config.Env{
+				Key:   k,
+				Value: v,
+			})
+		}
 		computationUnits = append(computationUnits, kubenet_config.ComputationUnit{
-			Name:  "user-image",
-			Image: &g.Config.Image,
+			Name:  container.Name,
+			Image: &container.Image,
+			Envs:  envs,
 		})
 	}
 

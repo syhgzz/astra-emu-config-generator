@@ -2,6 +2,7 @@ package generate
 
 import (
 	"dslab.sjtu/kubenet-config-generator/cmd/generate/ground"
+	"dslab.sjtu/kubenet-config-generator/cmd/generate/simple"
 	"dslab.sjtu/kubenet-config-generator/cmd/generate/walker"
 	"github.com/spf13/cobra"
 )
@@ -16,4 +17,5 @@ var GenerateCmd = &cobra.Command{
 func init() {
 	GenerateCmd.AddCommand(ground.GroundCmd)
 	GenerateCmd.AddCommand(walker.WalkerCmd)
+	GenerateCmd.AddCommand(simple.SimpleCmd)
 }

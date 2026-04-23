@@ -7,41 +7,31 @@ import (
 )
 
 type GeneratorConfig struct {
-	SatelliteNum        int
-	PlaneNum            int
-	NeededPlane         int
-	ShellIdx            int
-	Phase               float64
-	Offset              int32
-	Fake                bool
-	NodeNamePrefix      string
-	AccessIntfNum       int
-	AccessFadingModel   string
-	AccessLinkModel     string
-	AccessTopologyModel string
-	RoutingArea         int32
-	CrossSphere         bool
-	GroundAccess        bool
-	Image               string
-	NetworkDeviceModel  string
+	SatelliteNum         int
+	PlaneNum             int
+	NeededPlane          int
+	ShellIdx             int
+	Phase                float64
+	Offset               int32
+	Fake                 bool
+	NodeNamePrefix       string
+	AccessIntfMaxLinkNum int
+	RoutingArea          int32
+	CrossSphere          bool
+	GroundAccess         bool
+	ExternalTopo         bool
+	GenFlow              string
+	FlowBandwidth        string
+	Containers           []shell_config.ContainerConfig
+	NetworkDeviceModel   string
+	Schedule             string
+	Root                 string
 }
 
 func NewDefaultGeneratorConfig() GeneratorConfig {
 	return GeneratorConfig{
-		SatelliteNum:        300,
-		PlaneNum:            10,
-		NeededPlane:         10,
-		ShellIdx:            1,
-		NodeNamePrefix:      "",
-		AccessIntfNum:       16,
-		AccessFadingModel:   "fading_model1",
-		AccessLinkModel:     "Satellite",
-		AccessTopologyModel: "cone1",
-		NetworkDeviceModel:  "ndm1",
-		// default bool var here not work
-		Fake:         false,
-		CrossSphere:  false,
-		GroundAccess: false,
+		AccessIntfMaxLinkNum: 16,
+		NetworkDeviceModel:   "ndm1",
 	}
 }
 
@@ -51,27 +41,24 @@ func LoadGeneratorConfigFromYAML(path string, shellIdx int, cfg *GeneratorConfig
 		return fmt.Errorf("load and unmarshal yaml file %s fail: %w", path, err)
 	}
 
-	// 只在 YAML 有意义的值时覆盖
 	if shellCfg.ShellIndex >= 0 {
 		cfg.ShellIdx = shellCfg.ShellIndex
 	}
-	if shellCfg.SatelliteNum > 0 {
-		cfg.SatelliteNum = shellCfg.SatelliteNum
-	}
-	if shellCfg.PlaneNum > 0 {
-		cfg.PlaneNum = shellCfg.PlaneNum
-	}
-	if shellCfg.NeededPlaneNum > 0 {
-		cfg.NeededPlane = shellCfg.NeededPlaneNum
-	}
-	if shellCfg.RoutingArea > 0 {
-		cfg.RoutingArea = shellCfg.RoutingArea
-	}
+	cfg.SatelliteNum = shellCfg.SatelliteNum
+	cfg.PlaneNum = shellCfg.PlaneNum
+	cfg.NeededPlane = shellCfg.NeededPlaneNum
+	cfg.RoutingArea = shellCfg.RoutingArea
 	cfg.Offset = shellCfg.Offset
 	cfg.Phase = shellCfg.Phase
 	cfg.Fake = shellCfg.Fake
+	cfg.GenFlow = shellCfg.GenFlow
 	cfg.CrossSphere = shellCfg.CrossSphere
 	cfg.GroundAccess = shellCfg.GroundAccess
+	cfg.ExternalTopo = shellCfg.ExternalTopo
+	cfg.Schedule = shellCfg.Schedule
+	cfg.FlowBandwidth = shellCfg.FlowBandwidth
+	cfg.Containers = shellCfg.Containers
+	cfg.Root = shellCfg.Root
 
 	return nil
 }
