@@ -1,4 +1,4 @@
-include make.env
+-include make.env
 
 TLE_FILE_DIR = output/tle
 KUBENET_CONFIG_FILE_DIR = output/kubenet

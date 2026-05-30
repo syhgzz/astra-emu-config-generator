@@ -62,7 +62,7 @@ var kubenetCmd = &cobra.Command{
 			GeneralWirelessLinkIntfParam: &generalWirelessLinkIntfParam,
 		}
 
-		testSuiteImage := "harbor.sail.se.sjtu.edu.cn/utils/test-suite:v0.2"
+		testSuiteImage := "harbor.dslab.cc/utils/test-suite:v0.2"
 
 		ports := []int32{5000, 5001, 5002}
 		computationUnits := []kubenet_config.ComputationUnit{}

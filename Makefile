@@ -1,6 +1,6 @@
 include .mk/test.mk
 include .mk/gen.mk
-include make.env
+-include make.env
 
 TARGETS = \
     windows/amd64 \
@@ -21,5 +21,4 @@ $(TARGETS):
 
 clean:
 	rm -rf $(OUTPUT_DIR)
-
 

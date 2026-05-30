@@ -7,7 +7,7 @@ description: 编写与编辑 kubenet 天空地海一体化网络仿真配置；�
 该 skill 用于在本仓库内完成 kubenet 配置的编写、修订、生成与核验，覆盖以下场景：
 - 根据需求创建或修改 shell 配置 YAML（多壳层）。
 - 参考 OpenAPI 定义对字段语义做对齐。
-  - 路径位于 `go list -m -f '{{.Dir}}' dslab.sjtu/kubenet/api` 下的 `openapi/kubenet-config.yaml`，完整路径例如`/home/node1/go/pkg/mod/git.sail.se.sjtu.edu.cn/dslab/kubenet-api@v1.0.31/openapi/kubenet-config.yaml`。
+  - 路径位于 `go list -m -f '{{.Dir}}' dslab.sjtu/kubenet/api` 下的 `openapi/kubenet-config.yaml`，完整路径例如`/home/node1/go/pkg/mod/git.dslab.cc/dslab/kubenet-api.git@v1.0.40/openapi/kubenet-config.yaml`。
 - 调用 `kubenet-config-generator` CLI 生成 TLE 和 kubenet config。
 - 对生成结果执行可复现的核验流程（命令成功、输出存在、基础结构正确）。
 
